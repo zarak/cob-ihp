@@ -1,0 +1,33 @@
+@tailwind base;
+
+@tailwind components;
+
+button {
+    @apply px-4 py-2 bg-red-500 text-red-100 hover:bg-red-400 hover:text-red-50 rounded !important;
+}
+
+form > div {
+    @apply mb-4;
+}
+
+form input {
+    @apply shadow;
+    @apply appearance-none;
+    @apply border;
+    @apply rounded;
+    @apply w-full;
+    @apply py-2;
+    @apply px-3;
+    @apply text-gray-700;
+    @apply leading-tight;
+}
+
+form label {
+    @apply block;
+    @apply text-gray-700;
+    @apply text-sm;
+    @apply font-bold;
+    @apply mb-2;
+}
+
+@tailwind utilities;
