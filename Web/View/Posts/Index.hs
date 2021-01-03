@@ -13,7 +13,7 @@ instance View IndexView where
             <a href={NewPostAction}>create new post</a>            
         </div>
 
-        <div class="w-full lg:w-8/12">
+        <div class="w-full">
             {forEach posts renderPost2}
         </div>
 </div>
@@ -49,7 +49,7 @@ renderPost post = [hsx|
 
 renderPost2 post = [hsx|
                 <div class="mt-6">
-                    <div class="max-w-4xl px-10 py-6 bg-white rounded-lg shadow-md">
+                    <div class="px-10 py-6 bg-white rounded-lg shadow-md">
                         <div class="flex justify-between items-center"><span
                              class="font-light text-gray-600">{get #createdAt post |> timeAgo}</span><a href="#"
                                 class="px-2 py-1 bg-gray-600 text-gray-100
