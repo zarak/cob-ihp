@@ -26,4 +26,4 @@ tailwind-dev:
 
 static/app.css:
 	NODE_ENV=production npm ci
-	NODE_ENV=production npx tailwindcss build tailwind/app.css -o static/prod.css -c tailwind/tailwind.config.js
+	NODE_ENV=production npx tailwindcss build tailwind/app.css -o static/app.css -c tailwind/tailwind.config.js
