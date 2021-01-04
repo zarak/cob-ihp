@@ -14,41 +14,13 @@ instance View IndexView where
         </div>
 
         <div class="w-full">
-            {forEach posts renderPost2}
+            {forEach posts renderPost}
         </div>
 </div>
 {renderPagination}
     |]
 
-
 renderPost post = [hsx|
-<a href={ShowPostAction (get #id post)}>
-<div class="my-4 p-2 bg-red-50 dark:bg-gray-900 rounded shadow-lg flex items-center justify-center
-    w-full hover:bg-red-100 transition ease-in 30">
-  <div class="px-5 py-4 dark:bg-gray-800 rounded-lg object-contain w-full">
-    <div class="flex mb-4">
-      <div class="ml-2 mt-0.5">
-        <span class="block font-medium text-base leading-snug text-black
-        dark:text-gray-100">Author Name</span>
-        <span class="block text-sm text-gray-500 dark:text-gray-400 font-light leading-snug">{get #createdAt post}</span>
-      </div>
-    </div>
-    <p class="text-gray-800 dark:text-gray-100 leading-snug
-    md:leading-normal">{get #body post}</p>
-    <div class="flex justify-between items-center mt-5">
-    <div class="flex ">
-      <span class="mr-6 text-green-500 dark:text-gray-400 font-light">{get #upvotes post}</span>
-      <span class="mr-6 text-red-500 dark:text-gray-400 font-light">{get #downvotes post}</span>
-    </div>  
-    <div class="ml-1 text-gray-500 dark:text-gray-400 font-light">Score: {get #toxicityScore post}</div>
-    </div>
-  </div>
-</div>
-</a>
-|]
-
-
-renderPost2 post = [hsx|
                 <div class="mt-6">
                     <div class="px-10 py-6 bg-white rounded-lg shadow-md">
                         <div class="flex justify-between items-center"><span
