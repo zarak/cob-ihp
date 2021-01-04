@@ -43,7 +43,7 @@ navbar = [hsx|
         alt="logo" width="50" class="mr-2"/>
         
         <!--<a class="inline-block p-3 text-red-50 hover:text-red-400 transition ease-in duration-150" href="/">Callout Bot</a>-->
-        <a class="inline-block p-3 text-red-50 hover:text-red-400 transition ease-in duration-150" href={PostsAction}>Posts</a>
+        <a class="inline-block p-3 font-bold text-red-50 hover:text-red-400 transition ease-in duration-150" href={PostsAction}>Posts</a>
         <!--<ul class="navbar-nav mr-auto">-->
             <!--<li class={classes ["nav-item", ("active", isActivePath ("/Posts" :: Text))]}>-->
                 <!--<a class="nav-link" href={PostsAction}>Posts</a>-->
