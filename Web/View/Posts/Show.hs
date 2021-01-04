@@ -18,9 +18,22 @@ instance View ShowView where
 
         <div>{get #body post |> renderMarkdown}</div>
 
-        <a href={NewCommentAction (get #id post)}>Add Comment</a>
 
-        <div>{forEach (get #comments post) renderComment}</div>
+        <div>
+
+            <section class="rounded-b-lg  mt-4 ">
+              
+        <a href={NewCommentAction (get #id post)}>
+            <button class="py-2 px-4 w-full bg-red-400 text-lg text-white shadow-md rounded-sm ">Add Comment </button>
+        </a>
+      <div id="task-comments" class="pt-4">
+
+        <div>{forEach (get #comments post) renderComment2}</div>
+
+          </div>
+        </section>
+
+      </div>
     |]
         where renderUpvote post =
                 case currentUserOrNothing of 
@@ -52,17 +65,6 @@ renderUpvoteHtml post = [hsx|
 
 
 renderComment2 comment = [hsx|
-<div>
-
-    <section class="rounded-b-lg  mt-4 ">
-      
-
-<form action="/" accept-charset="UTF-8" method="post"><input type="hidden" >
-  <textarea class="w-full shadow-inner p-4 border-0 mb-4 rounded-lg focus:shadow-outline text-2xl" placeholder="Ask questions here." cols="6" rows="6" id="comment_content" spellcheck="false"></textarea>
-  <button class="font-bold py-2 px-4 w-full bg-purple-400 text-lg text-white shadow-md rounded-lg ">Comment </button>
-</form>
-
-      <div id="task-comments" class="pt-4">
         <!--     comment-->
 <div class="bg-white rounded-lg p-3  flex flex-col justify-center items-center md:items-start shadow-lg mb-4">
   <div class="flex flex-row justify-center mr-2">
@@ -86,8 +88,4 @@ renderComment2 comment = [hsx|
 
 </div>
 <!--  comment end-->
-      </div>
-    </section>
-
-  </div>
     |]
