@@ -7,7 +7,7 @@ instance View (NewView User) where
     html NewView { .. } = [hsx|
             <div class="w-50 mx-auto border p-5 shadow rounded">
                 {renderFlashMessages}
-                <h5>Login:</h5>
+                <div class="pb-2 font-bold">Login</div>
                 {renderForm user}
             </div>
 |]

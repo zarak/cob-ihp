@@ -23,10 +23,12 @@ instance Controller CommentsController where
         render ShowView { .. }
 
     action EditCommentAction { commentId } = do
+        ensureIsUser
         comment <- fetch commentId
         render EditView { .. }
 
     action UpdateCommentAction { commentId } = do
+        ensureIsUser
         comment <- fetch commentId
         comment
             |> buildComment
@@ -51,6 +53,7 @@ instance Controller CommentsController where
                     redirectTo ShowPostAction { postId = get #postId comment }
 
     action DeleteCommentAction { commentId } = do
+        ensureIsUser
         comment <- fetch commentId
         deleteRecord comment
         setSuccessMessage "Comment deleted"
