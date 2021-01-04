@@ -43,7 +43,7 @@ navbar = [hsx|
         alt="logo" width="50" class="mr-2"/>
         
         <!--<a class="inline-block p-3 text-red-50 hover:text-red-400 transition ease-in duration-150" href="/">Callout Bot</a>-->
-        <a class="inline-block p-3 font-bold text-red-50 hover:text-red-400 transition ease-in duration-150" href={PostsAction}>Posts</a>
+        <a class="inline-block p-3 font-bold text-xl text-red-50 hover:text-red-400 transition ease-in duration-150" href={PostsAction}>Posts</a>
         <!--<ul class="navbar-nav mr-auto">-->
             <!--<li class={classes ["nav-item", ("active", isActivePath ("/Posts" :: Text))]}>-->
                 <!--<a class="nav-link" href={PostsAction}>Posts</a>-->
@@ -71,7 +71,7 @@ footer :: Html
 footer = [hsx|
     <footer class="px-6 py-2 bg-gray-800 text-gray-100">
         <div class="flex flex-col justify-between items-center container mx-auto md:flex-row"><a href="#"
-                class="text-2xl font-bold">Callout Bot</a>
+                class="text-xl font-bold">Callout Bot</a>
             <p class="mt-2 md:mt-0">All rights reserved 2020.</p>
             <div class="flex -mx-2 mt-4 mb-2 md:mt-0 md:mb-0"><a href="#"
                     class="mx-2 text-gray-100 hover:text-gray-400"><svg viewBox="0 0 512 512"
