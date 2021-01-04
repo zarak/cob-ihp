@@ -24,7 +24,7 @@ instance View ShowView where
                     <button class="py-2 px-4 md:w-auto bg-red-400 text-red-50 shadow-md rounded-sm ">Add Comment </button>
                 </a>
                 <div id="task-comments" class="pt-4">
-                    <div>{forEach (get #comments post) renderComment2}</div>
+                    <div>{forEach (get #comments post) renderComment}</div>
                 </div>
             </section>
         </div>
@@ -41,7 +41,7 @@ renderMarkdown text =
                                      |> tshow
                                      |> preEscapedToHtml
 
-renderComment comment = [hsx|
+renderComment2 comment = [hsx|
         <div class="mt-4 p-2 border shadow bg-light">
             <h5>{get #author comment}</h5>
             <p>{get #body comment}</p>
@@ -58,7 +58,7 @@ renderUpvoteHtml post = [hsx|
     |]
 
 
-renderComment2 comment = [hsx|
+renderComment comment = [hsx|
 <!--     comment-->
 <div class="bg-white rounded-lg p-3  flex flex-col justify-center items-center md:items-start shadow-lg mb-4">
   <div class="flex flex-row justify-center mr-2">
