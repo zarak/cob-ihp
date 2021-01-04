@@ -72,7 +72,7 @@ navbar2 = [hsx|
         <div class="flex flex-col container mx-auto md:flex-row md:items-center md:justify-between">
             <div class="flex justify-between items-center">
                 <div>
-                    <a href="#" class="text-red-50 text-xl font-bold md:text-2xl">Brand</a>
+                    <a href="#" class="text-red-50 text-xl font-bold md:text-2xl">Callout Bot</a>
                 </div>
                 <div>
                     <button type="button" class="block text-gray-800 hover:text-gray-600 focus:text-gray-600 focus:outline-none md:hidden">
