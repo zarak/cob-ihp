@@ -10,12 +10,7 @@ data ShowView = ShowView
 
 instance View ShowView where
     html ShowView { .. } = [hsx|
-        <div class="bg-red-50 p-2 shadow mt-4">
-            <div class="font-bold text-lg">{get #firstName author}</div>
-            <p class="text-gray-600">{get #createdAt post |> timeAgo}</p>
-                <div class="p-2 text-lg">{get #body post}</div>
-            {renderUpvote post}
-        </div>
+        {renderPost post}
 
         <div class="pl-4">
             <section class="rounded-b-lg  mt-4 ">
@@ -27,10 +22,6 @@ instance View ShowView where
                 </div>
             </section>
         </div>    |]
-        where renderUpvote post =
-                case currentUserOrNothing of 
-                  Nothing -> "Upvoting disabled unless logged in" 
-                  Just _ -> renderUpvoteHtml post
 
 renderMarkdown text =
     case text |> MMark.parse "" of
@@ -67,3 +58,35 @@ renderComment comment = [hsx|
 </div>
 <!--  comment end-->
     |]
+
+renderPost post = [hsx|
+                <div class="mt-6">
+                    <div class="px-10 py-6 bg-white shadow-md">
+                        <div class="flex justify-between items-center"><span
+                             class="font-light text-gray-600">{get #createdAt post |> timeAgo}</span><a href="#"
+                                class="px-2 py-1 bg-gray-600 text-gray-100
+                                font-bold rounded hover:bg-gray-500">Score {get #toxicityScore post}</a>
+                        </div>
+                        <div class="mt-2">
+                            <!--<a href="#" class="text-2xl-->
+                                <!--text-gray-700 font-bold hover:underline">Title-->
+                            <!--</a>-->
+                            <p class="mt-2 text-gray-600">{get #body post}</p>
+                        </div>
+                        <div class="flex justify-between items-center mt-4">
+                            {renderUpvote post}
+
+                            <div><a href="#" class="flex items-center"><img
+                                        src="https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=731&amp;q=80"
+                                        alt="avatar" class="mx-4 w-10 h-10 object-cover rounded-full hidden sm:block">
+                                    <h1 class="text-gray-700 font-bold
+                                        hover:underline">Author</h1>
+                                </a></div>
+                        </div>
+                    </div>
+                </div>
+    |]
+        where renderUpvote post =
+                case currentUserOrNothing of 
+                  Nothing -> "Upvoting disabled unless logged in" 
+                  Just _ -> renderUpvoteHtml post
