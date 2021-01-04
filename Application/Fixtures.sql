@@ -31,8 +31,6 @@ ALTER TABLE public.users ENABLE TRIGGER ALL;
 
 ALTER TABLE public.posts DISABLE TRIGGER ALL;
 
-INSERT INTO public.posts (id, title, body, created_at, user_id, upvotes, downvotes, toxicity_score) VALUES ('d58b2715-c236-448d-8612-bae61d9ed9e5', 'test', 'test
-', '2021-01-03 14:39:25.293533+05', '355dbd9d-c3ac-4eb8-9421-2cdc73f62231', 0, 0, 0);
 
 
 ALTER TABLE public.posts ENABLE TRIGGER ALL;

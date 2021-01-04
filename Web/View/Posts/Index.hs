@@ -17,6 +17,7 @@ instance View IndexView where
             {forEach posts renderPost2}
         </div>
 </div>
+{renderPagination}
     |]
 
 
@@ -70,6 +71,32 @@ renderPost2 post = [hsx|
                                         hover:underline">Author of Original Tweet</h1>
                                 </a></div>
                         </div>
+                    </div>
+                </div>
+    |]
+
+renderPagination = [hsx|
+<div class="mt-8">
+                    <div class="flex">
+                        <a href="#" class="mx-1 px-3 py-2 bg-white text-gray-500 font-medium rounded-md cursor-not-allowed">
+                            previous
+                        </a>
+                    
+                        <a href="#" class="mx-1 px-3 py-2 bg-white text-gray-700 font-medium hover:bg-blue-500 hover:text-white rounded-md">
+                            1
+                        </a>
+                    
+                        <a href="#" class="mx-1 px-3 py-2 bg-white text-gray-700 font-medium hover:bg-blue-500 hover:text-white rounded-md">
+                            2
+                        </a>
+                    
+                        <a href="#" class="mx-1 px-3 py-2 bg-white text-gray-700 font-medium hover:bg-blue-500 hover:text-white rounded-md">
+                            3
+                        </a>
+                    
+                        <a href="#" class="mx-1 px-3 py-2 bg-white text-gray-700 font-medium hover:bg-blue-500 hover:text-white rounded-md">
+                            Next
+                        </a>
                     </div>
                 </div>
     |]
