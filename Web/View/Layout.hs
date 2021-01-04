@@ -66,37 +66,12 @@ navbar = [hsx|
                                 Just user -> logoutButtonHtml user
                                 Nothing -> loginButtonHtml
 
-navbar2 :: Html
-navbar2 = [hsx|
-    <nav class="bg-gray-700 px-6 py-4 shadow">
-        <div class="flex flex-col container mx-auto md:flex-row md:items-center md:justify-between">
-            <div class="flex justify-between items-center">
-                <div>
-                    <a href="#" class="text-red-50 text-xl font-bold md:text-2xl">Callout Bot</a>
-                </div>
-                <div>
-                    <button type="button" class="block text-gray-800 hover:text-gray-600 focus:text-gray-600 focus:outline-none md:hidden">
-                        <svg viewBox="0 0 24 24" class="h-6 w-6 fill-current">
-                            <path d="M4 5h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2z">
-                            </path>
-                        </svg>
-                    </button>
-                </div>
-            </div>
-            <div class="md:flex flex-col md:flex-row md:-mx-4 hidden">
-                <a href="#" class="my-1 text-red-50 hover:text-red-500 md:mx-4 md:my-0">Home</a>
-                <a href="#" class="my-1 text-red-50 hover:text-red-500 md:mx-4 md:my-0">Blog</a>
-                <a href="#" class="my-1 text-red-50 hover:text-red-500 md:mx-4 md:my-0">About us</a>
-            </div>
-        </div>
-    </nav>   
-|]
 
 footer :: Html
 footer = [hsx|
     <footer class="px-6 py-2 bg-gray-800 text-gray-100">
         <div class="flex flex-col justify-between items-center container mx-auto md:flex-row"><a href="#"
-                class="text-2xl font-bold">Brand</a>
+                class="text-2xl font-bold">Callout Bot</a>
             <p class="mt-2 md:mt-0">All rights reserved 2020.</p>
             <div class="flex -mx-2 mt-4 mb-2 md:mt-0 md:mb-0"><a href="#"
                     class="mx-2 text-gray-100 hover:text-gray-400"><svg viewBox="0 0 512 512"
