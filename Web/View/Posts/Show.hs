@@ -10,15 +10,14 @@ data ShowView = ShowView
 
 instance View ShowView where
     html ShowView { .. } = [hsx|
-        <h1>{get #title post}</h1>
-        <p>Author: {get #firstName author <> " " <> get #lastName author}</p>
-        <p>{get #createdAt post |> timeAgo}</p>
+        <div class="bg-red-50 p-2 shadow mt-4">
+            <div class="font-bold text-lg">{get #firstName author}</div>
+            <p class="text-gray-600">{get #createdAt post |> timeAgo}</p>
+                <div class="p-2 text-lg">{get #body post}</div>
+            {renderUpvote post}
+        </div>
 
-        {renderUpvote post}
-
-        <div>{get #body post}</div>
-
-        <div>
+        <div class="pl-4">
             <section class="rounded-b-lg  mt-4 ">
                 <a href={NewCommentAction (get #id post)}>
                     <button class="py-2 px-4 md:w-auto bg-red-400 text-red-50 shadow-md rounded-sm ">Add Comment </button>
@@ -27,8 +26,7 @@ instance View ShowView where
                     <div>{forEach (get #comments post) renderComment}</div>
                 </div>
             </section>
-        </div>
-    |]
+        </div>    |]
         where renderUpvote post =
                 case currentUserOrNothing of 
                   Nothing -> "Upvoting disabled unless logged in" 
