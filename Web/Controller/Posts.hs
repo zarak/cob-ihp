@@ -33,10 +33,12 @@ instance Controller PostsController where
         render ShowView { .. }
 
     action EditPostAction { postId } = do
+        ensureIsUser
         post <- fetch postId
         render EditView { .. }
 
     action UpdatePostAction { postId } = do
+        ensureIsUser
         post <- fetch postId
         post
             |> buildPost
@@ -62,6 +64,7 @@ instance Controller PostsController where
                     redirectTo PostsAction
 
     action DeletePostAction { postId } = do
+        ensureIsUser
         post <- fetch postId
         deleteRecord post
         setSuccessMessage "Post deleted"
