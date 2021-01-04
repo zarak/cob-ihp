@@ -16,7 +16,7 @@ instance View ShowView where
 
         {renderUpvote post}
 
-        <div>{get #body post |> renderMarkdown}</div>
+        <div>{get #body post}</div>
 
         <div>
             <section class="rounded-b-lg  mt-4 ">
