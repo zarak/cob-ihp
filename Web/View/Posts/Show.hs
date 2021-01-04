@@ -12,12 +12,12 @@ instance View ShowView where
     html ShowView { .. } = [hsx|
         {renderPost post}
 
-        <div class="pl-4">
+        <div>
             <section class="rounded-b-lg  mt-4 ">
                 <a href={NewCommentAction (get #id post)}>
                     <button class="py-2 px-4 md:w-auto bg-red-400 text-red-50 shadow-md rounded-sm ">Add Comment </button>
                 </a>
-                <div id="task-comments" class="pt-4">
+                <div id="task-comments" class="pt-4 pl-4">
                     <div>{forEach (get #comments post) renderComment}</div>
                 </div>
             </section>
@@ -40,7 +40,7 @@ renderUpvoteHtml post = [hsx|
 
 renderComment comment = [hsx|
 <!--     comment-->
-<div class="bg-white rounded-lg p-3  flex flex-col justify-center items-center md:items-start shadow mb-4">
+<div class="bg-white rounded-lg p-3 flex flex-col justify-center items-center md:items-start shadow mb-4">
   <div class="flex flex-row justify-center mr-2">
     <!--<img alt="avatar" width="48" height="48" class="rounded-full w-10 h-10 mr-4 shadow mb-4" src="https://cdn1.iconfinder.com/data/icons/technology-devices-2/100/Profile-512.png">-->
     <h3 class="text-red-600 font-semibold text-center md:text-left ">@{get
