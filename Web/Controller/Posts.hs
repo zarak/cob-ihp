@@ -12,16 +12,23 @@ import qualified Text.MMark as MMark
 
 instance Controller PostsController where
     action PostsAction = do
+        numPosts :: Int <- query @Post
+            |> fetchCount
+
         let page = paramOrDefault 1 "page"
+            postsPerPage = 2
+            (q, r) = numPosts `quotRem` postsPerPage
+            numPages = q + (if r == 0 then 0 else 1)
+            validPage
+              | page < 1 = 1
+              | page > numPages = numPages
+              | otherwise = page
         --let page = 0
         posts <- query @Post 
             |> orderByDesc #createdAt
-            |> limit 2
-            |> offset ((page - 1) * 2)
+            |> limit postsPerPage
+            |> offset ((validPage - 1) * postsPerPage)
             |> fetch
-
-        numPosts :: Int <- query @Post
-            |> fetchCount
 
         render IndexView { .. }
             

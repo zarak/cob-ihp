@@ -55,7 +55,7 @@ renderPagination numPosts page =
         (q, r) = numPosts `quotRem` 2
         lastPage = q + (if r == 0 then 0 else 1)
 
-        -- Show at least @numButtons@ clickable buttons
+        -- Show @numButtons@ clickable buttons. @numButtons@ must be an odd number
         numButtons = 5
         startPage = min (max 1 (page - 2)) (lastPage - numButtons + 1)
         endPage = min (max (page + 2) numButtons) lastPage
