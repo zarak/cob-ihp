@@ -1,7 +1,7 @@
 module Web.View.Posts.Index where
 import Web.View.Prelude
 
-data IndexView = IndexView { posts :: [Post] }
+data IndexView = IndexView { posts :: [Post], numPosts :: Int, page :: Int }
 
 instance View IndexView where
     html IndexView { .. } = [hsx|
@@ -16,8 +16,8 @@ instance View IndexView where
         <div class="w-full">
             {forEach posts renderPost}
         </div>
+        {renderPagination numPosts page}
 </div>
-{renderPagination}
     |]
 
 renderPost post = [hsx|
@@ -47,24 +47,18 @@ renderPost post = [hsx|
                 </div>
     |]
 
-renderPagination = [hsx|
-<div class="mt-8">
+renderPagination numPosts page =
+    let cursorNotAllowed = "mx-1 px-3 py-2 bg-white text-gray-500 font-medium rounded-md cursor-not-allowed" :: Text
+        cursorAllowed = "mx-1 px-3 py-2 bg-white text-gray-500 font-medium rounded-md" :: Text
+    in 
+    [hsx|
+                <div class="mt-8">
                     <div class="flex">
-                        <a href="#" class="mx-1 px-3 py-2 bg-white text-gray-500 font-medium rounded-md cursor-not-allowed">
+                        <a href="#" class={if page == 1 then cursorNotAllowed else cursorAllowed}>
                             previous
                         </a>
                     
-                        <a href="#" class="mx-1 px-3 py-2 bg-white text-gray-700 font-medium hover:bg-blue-500 hover:text-white rounded-md">
-                            1
-                        </a>
-                    
-                        <a href="#" class="mx-1 px-3 py-2 bg-white text-gray-700 font-medium hover:bg-blue-500 hover:text-white rounded-md">
-                            2
-                        </a>
-                    
-                        <a href="#" class="mx-1 px-3 py-2 bg-white text-gray-700 font-medium hover:bg-blue-500 hover:text-white rounded-md">
-                            3
-                        </a>
+                        {forEach [1..numPosts `div` 2 + 1] renderPageLink}
                     
                         <a href="#" class="mx-1 px-3 py-2 bg-white text-gray-700 font-medium hover:bg-blue-500 hover:text-white rounded-md">
                             Next
@@ -72,3 +66,10 @@ renderPagination = [hsx|
                     </div>
                 </div>
     |]
+
+renderPageLink num = [hsx|
+    <a href={pathTo PostsAction <> "?page=" <> show num} class="mx-1 px-3 py-2 bg-white text-gray-700 font-medium hover:bg-blue-500 hover:text-white rounded-md">
+        {show num}
+    </a>
+    |]
+

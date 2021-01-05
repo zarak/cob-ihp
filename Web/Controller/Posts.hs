@@ -19,6 +19,10 @@ instance Controller PostsController where
             |> limit 2
             |> offset ((page - 1) * 2)
             |> fetch
+
+        numPosts :: Int <- query @Post
+            |> fetchCount
+
         render IndexView { .. }
             
 
