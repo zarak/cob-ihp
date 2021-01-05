@@ -12,7 +12,7 @@ import qualified Text.MMark as MMark
 
 instance Controller PostsController where
     action PostsAction = do
-        let page = param @Int "page"
+        let page = paramOrDefault 1 "page"
         --let page = 0
         posts <- query @Post 
             |> orderByDesc #createdAt
