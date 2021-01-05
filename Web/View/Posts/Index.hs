@@ -52,15 +52,18 @@ renderPagination numPosts page =
         cursorNotAllowed = base <> "text-gray-500 cursor-not-allowed":: Text
         cursorAllowed = base <> "text-gray-700 hover:bg-blue-500 hove:text-white rounded-md" :: Text
 
-        resultsPerPage = 4
-        lastPage = ((numPosts `div` 2))
-        startPage = max 1 (page - ((resultsPerPage `div` 2)))
-        endPage = min lastPage (page + (resultsPerPage `div` 2))
+        (q, r) = numPosts `quotRem` 2
+        lastPage = q + (if r == 0 then 0 else 1)
+
+        -- Show at least @numButtons@ clickable buttons
+        numButtons = 4
+        startPage = max 1 (page - numButtons + 1)
+        endPage = min (page + 3) lastPage
 
         prevPageLink = if page == 1 then "" else pathTo PostsAction <> "?page=" <> show (page - 1)
         prevButtonActive = if page == 1 then cursorNotAllowed else cursorAllowed
 
-        nextPageLink = if page == lastPage then "" else pathTo PostsAction <> "?page=" <> show (page - 1)
+        nextPageLink = if page == lastPage then "" else pathTo PostsAction <> "?page=" <> show (page + 1)
         nextButtonActive = if page == lastPage then cursorNotAllowed else cursorAllowed
     in 
     [hsx|
