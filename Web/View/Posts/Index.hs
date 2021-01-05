@@ -56,9 +56,9 @@ renderPagination numPosts page =
         lastPage = q + (if r == 0 then 0 else 1)
 
         -- Show at least @numButtons@ clickable buttons
-        numButtons = 4
-        startPage = max 1 (page - numButtons + 1)
-        endPage = min (page + 3) lastPage
+        numButtons = 5
+        startPage = min (max 1 (page - 2)) (lastPage - numButtons + 1)
+        endPage = min (max (page + 2) numButtons) lastPage
 
         prevPageLink = if page == 1 then "" else pathTo PostsAction <> "?page=" <> show (page - 1)
         prevButtonActive = if page == 1 then cursorNotAllowed else cursorAllowed
