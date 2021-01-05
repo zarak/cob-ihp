@@ -48,22 +48,33 @@ renderPost post = [hsx|
     |]
 
 renderPagination numPosts page =
-    let cursorNotAllowed = "mx-1 px-3 py-2 bg-white text-gray-500 font-medium rounded-md cursor-not-allowed" :: Text
-        cursorAllowed = "mx-1 px-3 py-2 bg-white text-gray-700 font-medium hover:bg-blue-500 hove:text-white rounded-md" :: Text
-        lastPage = numPosts `div` 2 + 1
+    let base = "mx-1 px-3 py-2 bg-white rounded-md font-medium"
+        cursorNotAllowed = base <> "text-gray-500 cursor-not-allowed":: Text
+        cursorAllowed = base <> "text-gray-700 hover:bg-blue-500 hove:text-white rounded-md" :: Text
+
+        resultsPerPage = 4
+        lastPage = ((numPosts `div` 2))
+        startPage = max 1 (page - ((resultsPerPage `div` 2)))
+        endPage = min lastPage (page + (resultsPerPage `div` 2))
+
+        prevPageLink = if page == 1 then "" else pathTo PostsAction <> "?page=" <> show (page - 1)
+        prevButtonActive = if page == 1 then cursorNotAllowed else cursorAllowed
+
+        nextPageLink = if page == lastPage then "" else pathTo PostsAction <> "?page=" <> show (page - 1)
+        nextButtonActive = if page == lastPage then cursorNotAllowed else cursorAllowed
     in 
     [hsx|
                 <div class="mt-8">
                     <div class="flex">
-                        <a href={if page == 1 then "" else pathTo PostsAction <> "?page=" <> show (page - 1)}
-                           class={if page == 1 then cursorNotAllowed else cursorAllowed}>
+                        <a href={prevPageLink}
+                           class={prevButtonActive}>
                             previous
                         </a>
                     
-                        {forEach [1..lastPage] renderPageLink}
+                        {forEach [startPage..endPage] renderPageLink}
                     
-                        <a href={if page == lastPage then "" else pathTo PostsAction <> "?page=" <> show (page - 1)}
-                           class={if page == lastPage then cursorNotAllowed else cursorAllowed}>
+                        <a href={nextPageLink}
+                           class={nextButtonActive}>
                             next
                         </a>
                     </div>
