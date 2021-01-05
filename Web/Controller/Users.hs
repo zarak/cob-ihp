@@ -47,15 +47,21 @@ instance Controller UsersController where
                 Left user -> render NewView { .. } 
                 Right user -> do
                     hashed <- hashPassword (get #passwordHash user)
-                    --let token = tshow "thisisatesttoken"
-                    user <- user 
-                        |> set #passwordHash hashed
-                        -- |> set #token token
-                        |> createRecord
-                    -- sendMail ConfirmMail { user }
-                    -- setSuccessMessage "Please click the confirmation link in the email that has been sent to you"
-                    setSuccessMessage "You have registered successfully"
-                    redirectTo NewSessionAction
+                    emailExists <- checkForExistingEmail (get #email user) 
+                    case emailExists of 
+                      Just _ -> do
+                          setErrorMessage "Email already exists"
+                          render NewView { .. }
+                      Nothing -> do
+                        --let token = tshow "thisisatesttoken"
+                        user <- user 
+                            |> set #passwordHash hashed
+                            -- |> set #token token
+                            |> createRecord
+                        -- sendMail ConfirmMail { user }
+                        -- setSuccessMessage "Please click the confirmation link in the email that has been sent to you"
+                        setSuccessMessage "You have registered successfully"
+                        redirectTo NewSessionAction
 
     action DeleteUserAction { userId } = do
         user <- fetch userId
@@ -97,3 +103,9 @@ buildUser user = user
 passwordMatch pw1 pw2 = if pw1 == pw2
                            then Success
                            else Failure "The passwords don't match"
+
+checkForExistingEmail email = do 
+    userExists <- query @User
+        |> filterWhere (#email, email)
+        |> fetchOneOrNothing
+    pure userExists
