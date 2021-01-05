@@ -49,19 +49,22 @@ renderPost post = [hsx|
 
 renderPagination numPosts page =
     let cursorNotAllowed = "mx-1 px-3 py-2 bg-white text-gray-500 font-medium rounded-md cursor-not-allowed" :: Text
-        cursorAllowed = "mx-1 px-3 py-2 bg-white text-gray-500 font-medium rounded-md" :: Text
+        cursorAllowed = "mx-1 px-3 py-2 bg-white text-gray-700 font-medium hover:bg-blue-500 hove:text-white rounded-md" :: Text
+        lastPage = numPosts `div` 2 + 1
     in 
     [hsx|
                 <div class="mt-8">
                     <div class="flex">
-                        <a href="#" class={if page == 1 then cursorNotAllowed else cursorAllowed}>
+                        <a href={if page == 1 then "" else pathTo PostsAction <> "?page=" <> show (page - 1)}
+                           class={if page == 1 then cursorNotAllowed else cursorAllowed}>
                             previous
                         </a>
                     
-                        {forEach [1..numPosts `div` 2 + 1] renderPageLink}
+                        {forEach [1..lastPage] renderPageLink}
                     
-                        <a href="#" class="mx-1 px-3 py-2 bg-white text-gray-700 font-medium hover:bg-blue-500 hover:text-white rounded-md">
-                            Next
+                        <a href={if page == lastPage then "" else pathTo PostsAction <> "?page=" <> show (page - 1)}
+                           class={if page == lastPage then cursorNotAllowed else cursorAllowed}>
+                            next
                         </a>
                     </div>
                 </div>
