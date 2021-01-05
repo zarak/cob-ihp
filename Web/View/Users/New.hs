@@ -15,8 +15,8 @@ renderForm :: User -> Html
 renderForm user = formFor user [hsx|
     {(textField #firstName) { placeholder="First Name", fieldLabel="" }}
     {(textField #lastName) { placeholder="Last Name", fieldLabel="" }} 
-    {(textField #email) { placeholder="E-mail", fieldLabel="" }}
-    <div class="d-flex justify-content-between">
+    {(emailField #email) { placeholder="E-mail", fieldLabel="" }}
+    <div>
         {(passwordField #passwordHash) { placeholder="Password", fieldLabel="" }}
         {(passwordField #passwordHash) { fieldName="password2", placeholder="Confirm Password", fieldLabel="" }}
     </div>

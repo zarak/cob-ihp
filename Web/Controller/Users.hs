@@ -54,6 +54,7 @@ instance Controller UsersController where
                         |> createRecord
                     -- sendMail ConfirmMail { user }
                     -- setSuccessMessage "Please click the confirmation link in the email that has been sent to you"
+                    setSuccessMessage "You have registered successfully"
                     redirectTo NewSessionAction
 
     action DeleteUserAction { userId } = do

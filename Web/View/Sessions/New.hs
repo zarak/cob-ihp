@@ -14,25 +14,27 @@ instance View (NewView User) where
 
 renderForm :: User -> Html
 renderForm user = [hsx|
-<form action={CreateSessionAction} method="POST" accept-charset="utf-8">
+<form action={CreateSessionAction} method="POST">
     <div class="form-group">
+        <div class="flex flex-wrap mb-6">
         <input 
-            type="email" 
-            value={get #email user} 
             name="email"
+            value={get #email user} 
+            type="email" 
             id="email"
             class="form-control"
             placeholder="E-mail"
         />
+        </div>
     </div>
     <div class="form-group">
         <input
-            class="form-control"
             type="password"
             name="password"
+            class="form-control"
             placeholder="Password"
         />
     </div>
-    <button class="btn btn-primary btn-block" type="submit">Login</button>
+    <button class="btn" type="submit">Login</button>
 </form>    
 |]
