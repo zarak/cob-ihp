@@ -61,10 +61,10 @@ renderPagination numPosts page =
         endPage = min (max (page + 2) numButtons) lastPage
 
         prevPageLink = if page == 1 then "" else pathTo PostsAction <> "?page=" <> show (page - 1)
-        prevButtonActive = if page == 1 then cursorNotAllowed else cursorAllowed
+        prevButtonActive = if page <= 1 then cursorNotAllowed else cursorAllowed
 
         nextPageLink = if page == lastPage then "" else pathTo PostsAction <> "?page=" <> show (page + 1)
-        nextButtonActive = if page == lastPage then cursorNotAllowed else cursorAllowed
+        nextButtonActive = if page >= lastPage then cursorNotAllowed else cursorAllowed
     in 
     [hsx|
                 <div class="mt-8">
