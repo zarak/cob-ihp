@@ -6,15 +6,21 @@ import Web.View.Posts.New
 import Web.View.Posts.Edit
 import Web.View.Posts.Show
 import IHP.LoginSupport.Helper.Controller
+import Text.Read (read)
 
 import qualified Text.MMark as MMark
 
 instance Controller PostsController where
     action PostsAction = do
+        let page = param @Int "page"
+        --let page = 0
         posts <- query @Post 
             |> orderByDesc #createdAt
+            |> limit 2
+            |> offset ((page - 1) * 2)
             |> fetch
         render IndexView { .. }
+            
 
     action NewPostAction = do
         ensureIsUser
