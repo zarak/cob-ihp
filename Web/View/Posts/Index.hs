@@ -66,7 +66,7 @@ renderPagination pages page totalPages =
                             previous
                         </a>
                     
-                        {forEach pages renderPageLink}
+                        {forEach pages (renderPageLink page)}
                     
                         <a href={nextPageLink}
                            class={nextButtonActive}>
@@ -76,9 +76,16 @@ renderPagination pages page totalPages =
                 </div>
     |]
 
-renderPageLink num = [hsx|
-    <a href={pathTo PostsAction <> "?page=" <> show num} class="mx-1 px-3 py-2 bg-white text-gray-700 font-medium hover:bg-blue-500 hover:text-white rounded-md">
+renderPageLink page num =
+    let base = "mx-1 px-3 py-2 bg-white font-medium hover:bg-blue-500 hover:text-white rounded-md"
+        inactive = base <> " text-gray-700"
+        active = base <> " bg-blue-500 text-white"
+        buttonStatus :: Int -> Int -> Text
+        buttonStatus num page = if num == page
+                                   then active :: Text
+                                   else inactive :: Text
+    in [hsx|
+    <a href={pathTo PostsAction <> "?page=" <> show num} class={buttonStatus num page}>
         {show num}
     </a>
     |]
-
