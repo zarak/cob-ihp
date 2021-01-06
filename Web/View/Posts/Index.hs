@@ -50,7 +50,7 @@ renderPost post = [hsx|
 renderPagination pages page totalPages =
     let base = "mx-1 px-3 py-2 bg-white rounded-md font-medium"
         cursorNotAllowed = base <> "text-gray-500 cursor-not-allowed":: Text
-        cursorAllowed = base <> "text-gray-700 hover:bg-blue-500 hove:text-white rounded-md" :: Text
+        cursorAllowed = base <> "text-gray-700 hover:bg-blue-500 hover:text-white rounded-md" :: Text
 
         prevPageLink = if page == 1 then "" else pathTo PostsAction <> "?page=" <> show (page - 1)
         prevButtonActive = if page <= 1 then cursorNotAllowed else cursorAllowed
