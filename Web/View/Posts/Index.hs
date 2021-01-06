@@ -1,7 +1,7 @@
 module Web.View.Posts.Index where
 import Web.View.Prelude
 
-data IndexView = IndexView { posts :: [Post], pages :: [Int], currentPage :: Int }
+data IndexView = IndexView { posts :: [Post], pages :: [Int], currentPage :: Int, totalPages :: Int }
 
 instance View IndexView where
     html IndexView { .. } = [hsx|
@@ -16,7 +16,7 @@ instance View IndexView where
         <div class="w-full">
             {forEach posts renderPost}
         </div>
-        {renderPagination pages currentPage }
+        {renderPagination pages currentPage totalPages}
 </div>
     |]
 
@@ -47,7 +47,7 @@ renderPost post = [hsx|
                 </div>
     |]
 
-renderPagination pages page =
+renderPagination pages page totalPages =
     let base = "mx-1 px-3 py-2 bg-white rounded-md font-medium"
         cursorNotAllowed = base <> "text-gray-500 cursor-not-allowed":: Text
         cursorAllowed = base <> "text-gray-700 hover:bg-blue-500 hove:text-white rounded-md" :: Text
@@ -55,8 +55,8 @@ renderPagination pages page =
         prevPageLink = if page == 1 then "" else pathTo PostsAction <> "?page=" <> show (page - 1)
         prevButtonActive = if page <= 1 then cursorNotAllowed else cursorAllowed
 
-        --nextPageLink = if page == lastPage then "" else pathTo PostsAction <> "?page=" <> show (page + 1)
-        --nextButtonActive = if page >= lastPage then cursorNotAllowed else cursorAllowed
+        nextPageLink = if page == totalPages then "" else pathTo PostsAction <> "?page=" <> show (page + 1)
+        nextButtonActive = if page >= totalPages then cursorNotAllowed else cursorAllowed
     in 
     [hsx|
                 <div class="mt-8">
@@ -68,10 +68,10 @@ renderPagination pages page =
                     
                         {forEach pages renderPageLink}
                     
-                        <!--<a href={nextPageLink}-->
-                           <!--class={nextButtonActive}>-->
-                            <!--next-->
-                        <!--</a>-->
+                        <a href={nextPageLink}
+                           class={nextButtonActive}>
+                            next
+                        </a>
                     </div>
                 </div>
     |]
