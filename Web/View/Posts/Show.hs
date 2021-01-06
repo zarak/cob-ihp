@@ -5,12 +5,13 @@ import qualified Text.MMark as MMark
 
 data ShowView = ShowView 
     { post :: Include "comments" Post 
-    , author :: User 
+    , author :: User
+    , upvotes :: Int
     }
 
 instance View ShowView where
     html ShowView { .. } = [hsx|
-        {renderPost post}
+        {renderPost post upvotes}
 
         <div>
             <section class="rounded-b-lg  mt-4 ">
@@ -59,7 +60,7 @@ renderComment comment = [hsx|
 <!--  comment end-->
     |]
 
-renderPost post = [hsx|
+renderPost post upvotes = [hsx|
                 <div class="mt-6">
                     <div class="px-10 py-6 bg-white shadow-md">
                         <div class="flex justify-between items-center"><span
@@ -75,6 +76,7 @@ renderPost post = [hsx|
                         </div>
                         <div class="flex justify-between items-center mt-4">
                             {renderUpvote post}
+                            {upvotes}
 
                             <div><a href="#" class="flex items-center"><img
                                         src="https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=731&amp;q=80"
