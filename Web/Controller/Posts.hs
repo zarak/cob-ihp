@@ -17,9 +17,13 @@ instance Controller PostsController where
         numPosts :: Int <- query @Post
             |> fetchCount
 
-        let page = paramOrDefault @Double 1 "page"
-            (totalItems, currentPage, pageSize, totalPages, _, _, _, _, pages) = 
-                paginate (fromIntegral numPosts) page 10 5
+        let page = paramOrNothing @Double "page"
+            validPage = case page of
+                          Nothing -> 1
+                          Just p -> p
+
+            (_, currentPage, pageSize, totalPages, _, _, _, _, pages) = 
+                paginate (fromIntegral numPosts) validPage 10 5
 
         posts <- query @Post 
             |> orderByDesc #createdAt
