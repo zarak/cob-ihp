@@ -57,21 +57,34 @@ renderPagination pages page totalPages =
 
         nextPageLink = if page == totalPages then "" else pathTo PostsAction <> "?page=" <> show (page + 1)
         nextButtonActive = if page >= totalPages then cursorNotAllowed else cursorAllowed
+
+        withLink pageLink buttonActive text = [hsx|
+                    <div class={buttonActive}>
+                        <a href={pageLink}>
+                            {text}
+                        </a>
+                    </div>
+            |]
+        withoutLink buttonActive text = [hsx|
+                    <div class={buttonActive}>
+                            {text}
+                    </div>
+            |]
+        prevButton = if page == 1 
+                        then withoutLink prevButtonActive ("previous" :: Text) 
+                        else withLink prevPageLink prevButtonActive ("previous" :: Text)
+        nextButton = if page == totalPages 
+                        then withoutLink nextButtonActive ("next" :: Text)
+                        else withLink nextPageLink nextButtonActive ("next" :: Text)
     in 
     [hsx|
                 <div class="mt-8">
                     <div class="flex">
-                        <a href={prevPageLink}
-                           class={prevButtonActive}>
-                            previous
-                        </a>
+                        {prevButton}
                     
                         {forEach pages (renderPageLink page)}
                     
-                        <a href={nextPageLink}
-                           class={nextButtonActive}>
-                            next
-                        </a>
+                        {nextButton}
                     </div>
                 </div>
     |]
