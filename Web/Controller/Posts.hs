@@ -17,10 +17,10 @@ instance Controller PostsController where
         numPosts :: Int <- query @Post
             |> fetchCount
 
-        let page = paramOrNothing @Double "page"
+        let page = paramOrError "page"
             validPage = case page of
-                          Nothing -> 1
-                          Just p -> p
+                          Left _ -> 1
+                          Right p -> p
 
             (_, currentPage, pageSize, totalPages, _, _, _, _, pages) = 
                 paginate (fromIntegral numPosts) validPage 10 5
