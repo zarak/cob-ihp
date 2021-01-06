@@ -27,8 +27,6 @@ instance Controller PostsController where
             |> offset ((currentPage - 1) * pageSize)
             |> fetch
 
-        mapM_ (putStr . show) pages
-
         render IndexView { .. }
             
 
