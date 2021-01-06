@@ -14,13 +14,12 @@ type PaginationResults = (Int, Int, Int, Int, Int, Int, Int, Int, [Int])
 
 instance Controller PostsController where
     action PostsAction = do
-        numPosts :: Double <- query @Post
+        numPosts :: Int <- query @Post
             |> fetchCount
-            |> fromIntegral
 
-        let page = paramOrDefault 1 "page"
+        let page = paramOrDefault @Double 1 "page"
             (totalItems, currentPage, pageSize, totalPages, _, _, _, _, pages) = 
-                paginate numPosts (fromIntegral page) 10 10
+                paginate (fromIntegral numPosts) page 10 5
 
         posts <- query @Post 
             |> orderByDesc #createdAt
