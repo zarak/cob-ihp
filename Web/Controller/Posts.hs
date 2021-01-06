@@ -48,6 +48,11 @@ instance Controller PostsController where
         upvotes <- query @Vote
             |> filterWhere (#postId, postId)
             |> fetchCount
+
+        hasVoted <- query @Vote
+            |> filterWhere (#userId, currentUserId)
+            |> filterWhere (#postId, postId)
+            |> fetchOneOrNothing
         
         author <- fetch (get #userId post)
         render ShowView { .. }

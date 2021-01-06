@@ -8,11 +8,12 @@ data ShowView = ShowView
     { post :: Include "comments" Post 
     , author :: User
     , upvotes :: Int
+    , hasVoted :: Maybe Vote
     }
 
 instance View ShowView where
     html ShowView { .. } = [hsx|
-        {renderPost post upvotes}
+        {renderPost post upvotes hasVoted}
 
         <div>
             <section class="rounded-b-lg  mt-4 ">
@@ -33,12 +34,11 @@ renderMarkdown text =
                                      |> preEscapedToHtml
 
 
-renderUpvoteHtml post upvotes = [hsx|
+renderUpvoteHtml post upvotes hasVoted = [hsx|
         <div class="flex-row justify-center items-center">
             <span class="text-green-500 pr-4">
                 <a href={NewVoteAction (get #id post) (get #id currentUser)}>
-                    <i class="far fa-thumbs-up fa-lg"></i>
-                    <i class="fas fa-thumbs-up fa-lg"></i>
+                    {thumbsUp hasVoted}
                 </a>
             </span>
             <span>
@@ -46,6 +46,9 @@ renderUpvoteHtml post upvotes = [hsx|
             </span>
         </div>
     |]
+        where thumbsUp hasVoted = case hasVoted of
+                                    Nothing -> [hsx|<i class="far fa-thumbs-up fa-lg"></i>|]
+                                    Just _ -> [hsx|<i class="fas fa-thumbs-up fa-lg"></i>|]
 
 
 renderComment comment = [hsx|
@@ -69,7 +72,7 @@ renderComment comment = [hsx|
 <!--  comment end-->
     |]
 
-renderPost post upvotes = [hsx|
+renderPost post upvotes hasVoted = [hsx|
                 <div class="mt-6">
                     <div class="px-10 py-6 bg-white shadow-md">
                         <div class="flex justify-between items-center"><span
@@ -84,7 +87,7 @@ renderPost post upvotes = [hsx|
                             <p class="mt-2 text-gray-600">{get #body post}</p>
                         </div>
                         <div class="flex justify-between items-center mt-4">
-                            {renderUpvote post upvotes}
+                            {renderUpvote post upvotes hasVoted}
 
                             <div><a href="#" class="flex items-center"><img
                                         src="https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=731&amp;q=80"
@@ -96,7 +99,7 @@ renderPost post upvotes = [hsx|
                     </div>
                 </div>
     |]
-        where renderUpvote post upvotes =
+        where renderUpvote post upvotes hasVoted =
                 case currentUserOrNothing of 
                   Nothing -> "Upvoting disabled unless logged in" 
-                  Just _ -> renderUpvoteHtml post upvotes
+                  Just _ -> renderUpvoteHtml post upvotes hasVoted
