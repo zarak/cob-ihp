@@ -2,6 +2,7 @@ module Web.View.Posts.Show where
 import Web.View.Prelude
 
 import qualified Text.MMark as MMark
+import Text.Countable
 
 data ShowView = ShowView 
     { post :: Include "comments" Post 
@@ -32,10 +33,18 @@ renderMarkdown text =
                                      |> preEscapedToHtml
 
 
-renderUpvoteHtml post = [hsx|
-        <span class="text-green-500">
-            <a href={NewVoteAction (get #id post) (get #id currentUser)}>Upvote</a>
-        </span>
+renderUpvoteHtml post upvotes = [hsx|
+        <div class="flex-row justify-center items-center">
+            <span class="text-green-500 pr-4">
+                <a href={NewVoteAction (get #id post) (get #id currentUser)}>
+                    <i class="far fa-thumbs-up fa-lg"></i>
+                    <i class="fas fa-thumbs-up fa-lg"></i>
+                </a>
+            </span>
+            <span>
+                {show upvotes <> " " <> inflect "upvote" upvotes} 
+            </span>
+        </div>
     |]
 
 
@@ -75,8 +84,7 @@ renderPost post upvotes = [hsx|
                             <p class="mt-2 text-gray-600">{get #body post}</p>
                         </div>
                         <div class="flex justify-between items-center mt-4">
-                            {renderUpvote post}
-                            {upvotes}
+                            {renderUpvote post upvotes}
 
                             <div><a href="#" class="flex items-center"><img
                                         src="https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=731&amp;q=80"
@@ -88,7 +96,7 @@ renderPost post upvotes = [hsx|
                     </div>
                 </div>
     |]
-        where renderUpvote post =
+        where renderUpvote post upvotes =
                 case currentUserOrNothing of 
                   Nothing -> "Upvoting disabled unless logged in" 
-                  Just _ -> renderUpvoteHtml post
+                  Just _ -> renderUpvoteHtml post upvotes

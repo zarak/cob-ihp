@@ -13,6 +13,7 @@ let
             hlint
             p.ihp
             mmark
+            countable-inflections
         ];
         otherDeps = p: with p; [
             # Native dependencies, e.g. imagemagick
