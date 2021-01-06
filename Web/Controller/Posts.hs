@@ -27,6 +27,8 @@ instance Controller PostsController where
             |> offset ((currentPage - 1) * pageSize)
             |> fetch
 
+        mapM_ (putStr . show) pages
+
         render IndexView { .. }
             
 
@@ -106,10 +108,12 @@ paginate totalItems page pageSize maxPages =
           | page > totalPages = totalPages
           | otherwise = page
         startPage
+          | totalPages <= maxPages = 1
           | currentPage <= maxPagesBeforeCurrentPage = 1
           | currentPage + maxPagesAfterCurrentPage >= totalPages = totalPages - maxPages + 1
           | otherwise = currentPage - maxPagesBeforeCurrentPage
         endPage
+          | totalPages <= maxPages = totalPages
           | currentPage <= maxPagesBeforeCurrentPage = maxPages
           | currentPage + maxPagesAfterCurrentPage >= totalPages = totalPages
           | otherwise = currentPage + maxPagesAfterCurrentPage
