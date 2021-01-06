@@ -52,11 +52,18 @@ renderPagination pages page totalPages =
         cursorNotAllowed = base <> "text-gray-500 cursor-not-allowed":: Text
         cursorAllowed = base <> "text-gray-700 hover:bg-blue-500 hover:text-white rounded-md" :: Text
 
-        prevPageLink = if page == 1 then "" else pathTo PostsAction <> "?page=" <> show (page - 1)
-        prevButtonActive = if page <= 1 then cursorNotAllowed else cursorAllowed
-
-        nextPageLink = if page == totalPages then "" else pathTo PostsAction <> "?page=" <> show (page + 1)
-        nextButtonActive = if page >= totalPages then cursorNotAllowed else cursorAllowed
+        prevPageLink = if page == 1 
+                          then "" 
+                          else pathTo PostsAction <> "?page=" <> show (page - 1)
+        prevButtonActive = if page <= 1 
+                              then cursorNotAllowed 
+                              else cursorAllowed
+        nextPageLink = if page == totalPages 
+                          then "" 
+                          else pathTo PostsAction <> "?page=" <> show (page + 1)
+        nextButtonActive = if page >= totalPages 
+                              then cursorNotAllowed 
+                              else cursorAllowed
 
         withLink pageLink buttonActive text = [hsx|
                     <div class={buttonActive}>
