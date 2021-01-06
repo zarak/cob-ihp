@@ -44,6 +44,10 @@ instance Controller PostsController where
         post <- fetch postId
             >>= pure . modify #comments (orderByDesc #createdAt)
             >>= fetchRelated #comments
+
+        upvotes <- query @Vote
+            |> filterWhere (#postId, postId)
+            |> fetchCount
         
         author <- fetch (get #userId post)
         render ShowView { .. }
