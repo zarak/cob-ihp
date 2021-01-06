@@ -10,24 +10,22 @@ import Text.Read (read)
 
 import qualified Text.MMark as MMark
 
+type PaginationResults = (Int, Int, Int, Int, Int, Int, Int, Int, [Int])
+
 instance Controller PostsController where
     action PostsAction = do
-        numPosts :: Int <- query @Post
+        numPosts :: Double <- query @Post
             |> fetchCount
+            |> fromIntegral
 
         let page = paramOrDefault 1 "page"
-            postsPerPage = 2
-            (q, r) = numPosts `quotRem` postsPerPage
-            numPages = q + (if r == 0 then 0 else 1)
-            validPage
-              | page < 1 = 1
-              | page > numPages = numPages
-              | otherwise = page
-        --let page = 0
+            (totalItems, currentPage, pageSize, totalPages, _, _, _, _, pages) = 
+                paginate numPosts (fromIntegral page) 10 10
+
         posts <- query @Post 
             |> orderByDesc #createdAt
-            |> limit postsPerPage
-            |> offset ((validPage - 1) * postsPerPage)
+            |> limit pageSize
+            |> offset ((currentPage - 1) * pageSize)
             |> fetch
 
         render IndexView { .. }
@@ -99,3 +97,34 @@ isMarkdown text =
       Right _ -> Success
 
 
+paginate :: Double -> Double -> Double -> Double -> PaginationResults
+paginate totalItems page pageSize maxPages =
+    let totalPages = fromIntegral $ ceiling (totalItems / pageSize)
+        maxPagesBeforeCurrentPage = fromIntegral $ floor (maxPages / 2)
+        maxPagesAfterCurrentPage = fromIntegral (ceiling (maxPages / 2)) - 1
+        currentPage
+          | page < 1 = 1
+          | page > totalPages = totalPages
+          | otherwise = page
+        startPage
+          | currentPage <= maxPagesBeforeCurrentPage = 1
+          | currentPage + maxPagesAfterCurrentPage >= totalPages = totalPages - maxPages + 1
+          | otherwise = currentPage - maxPagesBeforeCurrentPage
+        endPage
+          | currentPage <= maxPagesBeforeCurrentPage = maxPages
+          | currentPage + maxPagesAfterCurrentPage >= totalPages = totalPages
+          | otherwise = currentPage + maxPagesAfterCurrentPage
+        startIndex = (currentPage - 1) * pageSize
+        endIndex = min (startIndex + pageSize - 1) (totalItems - 1)
+        pages = map round [startPage..endPage] :: [Int]
+    in
+    ( round totalItems :: Int
+    , round currentPage :: Int
+    , round pageSize :: Int
+    , round totalPages :: Int
+    , round startPage :: Int
+    , round endPage :: Int
+    , round startIndex :: Int
+    , round endIndex :: Int
+    , pages
+    )
