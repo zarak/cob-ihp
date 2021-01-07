@@ -14,6 +14,14 @@ let
             p.ihp
             mmark
             countable-inflections
+            #bytestring
+            #time
+            #fmt
+            #Chart
+            #Chart-diagrams
+            #cassava
+            #optparse-applicative
+            #profunctors
         ];
         otherDeps = p: with p; [
             # Native dependencies, e.g. imagemagick
