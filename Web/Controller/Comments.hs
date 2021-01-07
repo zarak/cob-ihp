@@ -17,6 +17,7 @@ instance Controller CommentsController where
                 |> set #postId postId
                 |> set #userId currentUserId
         post <- fetch postId
+        let userName = get #firstName currentUser
         render NewView { .. }
 
     action ShowCommentAction { commentId } = do
@@ -47,6 +48,7 @@ instance Controller CommentsController where
             |> ifValid \case
                 Left comment -> do
                     post <- fetch (get #postId comment)
+                    let userName = get #firstName currentUser
                     render NewView { .. } 
                 Right comment -> do
                     comment <- comment |> createRecord
@@ -61,4 +63,4 @@ instance Controller CommentsController where
         redirectTo (ShowPostAction (get #postId comment))
 
 buildComment comment = comment
-    |> fill @["postId","userId","body"]
+    |> fill @["postId","userId", "author", "body"]
