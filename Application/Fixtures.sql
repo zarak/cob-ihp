@@ -6205,7 +6205,9 @@ ALTER TABLE public.users ENABLE TRIGGER ALL;
 
 ALTER TABLE public.comments DISABLE TRIGGER ALL;
 
-INSERT INTO public.comments (id, post_id, author, body, created_at, user_id) VALUES ('cfa13ffb-925d-4626-a5e5-107ca1fd2b1e', '38db14d3-70a9-4cf7-80a2-87c0c93c07d2', '', 'test', '2021-01-07 21:36:29.345559+05', 'f79666c2-59e9-4f08-9f0f-bf6be58d229a');
+INSERT INTO public.comments (id, post_id, author, body, created_at, user_id) VALUES ('680cc583-20e0-4d48-8145-d42beafa6c17', '38db14d3-70a9-4cf7-80a2-87c0c93c07d2', '', 'this is a test', '2021-01-07 21:55:58.545111+05', 'f79666c2-59e9-4f08-9f0f-bf6be58d229a');
+INSERT INTO public.comments (id, post_id, author, body, created_at, user_id) VALUES ('b71a36ef-ca2e-4e98-a3d8-2b35a08e56eb', '02ecc0a7-bab6-4100-b114-6ed76ec770da', '', 'why so sad', '2021-01-07 21:56:32.473352+05', 'f79666c2-59e9-4f08-9f0f-bf6be58d229a');
+INSERT INTO public.comments (id, post_id, author, body, created_at, user_id) VALUES ('d9347948-1da9-42d0-96e3-1cf0b9c90a7b', '02ecc0a7-bab6-4100-b114-6ed76ec770da', 'Test', 'another comment', '2021-01-07 21:57:28.084976+05', 'f79666c2-59e9-4f08-9f0f-bf6be58d229a');
 
 
 ALTER TABLE public.comments ENABLE TRIGGER ALL;
