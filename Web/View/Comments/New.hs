@@ -20,7 +20,7 @@ instance View NewView where
 renderForm :: Comment -> Html
 renderForm comment = formFor comment [hsx|
     {(hiddenField #postId)}
-    {(textField #author)}
+    {(hiddenField #userId)}
     {(textField #body)}
     {submitButton}
 |]
