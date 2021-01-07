@@ -25,23 +25,23 @@ run = do
     putStrLn "Hello World!"
 
 
-work :: Params -> IO ()
-work = undefined
+--work :: Params -> IO ()
+--work = undefined
 
-readTweets :: FilePath -> IO TweetDataCollection
-readTweets = undefined
+--readTweets :: FilePath -> IO TweetDataCollection
+--readTweets = undefined
 
-statInfo :: TweetDataCollection -> StatInfo
-statInfo = undefined
+--statInfo :: TweetDataCollection -> StatInfo
+--statInfo = undefined
 
-textReport :: StatInfo -> String
-textReport = undefined
+--textReport :: StatInfo -> String
+--textReport = undefined
 
-plotChart :: TweetDataCollection -> IO ()
-plotChart = undefined
+--plotChart :: TweetDataCollection -> IO ()
+--plotChart = undefined
 
-htmlReport :: TweetDataCollection -> StatInfo -> Html
-htmlReport = undefined
+--htmlReport :: TweetDataCollection -> StatInfo -> Html
+--htmlReport = undefined
 
-saveHtml :: FilePath -> Html -> IO ()
-saveHtml = undefined
+--saveHtml :: FilePath -> Html -> IO ()
+--saveHtml = undefined
