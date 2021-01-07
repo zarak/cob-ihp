@@ -4,17 +4,19 @@ CREATE TABLE posts (
     title TEXT NOT NULL,
     body TEXT NOT NULL,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL,
-    user_id UUID DEFAULT '00000000-0000-0000-0000-000000000000' NOT NULL,
     upvotes INT DEFAULT 0 NOT NULL,
     downvotes INT DEFAULT 0 NOT NULL,
-    toxicity_score REAL DEFAULT 0 NOT NULL
+    toxicity_score REAL DEFAULT 0 NOT NULL,
+    author TEXT DEFAULT '' NOT NULL,
+    link TEXT DEFAULT '' NOT NULL
 );
 CREATE TABLE comments (
     id UUID DEFAULT uuid_generate_v4() PRIMARY KEY NOT NULL,
     post_id UUID NOT NULL,
     author TEXT NOT NULL,
     body TEXT NOT NULL,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL,
+    user_id UUID NOT NULL
 );
 CREATE TABLE users (
     id UUID DEFAULT uuid_generate_v4() PRIMARY KEY NOT NULL,
@@ -40,6 +42,6 @@ CREATE TABLE votes (
     post_id UUID NOT NULL
 );
 ALTER TABLE comments ADD CONSTRAINT comments_ref_post_id FOREIGN KEY (post_id) REFERENCES posts (id) ON DELETE NO ACTION;
-ALTER TABLE posts ADD CONSTRAINT posts_ref_user_id FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE NO ACTION;
+ALTER TABLE comments ADD CONSTRAINT comments_ref_user_id FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE NO ACTION;
 ALTER TABLE votes ADD CONSTRAINT votes_ref_post_id FOREIGN KEY (post_id) REFERENCES posts (id) ON DELETE NO ACTION;
 ALTER TABLE votes ADD CONSTRAINT votes_ref_user_id FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE NO ACTION;

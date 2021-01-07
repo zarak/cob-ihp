@@ -19,7 +19,7 @@ let
             #fmt
             #Chart
             #Chart-diagrams
-            #cassava
+            cassava
             #optparse-applicative
             #profunctors
         ];

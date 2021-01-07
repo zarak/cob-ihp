@@ -56,7 +56,6 @@ instance Controller PostsController where
             |> filterWhere (#postId, postId)
             |> fetchOneOrNothing
         
-        author <- fetch (get #userId post)
         render ShowView { .. }
 
     action EditPostAction { postId } = do
@@ -85,7 +84,6 @@ instance Controller PostsController where
                 Left post -> render NewView { .. } 
                 Right post -> do
                     post <- post 
-                        |> set #userId currentUserId
                         |> createRecord
                     setSuccessMessage "Post created"
                     redirectTo PostsAction

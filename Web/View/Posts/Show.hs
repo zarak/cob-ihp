@@ -6,7 +6,6 @@ import Text.Countable
 
 data ShowView = ShowView 
     { post :: Include "comments" Post 
-    , author :: User
     , upvotes :: Int
     , hasVoted :: Maybe Vote
     }
