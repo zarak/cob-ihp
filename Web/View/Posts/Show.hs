@@ -83,7 +83,7 @@ renderPost post upvotes hasVoted = [hsx|
                             <!--<a href="#" class="text-2xl-->
                                 <!--text-gray-700 font-bold hover:underline">Title-->
                             <!--</a>-->
-                            <p class="mt-2 text-gray-600">{get #body post}</p>
+                            <p class="mt-2 text-gray-600 truncate">{get #body post}</p>
                         </div>
                         <div class="flex justify-between items-center mt-4">
                             {renderUpvote post upvotes hasVoted}
