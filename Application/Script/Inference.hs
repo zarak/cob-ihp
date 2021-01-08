@@ -24,6 +24,7 @@ data ToxicCategory =
                   , score :: Double
                   } deriving (Show, Generic)
 
+type HuggingFace = [[ToxicCategory]]
 
 data ToxicInference =
     ToxicInference 
@@ -42,7 +43,7 @@ instance ToJSON ToxicCategory
 
 mkToxicInference :: BL.ByteString -> Maybe [ToxicInference]
 mkToxicInference input = do
-    result <- decode input :: Maybe [[ToxicCategory]]
+    result <- decode input :: Maybe HuggingFace
     let f r = case label r of
                 "toxic" -> Just (Toxic (score r))
                 "severe_toxic" -> Just (SevereToxic (score r))
