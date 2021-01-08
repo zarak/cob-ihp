@@ -1,0 +1,26 @@
+[
+  {
+    "label": "toxic",
+    "score": 0.4797593355178833
+  },
+  {
+    "label": "severe_toxic",
+    "score": 0.08357349038124084
+  },
+  {
+    "label": "obscene",
+    "score": 0.1339951753616333
+  },
+  {
+    "label": "threat",
+    "score": 0.08256014436483383
+  },
+  {
+    "label": "insult",
+    "score": 0.12398415058851242
+  },
+  {
+    "label": "identity_hate",
+    "score": 0.09612767398357391
+  }
+]

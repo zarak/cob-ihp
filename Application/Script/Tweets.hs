@@ -6,7 +6,7 @@ module Application.Script.Tweets where
 
 import Application.Script.Prelude
 
-import Data.Time (Day, parseTimeM, defaultTimeLocale)
+import Data.Time (parseTimeM, defaultTimeLocale)
 import qualified Data.ByteString.Char8 as BS
 import GHC.Generics (Generic)
 import Data.Csv (FromNamedRecord, FromField (..))
@@ -14,6 +14,8 @@ import qualified Data.ByteString.Lazy as BL (readFile)
 import Data.Csv (decodeByName)
 import Data.Foldable (toList)
 import qualified Data.Text as T
+import Network.HTTP.Simple
+
 
 
 data TweetData = 
