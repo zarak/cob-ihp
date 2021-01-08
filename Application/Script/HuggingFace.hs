@@ -16,6 +16,9 @@ hfHost = "api-inference.huggingface.co"
 modelPath :: BS.ByteString
 modelPath = "/models/unitary/toxic-bert"
 
+myBody :: BL.ByteString
+myBody = "This is a sample input"
+
 data ToxicCategory =
     ToxicCategory { label :: String
                   , score :: Double
@@ -39,7 +42,7 @@ instance ToJSON ToxicCategory
 
 mkToxicInference :: BL.ByteString -> Maybe [ToxicInference]
 mkToxicInference input = do
-    result <- decode input :: Maybe [ToxicCategory]
+    result <- decode input :: Maybe [[ToxicCategory]]
     let f r = case label r of
                 "toxic" -> Just (Toxic (score r))
                 "severe_toxic" -> Just (SevereToxic (score r))
@@ -48,7 +51,7 @@ mkToxicInference input = do
                 "insult" -> Just (Insult (score r))
                 "identity_hate" -> Just (IdentityHate (score r))
                 _ -> Nothing
-    mapM f result
+    mapM f (concat result)
 
 buildRequest :: BS.ByteString -> BL.ByteString -> Request
 buildRequest token body =
@@ -59,3 +62,13 @@ buildRequest token body =
     $ setRequestBodyLBS body
     $ request'
         where request' = "POST https://api-inference.huggingface.co/models/unitary/toxic-bert"
+
+
+callApi :: IO ()
+callApi = do
+    let req = buildRequest myToken myBody
+    response <- httpLBS req 
+    let x = case mkToxicInference (getResponseBody response) of
+              Nothing -> [Toxic 0]
+              Just a -> a
+    putStr (show x)
