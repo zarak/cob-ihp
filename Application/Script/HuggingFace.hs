@@ -2,7 +2,9 @@ import Application.Script.Prelude
 
 import GHC.Generics(Generic)
 import qualified Data.ByteString.Char8 as BS
+import qualified Data.ByteString.Lazy as BL
 import Network.HTTP.Simple
+import Data.Aeson.Types (parseEither)
 
 
 myToken :: BS.ByteString
@@ -21,17 +23,29 @@ data ToxicCategory =
 
 
 data ToxicInference =
-    ToxicInference
-    (Maybe ToxicCategory)
-    (Maybe ToxicCategory)
-    (Maybe ToxicCategory)
-    (Maybe ToxicCategory)
-    (Maybe ToxicCategory)
-    (Maybe ToxicCategory)
-    deriving (Show, Generic)
+    ToxicInference 
+      | Toxic Double
+      | SevereToxic Double
+      | Obscene Double
+      | Threat Double
+      | Insult Double
+      | IdentityHate Double
+    deriving (Show)
 
 
 instance FromJSON ToxicCategory
 instance ToJSON ToxicCategory
 
-instance FromJSON ToxicInference
+
+mkToxicInference :: BL.ByteString -> Maybe [ToxicInference]
+mkToxicInference input = do
+    result <- decode input :: Maybe [ToxicCategory]
+    let f r = case label r of
+                "toxic" -> Just (Toxic (score r))
+                "severe_toxic" -> Just (SevereToxic (score r))
+                "obscene" -> Just (Obscene (score r))
+                "threat" -> Just (Threat (score r))
+                "insult" -> Just (Insult (score r))
+                "identity_hate" -> Just (IdentityHate (score r))
+                _ -> Nothing
+    mapM f result
