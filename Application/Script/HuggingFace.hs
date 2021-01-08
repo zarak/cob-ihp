@@ -8,13 +8,13 @@ import Data.Aeson.Types (parseEither)
 
 
 myToken :: BS.ByteString
-myToken = undefined
+myToken = "Bearer api_CPGJoyBEcgIIsONNdwmxRvMjcqLIiSvgoZ"
 
 hfHost :: BS.ByteString
-hfHost = undefined
+hfHost = "api-inference.huggingface.co"
 
 modelPath :: BS.ByteString
-modelPath = undefined
+modelPath = "/models/unitary/toxic-bert"
 
 data ToxicCategory =
     ToxicCategory { label :: String
@@ -49,3 +49,13 @@ mkToxicInference input = do
                 "identity_hate" -> Just (IdentityHate (score r))
                 _ -> Nothing
     mapM f result
+
+buildRequest :: BS.ByteString -> BL.ByteString -> Request
+buildRequest token body =
+    setRequestHeader "Authorization" [token]
+    $ setRequestHeader "User-Agent" ["Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36"]
+    $ setRequestHeader "Content-Type" ["application/json"]
+    $ setRequestHeader "Accept" ["*/*"]
+    $ setRequestBodyLBS body
+    $ request'
+        where request' = "POST https://api-inference.huggingface.co/models/unitary/toxic-bert"
