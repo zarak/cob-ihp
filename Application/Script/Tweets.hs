@@ -48,6 +48,7 @@ run = do
     users <- createMany postsToBeInserted
     putStrLn "New posts inserted into database"
 
+tweetToPost :: TweetData -> Post
 tweetToPost TweetData {..} =
     newRecord @Post
             |> set #author username
