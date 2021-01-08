@@ -62,14 +62,19 @@ renderComment comment = [hsx|
   <p style="width: 90%" class="text-gray-700 text-center md:text-left ">
       {get #body comment}
   </p>
+      {displayEditDelete}
 
-  <div class="modify flex-col justify-center items-center text-gray-500">
-      <a class="text-secondary mr-4" href={EditCommentAction (get #id comment)}>Edit</a>
-      <a class="text-secondary js-delete" href={DeleteCommentAction (get #id comment)}>Delete</a>
-  </div>
 </div>
 <!--  comment end-->
     |]
+        where displayEditDelete = if get #id currentUser == get #userId comment 
+                                    then [hsx|
+                                      <div class="modify flex-col justify-center items-center text-gray-500">
+                                          <a class="text-secondary mr-4" href={EditCommentAction (get #id comment)}>Edit</a>
+                                          <a class="text-secondary js-delete" href={DeleteCommentAction (get #id comment)}>Delete</a>
+                                      </div> 
+                                          |] 
+                                    else [hsx|<div disabled></div>|]
 
 renderPost post upvotes hasVoted = [hsx|
                 <div class="mt-6">
