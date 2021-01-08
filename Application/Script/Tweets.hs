@@ -10,7 +10,7 @@ import Data.Time (Day, parseTimeM, defaultTimeLocale)
 import qualified Data.ByteString.Char8 as BS
 import GHC.Generics (Generic)
 import Data.Csv (FromNamedRecord, FromField (..))
-import qualified Data.ByteString.Lazy as BL (readFile, writeFile)
+import qualified Data.ByteString.Lazy as BL (readFile)
 import Data.Csv (decodeByName)
 import Data.Foldable (toList)
 import qualified Data.Text as T
