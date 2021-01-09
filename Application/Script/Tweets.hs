@@ -16,8 +16,6 @@ import           Data.Time                  (defaultTimeLocale, parseTimeM)
 import           GHC.Generics               (Generic)
 import           Network.HTTP.Simple
 
-
-
 data TweetData =
     TweetData { date           :: UTCTime
               , username       :: Text
@@ -60,4 +58,5 @@ tweetToPost TweetData {..} =
 
 
 -- classifyPost :: Post -> IO (UUID -> Post)
-classifyPost
+-- classifyPost post = do
+
