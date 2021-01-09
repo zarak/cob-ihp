@@ -24,13 +24,13 @@ readTweets fpath = do
       Left err          -> error (T.pack err)
       Right (_, quotes) -> pure (toList quotes)
 
-run :: Script
-run = do
-    tweets <- readTweets "Application/Script/past_ten_days_isb_5km.csv"
+-- run :: Script
+-- run = do
+    -- tweets <- readTweets "Application/Script/past_ten_days_isb_5km.csv"
 
-    -- Classify batch of tweets here
-    results <- classifyTweets (TweetsText tweets)
-    putStr "COOL"
+    -- -- Classify batch of tweets here
+    -- results <- classifyTweets (TweetsText tweets)
+    -- putStr "COOL"
 
 
     -- let postsToBeInserted = map tweetToPost classifiedTweets
@@ -46,8 +46,8 @@ tweetToPost TweetData {..} =
             |> set #link link
 
 
-classifyTweets :: TweetsText -> IO ([ToxicInference])
-classifyTweets tweets = do
-    response <- callApi IBMMax tweets
-    pure response
+-- classifyTweets :: TweetsText -> IO ([ToxicInference])
+-- classifyTweets tweets = do
+    -- response <- callApi IBMMax tweets
+    -- pure response
 
