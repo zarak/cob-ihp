@@ -77,11 +77,11 @@ buildRequest token body =
         --where request' = "POST https://api-inference.huggingface.co/models/unitary/toxic-bert"
 
 
-callApi :: IO ()
-callApi = do
+callApi :: InferenceEndpoint -> IO ([ToxicInference])
+callApi endpoint = do
     let req = buildRequest myToken myBody
     response <- httpLBS req 
-    let x = case mkToxicInference (getResponseBody response) of
+    let x = case mkToxicInference (getResponseBody response) endpoint of
               Nothing -> [Toxic 0]
               Just a -> a
-    putStr (show x)
+    pure x

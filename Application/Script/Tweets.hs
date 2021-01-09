@@ -57,3 +57,7 @@ tweetToPost TweetData {..} =
             |> set #createdAt date
             |> set #body tweet
             |> set #link link
+
+
+-- classifyPost :: Post -> IO (UUID -> Post)
+classifyPost
