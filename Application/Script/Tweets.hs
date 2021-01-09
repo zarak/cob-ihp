@@ -7,15 +7,22 @@ module Application.Script.Tweets where
 import           Application.Script.Inference
 import           Application.Script.Prelude
 import qualified Data.ByteString.Char8        as BS
-import qualified Data.ByteString.Lazy         as BL (readFile)
+import qualified Data.ByteString.Lazy         as BL
 import           Data.Csv                     (decodeByName)
 import           Data.Foldable                (toList)
 import qualified Data.Text                    as T
 import qualified Data.Text.Encoding           as TE
 import           Data.Time                    (defaultTimeLocale, parseTimeM)
 import           GHC.Generics                 (Generic)
-import           Network.HTTP.Simple
+-- import           Network.HTTP.Simple
+import Network.HTTP.Client
+import Network.HTTP.Client.TLS
 
+host :: BS.ByteString
+host = "localhost"
+
+path :: BS.ByteString
+path = "/model/predict"
 
 readTweets :: FilePath -> IO [TweetData]
 readTweets fpath = do
@@ -24,16 +31,8 @@ readTweets fpath = do
       Left err          -> error (T.pack err)
       Right (_, quotes) -> pure (toList quotes)
 
-buildRequest :: TweetsText -> Request
-buildRequest tweetList =
-      setRequestMethod "POST"
-    $ setRequestPort 5000
-    $ setRequestHost host
-    $ setRequestPath path
-    $ setRequestHeader "Content-Type" ["application/json"]
-    $ setRequestBodyJSON tweetList
-    $ defaultRequest
-        --where request' = "POST https://api-inference.huggingface.co/models/unitary/toxic-bert"
+
+
 
 -- getBatchPredictions res = do
     -- let x = decode res :: Maybe MAXBatch
@@ -42,17 +41,7 @@ buildRequest tweetList =
 
 run :: Script
 run = do
-    tweets <- readTweets "Application/Script/past_ten_days_isb_5km.csv"
-
-    -- 1. Classify batch of tweets
-    let req = buildRequest (TweetsText tweets)
-    response <- httpLBS req
-    let responseBody = getResponseBody response
-    putStrLn $ show responseBody
-
-    -- let postsToBeInserted = map tweetToPost classifiedTweets
-    -- users <- createMany postsToBeInserted
-    -- putStrLn "New posts inserted into database"
+    putStrLn "New posts inserted into database"
 
 tweetToPost :: TweetData -> Post
 tweetToPost TweetData {..} =
@@ -67,4 +56,25 @@ tweetToPost TweetData {..} =
 -- classifyTweets tweets = do
     -- response <- callApi IBMMax tweets
     -- pure response
+
+callApi :: IO ()
+callApi = do
+    tweets <- readTweets "Application/Script/subset_data.csv"
+    --
+    -- 1. Create POST request
+    mgr <- newManager tlsManagerSettings
+    initialRequest <- parseRequest "http://localhost:5000/model/predict"
+    let request = initialRequest { method = "POST"
+        , requestBody = RequestBodyLBS $ encode (TweetsText tweets)
+        , requestHeaders =
+            [ ("Content-Type", "application/json; charset=utf-8")
+            ]
+                                 , responseTimeout = responseTimeoutNone
+        }
+
+    response <- httpLbs request mgr
+
+    -- 1. Classify batch of tweets
+    let res = responseBody response
+    putStrLn $ show res
 

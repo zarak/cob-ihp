@@ -12,11 +12,6 @@ import           Network.HTTP.Simple
 import           Data.Csv                     (FromField (..), FromNamedRecord)
 
 
-host :: BS.ByteString
-host = "localhost"
-
-path :: BS.ByteString
-path = "/model/predict"
 
 -- myBody :: BL.ByteString
 -- myBody = "This is a sample input"
