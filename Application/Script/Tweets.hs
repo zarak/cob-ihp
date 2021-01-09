@@ -24,14 +24,31 @@ readTweets fpath = do
       Left err          -> error (T.pack err)
       Right (_, quotes) -> pure (toList quotes)
 
--- run :: Script
--- run = do
-    -- tweets <- readTweets "Application/Script/past_ten_days_isb_5km.csv"
+buildRequest :: TweetsText -> Request
+buildRequest tweetList =
+      setRequestMethod "POST"
+    $ setRequestPort 5000
+    $ setRequestHost host
+    $ setRequestPath path
+    $ setRequestHeader "Content-Type" ["application/json"]
+    $ setRequestBodyJSON tweetList
+    $ defaultRequest
+        --where request' = "POST https://api-inference.huggingface.co/models/unitary/toxic-bert"
 
-    -- -- Classify batch of tweets here
-    -- results <- classifyTweets (TweetsText tweets)
-    -- putStr "COOL"
+-- getBatchPredictions res = do
+    -- let x = decode res :: Maybe MAXBatch
+    -- putStr x
 
+
+run :: Script
+run = do
+    tweets <- readTweets "Application/Script/past_ten_days_isb_5km.csv"
+
+    -- 1. Classify batch of tweets
+    let req = buildRequest (TweetsText tweets)
+    response <- httpLBS req
+    let responseBody = getResponseBody response
+    putStrLn $ show responseBody
 
     -- let postsToBeInserted = map tweetToPost classifiedTweets
     -- users <- createMany postsToBeInserted

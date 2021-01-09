@@ -69,14 +69,3 @@ instance ToJSON TweetsText where
     toJSON (TweetsText tweets) =
         object [ "text" .= map tweet tweets ]
 
-buildRequest :: TweetsText -> Request
-buildRequest tweetList =
-      setRequestMethod "POST"
-    -- $ setRequestHeader "Authorization" [myToken]
-    $ setRequestPort 5000
-    $ setRequestHost host
-    $ setRequestPath path
-    $ setRequestHeader "Content-Type" ["application/json"]
-    $ setRequestBodyJSON tweetList
-    $ defaultRequest
-        --where request' = "POST https://api-inference.huggingface.co/models/unitary/toxic-bert"
