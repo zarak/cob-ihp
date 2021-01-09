@@ -1,12 +1,12 @@
 module Application.Script.Inference where
 
-import Application.Script.Prelude
+import           Application.Script.Prelude
 
-import GHC.Generics(Generic)
-import qualified Data.ByteString.Char8 as BS
-import qualified Data.ByteString.Lazy as BL
-import Network.HTTP.Simple
-import Data.Aeson.Types (parseEither)
+import           Data.Aeson.Types           (parseEither)
+import qualified Data.ByteString.Char8      as BS
+import qualified Data.ByteString.Lazy       as BL
+import           GHC.Generics               (Generic)
+import           Network.HTTP.Simple
 
 
 myToken :: BS.ByteString
@@ -31,7 +31,7 @@ type HuggingFaceJson = [[ToxicCategory]]
 type IBMMaxJson = [ToxicCategory]
 
 data ToxicInference =
-    ToxicInference 
+    ToxicInference
       | Toxic Double
       | SevereToxic Double
       | Obscene Double
@@ -40,8 +40,8 @@ data ToxicInference =
       | IdentityHate Double
     deriving (Show)
 
-data InferenceEndpoint = 
-        HuggingFace 
+data InferenceEndpoint =
+        HuggingFace
       | IBMMax
     deriving Show
 
@@ -49,17 +49,17 @@ instance FromJSON ToxicCategory
 instance ToJSON ToxicCategory
 
 maybeInference r = case label r of
-          "toxic" -> Just (Toxic (score r))
-          "severe_toxic" -> Just (SevereToxic (score r))
-          "obscene" -> Just (Obscene (score r))
-          "threat" -> Just (Threat (score r))
-          "insult" -> Just (Insult (score r))
+          "toxic"         -> Just (Toxic (score r))
+          "severe_toxic"  -> Just (SevereToxic (score r))
+          "obscene"       -> Just (Obscene (score r))
+          "threat"        -> Just (Threat (score r))
+          "insult"        -> Just (Insult (score r))
           "identity_hate" -> Just (IdentityHate (score r))
-          _ -> Nothing
+          _               -> Nothing
 
 mkToxicInference :: BL.ByteString -> InferenceEndpoint -> Maybe [ToxicInference]
 mkToxicInference input endpoint =
-    case endpoint of 
+    case endpoint of
       HuggingFace -> do
         result <- decode input :: Maybe HuggingFaceJson
         mapM maybeInference (concat result)
@@ -82,8 +82,8 @@ buildRequest token body =
 callApi :: InferenceEndpoint -> IO ([ToxicInference])
 callApi endpoint = do
     let req = buildRequest myToken myBody
-    response <- httpLBS req 
+    response <- httpLBS req
     let x = case mkToxicInference (getResponseBody response) endpoint of
               Nothing -> [Toxic 0]
-              Just a -> a
+              Just a  -> a
     pure x
