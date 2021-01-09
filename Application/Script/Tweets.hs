@@ -1,32 +1,32 @@
 #!/usr/bin/env run-script
-{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE DeriveAnyClass #-}
+{-# LANGUAGE DeriveGeneric  #-}
 
 module Application.Script.Tweets where
 
-import Application.Script.Prelude
+import           Application.Script.Prelude
 
-import Data.Time (parseTimeM, defaultTimeLocale)
-import qualified Data.ByteString.Char8 as BS
-import GHC.Generics (Generic)
-import Data.Csv (FromNamedRecord, FromField (..))
-import qualified Data.ByteString.Lazy as BL (readFile)
-import Data.Csv (decodeByName)
-import Data.Foldable (toList)
-import qualified Data.Text as T
-import Network.HTTP.Simple
+import qualified Data.ByteString.Char8      as BS
+import qualified Data.ByteString.Lazy       as BL (readFile)
+import           Data.Csv                   (FromField (..), FromNamedRecord)
+import           Data.Csv                   (decodeByName)
+import           Data.Foldable              (toList)
+import qualified Data.Text                  as T
+import           Data.Time                  (defaultTimeLocale, parseTimeM)
+import           GHC.Generics               (Generic)
+import           Network.HTTP.Simple
 
 
 
-data TweetData = 
-    TweetData { date :: UTCTime
-              , username :: Text
-              , name :: Text
-              , tweet :: Text
-              , link :: Text
-              , replies_count :: Int
+data TweetData =
+    TweetData { date           :: UTCTime
+              , username       :: Text
+              , name           :: Text
+              , tweet          :: Text
+              , link           :: Text
+              , replies_count  :: Int
               , retweets_count :: Int
-              , likes_count :: Int
+              , likes_count    :: Int
               }
     deriving (Generic, FromNamedRecord, Show)
 
@@ -40,7 +40,7 @@ readTweets :: FilePath -> IO [TweetData]
 readTweets fpath = do
     csvData <- BL.readFile fpath
     case decodeByName csvData of
-      Left err -> error (T.pack err)
+      Left err          -> error (T.pack err)
       Right (_, quotes) -> pure (toList quotes)
 
 run :: Script

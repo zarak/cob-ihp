@@ -6198,6 +6198,7 @@ ALTER TABLE public.posts ENABLE TRIGGER ALL;
 ALTER TABLE public.users DISABLE TRIGGER ALL;
 
 INSERT INTO public.users (id, first_name, last_name, email, password_hash, locked_at, failed_login_attempts, is_confirmed, token) VALUES ('f79666c2-59e9-4f08-9f0f-bf6be58d229a', 'Test', 'User', 'test@test.com', 'sha256|17|9CUyv+F8wIeP0jlm/UeAGw==|3O066UKl5eC+oc07hGJ3oiII5H+SbWjIoXudwL+r8oE=', NULL, 0, true, '');
+INSERT INTO public.users (id, first_name, last_name, email, password_hash, locked_at, failed_login_attempts, is_confirmed, token) VALUES ('e113c46d-a5a8-4494-ac35-44f514d7ab64', 'Other', 'Test', 'other@test.com', 'sha256|17|0slKBw9oFkW2c78DT+81oQ==|mtuLZf+wq2xGGpb6kESK4dX+vnQoOedKMkdpfxFJ7zY=', NULL, 0, true, '');
 
 
 ALTER TABLE public.users ENABLE TRIGGER ALL;
@@ -6208,6 +6209,10 @@ ALTER TABLE public.comments DISABLE TRIGGER ALL;
 INSERT INTO public.comments (id, post_id, author, body, created_at, user_id) VALUES ('680cc583-20e0-4d48-8145-d42beafa6c17', '38db14d3-70a9-4cf7-80a2-87c0c93c07d2', '', 'this is a test', '2021-01-07 21:55:58.545111+05', 'f79666c2-59e9-4f08-9f0f-bf6be58d229a');
 INSERT INTO public.comments (id, post_id, author, body, created_at, user_id) VALUES ('b71a36ef-ca2e-4e98-a3d8-2b35a08e56eb', '02ecc0a7-bab6-4100-b114-6ed76ec770da', '', 'why so sad', '2021-01-07 21:56:32.473352+05', 'f79666c2-59e9-4f08-9f0f-bf6be58d229a');
 INSERT INTO public.comments (id, post_id, author, body, created_at, user_id) VALUES ('d9347948-1da9-42d0-96e3-1cf0b9c90a7b', '02ecc0a7-bab6-4100-b114-6ed76ec770da', 'Test', 'another comment', '2021-01-07 21:57:28.084976+05', 'f79666c2-59e9-4f08-9f0f-bf6be58d229a');
+INSERT INTO public.comments (id, post_id, author, body, created_at, user_id) VALUES ('f327e7af-fb46-47da-8091-65cebb9fdf2b', '886ce00a-a8e1-4017-a8f3-0a5b68a69153', 'Test', 'This is a real comment', '2021-01-07 22:26:10.857902+05', 'f79666c2-59e9-4f08-9f0f-bf6be58d229a');
+INSERT INTO public.comments (id, post_id, author, body, created_at, user_id) VALUES ('560dd7be-7b31-433d-be18-15e06a51b41f', '886ce00a-a8e1-4017-a8f3-0a5b68a69153', 'winner', '', '2021-01-07 22:27:13.197523+05', 'f79666c2-59e9-4f08-9f0f-bf6be58d229a');
+INSERT INTO public.comments (id, post_id, author, body, created_at, user_id) VALUES ('d8c20f8d-a68a-4608-b2e1-dc0e40bcc960', '38db14d3-70a9-4cf7-80a2-87c0c93c07d2', 'Other', 'new comment', '2021-01-08 20:49:29.27192+05', 'e113c46d-a5a8-4494-ac35-44f514d7ab64');
+INSERT INTO public.comments (id, post_id, author, body, created_at, user_id) VALUES ('60f59192-be7d-4832-a708-4b00b3e7c841', '38db14d3-70a9-4cf7-80a2-87c0c93c07d2', 'Other', 'great comment!', '2021-01-08 21:36:21.712551+05', 'e113c46d-a5a8-4494-ac35-44f514d7ab64');
 
 
 ALTER TABLE public.comments ENABLE TRIGGER ALL;
@@ -6216,6 +6221,9 @@ ALTER TABLE public.comments ENABLE TRIGGER ALL;
 ALTER TABLE public.votes DISABLE TRIGGER ALL;
 
 INSERT INTO public.votes (id, user_id, post_id) VALUES ('35287a36-d78d-4f82-9a1c-fba05a3d8a46', 'f79666c2-59e9-4f08-9f0f-bf6be58d229a', '38db14d3-70a9-4cf7-80a2-87c0c93c07d2');
+INSERT INTO public.votes (id, user_id, post_id) VALUES ('4f4cd88f-5cf4-4eae-b317-a2674be87b45', 'f79666c2-59e9-4f08-9f0f-bf6be58d229a', '886ce00a-a8e1-4017-a8f3-0a5b68a69153');
+INSERT INTO public.votes (id, user_id, post_id) VALUES ('06b8a6a5-3329-4dd4-8c2c-881c0d58337b', 'e113c46d-a5a8-4494-ac35-44f514d7ab64', '38db14d3-70a9-4cf7-80a2-87c0c93c07d2');
+INSERT INTO public.votes (id, user_id, post_id) VALUES ('e899b8bd-51f0-4a28-9075-19d8ede6b429', 'e113c46d-a5a8-4494-ac35-44f514d7ab64', 'ea2d996d-f036-4213-adfc-555a496c1f97');
 
 
 ALTER TABLE public.votes ENABLE TRIGGER ALL;

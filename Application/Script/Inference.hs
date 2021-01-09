@@ -24,7 +24,9 @@ data ToxicCategory =
                   , score :: Double
                   } deriving (Show, Generic)
 
-type HuggingFace = [[ToxicCategory]]
+type HuggingFaceJson = [[ToxicCategory]]
+-- TODO: Complete this type
+type IBMMaxJson = [ToxicCategory]
 
 data ToxicInference =
     ToxicInference 
@@ -36,23 +38,32 @@ data ToxicInference =
       | IdentityHate Double
     deriving (Show)
 
+data InferenceEndpoint = 
+        HuggingFace 
+      | IBMMax
+    deriving Show
 
 instance FromJSON ToxicCategory
 instance ToJSON ToxicCategory
 
+maybeInference r = case label r of
+          "toxic" -> Just (Toxic (score r))
+          "severe_toxic" -> Just (SevereToxic (score r))
+          "obscene" -> Just (Obscene (score r))
+          "threat" -> Just (Threat (score r))
+          "insult" -> Just (Insult (score r))
+          "identity_hate" -> Just (IdentityHate (score r))
+          _ -> Nothing
 
-mkToxicInference :: BL.ByteString -> Maybe [ToxicInference]
-mkToxicInference input = do
-    result <- decode input :: Maybe HuggingFace
-    let f r = case label r of
-                "toxic" -> Just (Toxic (score r))
-                "severe_toxic" -> Just (SevereToxic (score r))
-                "obscene" -> Just (Obscene (score r))
-                "threat" -> Just (Threat (score r))
-                "insult" -> Just (Insult (score r))
-                "identity_hate" -> Just (IdentityHate (score r))
-                _ -> Nothing
-    mapM f (concat result)
+mkToxicInference :: BL.ByteString -> InferenceEndpoint -> Maybe [ToxicInference]
+mkToxicInference input endpoint =
+    case endpoint of 
+      HuggingFace -> do
+        result <- decode input :: Maybe HuggingFaceJson
+        mapM maybeInference (concat result)
+      IBMMax -> do
+        result <- decode input :: Maybe IBMMaxJson
+        mapM maybeInference result
 
 buildRequest :: BS.ByteString -> BL.ByteString -> Request
 buildRequest token body =

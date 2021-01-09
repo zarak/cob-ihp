@@ -41,7 +41,13 @@ CREATE TABLE votes (
     user_id UUID NOT NULL,
     post_id UUID NOT NULL
 );
+CREATE TABLE predictions (
+    id UUID DEFAULT uuid_generate_v4() PRIMARY KEY NOT NULL,
+    post_id UUID NOT NULL,
+    labels JSONB NOT NULL
+);
 ALTER TABLE comments ADD CONSTRAINT comments_ref_post_id FOREIGN KEY (post_id) REFERENCES posts (id) ON DELETE NO ACTION;
 ALTER TABLE comments ADD CONSTRAINT comments_ref_user_id FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE NO ACTION;
+ALTER TABLE predictions ADD CONSTRAINT predictions_ref_post_id FOREIGN KEY (post_id) REFERENCES posts (id) ON DELETE NO ACTION;
 ALTER TABLE votes ADD CONSTRAINT votes_ref_post_id FOREIGN KEY (post_id) REFERENCES posts (id) ON DELETE NO ACTION;
 ALTER TABLE votes ADD CONSTRAINT votes_ref_user_id FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE NO ACTION;
