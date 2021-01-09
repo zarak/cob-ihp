@@ -4,36 +4,18 @@
 
 module Application.Script.Tweets where
 
+import           Application.Script.Inference
 import           Application.Script.Prelude
-
-import qualified Data.ByteString.Char8      as BS
-import qualified Data.ByteString.Lazy       as BL (readFile)
-import           Data.Csv                   (FromField (..), FromNamedRecord)
-import           Data.Csv                   (decodeByName)
-import           Data.Foldable              (toList)
-import qualified Data.Text                  as T
-import           Data.Time                  (defaultTimeLocale, parseTimeM)
-import           GHC.Generics               (Generic)
+import qualified Data.ByteString.Char8        as BS
+import qualified Data.ByteString.Lazy         as BL (readFile)
+import           Data.Csv                     (decodeByName)
+import           Data.Foldable                (toList)
+import qualified Data.Text                    as T
+import qualified Data.Text.Encoding           as TE
+import           Data.Time                    (defaultTimeLocale, parseTimeM)
+import           GHC.Generics                 (Generic)
 import           Network.HTTP.Simple
-import Application.Script.Inference (callApi)
 
-data TweetData =
-    TweetData { date           :: UTCTime
-              , username       :: Text
-              , name           :: Text
-              , tweet          :: Text
-              , link           :: Text
-              , replies_count  :: Int
-              , retweets_count :: Int
-              , likes_count    :: Int
-              }
-    deriving (Generic, FromNamedRecord, Show)
-
-instance FromField UTCTime where
-    parseField = parseTimeM False defaultTimeLocale "%Y-%m-%d" . BS.unpack
-
-data TField = Replies | Retweets | Likes
-    deriving (Eq, Ord, Show, Enum, Bounded)
 
 readTweets :: FilePath -> IO [TweetData]
 readTweets fpath = do
@@ -45,9 +27,15 @@ readTweets fpath = do
 run :: Script
 run = do
     tweets <- readTweets "Application/Script/past_ten_days_isb_5km.csv"
-    let postsToBeInserted = map tweetToPost tweets
-    users <- createMany postsToBeInserted
-    putStrLn "New posts inserted into database"
+
+    -- Classify batch of tweets here
+    results <- classifyTweets (TweetsText tweets)
+    putStr "COOL"
+
+
+    -- let postsToBeInserted = map tweetToPost classifiedTweets
+    -- users <- createMany postsToBeInserted
+    -- putStrLn "New posts inserted into database"
 
 tweetToPost :: TweetData -> Post
 tweetToPost TweetData {..} =
@@ -58,6 +46,8 @@ tweetToPost TweetData {..} =
             |> set #link link
 
 
--- classifyPost :: Post -> IO (UUID -> Post)
--- classifyPost post = do
+classifyTweets :: TweetsText -> IO ([ToxicInference])
+classifyTweets tweets = do
+    response <- callApi IBMMax tweets
+    pure response
 

@@ -1,3 +1,5 @@
+{-# LANGUAGE DeriveAnyClass #-}
+{-# LANGUAGE DeriveGeneric  #-}
 module Application.Script.Inference where
 
 import           Application.Script.Prelude
@@ -7,19 +9,22 @@ import qualified Data.ByteString.Char8      as BS
 import qualified Data.ByteString.Lazy       as BL
 import           GHC.Generics               (Generic)
 import           Network.HTTP.Simple
+import           Data.Csv                     (FromField (..), FromNamedRecord)
 
 
-myToken :: BS.ByteString
-myToken = "Bearer api_CPGJoyBEcgIIsONNdwmxRvMjcqLIiSvgoZ"
+-- myToken :: BS.ByteString
+-- myToken = "Bearer api_CPGJoyBEcgIIsONNdwmxRvMjcqLIiSvgoZ"
 
-hfHost :: BS.ByteString
-hfHost = "api-inference.huggingface.co"
+host :: BS.ByteString
+-- host = "api-inference.huggingface.co"
+host = "localhost"
 
-modelPath :: BS.ByteString
-modelPath = "/models/unitary/toxic-bert"
+path :: BS.ByteString
+-- path = "/models/unitary/toxic-bert"
+path = "/model/predict"
 
-myBody :: BL.ByteString
-myBody = "This is a sample input"
+-- myBody :: BL.ByteString
+-- myBody = "This is a sample input"
 
 data ToxicCategory =
     ToxicCategory { label :: String
@@ -45,8 +50,34 @@ data InferenceEndpoint =
       | IBMMax
     deriving Show
 
+data TweetData =
+    TweetData { date           :: UTCTime
+              , username       :: Text
+              , name           :: Text
+              , tweet          :: Text
+              , link           :: Text
+              , replies_count  :: Int
+              , retweets_count :: Int
+              , likes_count    :: Int
+              }
+    deriving (Generic, FromNamedRecord, Show)
+
+instance FromField UTCTime where
+    parseField = parseTimeM False defaultTimeLocale "%Y-%m-%d" . BS.unpack
+
+data TField = Replies | Retweets | Likes
+    deriving (Eq, Ord, Show, Enum, Bounded)
+
 instance FromJSON ToxicCategory
 instance ToJSON ToxicCategory
+
+newtype TweetsText =
+    TweetsText [TweetData]
+    deriving (Show)
+
+instance ToJSON TweetsText where
+    toJSON (TweetsText tweets) =
+        object [ "text" .= map tweet tweets ]
 
 maybeInference r = case label r of
           "toxic"         -> Just (Toxic (score r))
@@ -67,21 +98,22 @@ mkToxicInference input endpoint =
         result <- decode input :: Maybe IBMMaxJson
         mapM maybeInference result
 
-buildRequest :: BS.ByteString -> BL.ByteString -> Request
-buildRequest token body =
-    setRequestHeader "Authorization" [token]
-    $ setRequestMethod "POST"
-    $ setRequestHost hfHost
-    $ setRequestPath modelPath
+buildRequest :: TweetsText -> Request
+buildRequest tweetList =
+      setRequestMethod "POST"
+    -- $ setRequestHeader "Authorization" [myToken]
+    $ setRequestPort 5000
+    $ setRequestHost host
+    $ setRequestPath path
     $ setRequestHeader "Content-Type" ["application/json"]
-    $ setRequestBodyLBS body
+    $ setRequestBodyJSON tweetList
     $ defaultRequest
         --where request' = "POST https://api-inference.huggingface.co/models/unitary/toxic-bert"
 
 
-callApi :: InferenceEndpoint -> IO ([ToxicInference])
-callApi endpoint = do
-    let req = buildRequest myToken myBody
+callApi :: InferenceEndpoint -> TweetsText -> IO ([ToxicInference])
+callApi endpoint tweetList = do
+    let req = buildRequest tweetList
     response <- httpLBS req
     let x = case mkToxicInference (getResponseBody response) endpoint of
               Nothing -> [Toxic 0]
