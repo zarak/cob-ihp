@@ -15,6 +15,7 @@ import qualified Data.Text                  as T
 import           Data.Time                  (defaultTimeLocale, parseTimeM)
 import           GHC.Generics               (Generic)
 import           Network.HTTP.Simple
+import Application.Script.Inference (callApi)
 
 data TweetData =
     TweetData { date           :: UTCTime

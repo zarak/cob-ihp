@@ -1,3 +1,5 @@
+module Application.Script.Inference where
+
 import Application.Script.Prelude
 
 import GHC.Generics(Generic)
