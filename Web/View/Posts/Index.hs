@@ -12,7 +12,6 @@ data IndexView = IndexView { posts :: [Include "predictions" Post], pages :: [In
 instance View IndexView where
     html IndexView { .. } = [hsx|
 <div class="flex-row justify-between container mx-auto">
-        <!--<h1>Index <a href={pathTo NewPostAction} class="btn btn-primary ml-4">+ New</a></h1>-->
 
         <!--for testing only-->
         <div>
