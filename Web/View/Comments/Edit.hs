@@ -5,12 +5,6 @@ data EditView = EditView { comment :: Comment }
 
 instance View EditView where
     html EditView { .. } = [hsx|
-        <nav>
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href={CommentsAction}>Comments</a></li>
-                <li class="breadcrumb-item active">Edit Comment</li>
-            </ol>
-        </nav>
         <h1>Edit Comment</h1>
         {renderForm comment}
     |]
