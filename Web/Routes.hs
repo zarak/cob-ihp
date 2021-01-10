@@ -17,6 +17,3 @@ instance AutoRoute UsersController
 
 instance AutoRoute VotesController
 
-
-instance AutoRoute PredictionsController
-
