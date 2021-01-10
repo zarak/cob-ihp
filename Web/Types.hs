@@ -60,3 +60,13 @@ data VotesController
     | UpdateVoteAction { voteId :: !(Id Vote) }
     | DeleteVoteAction { voteId :: !(Id Vote) }
     deriving (Eq, Show, Data)
+
+data PredictionsController
+    = PredictionsAction
+    | NewPredictionAction
+    | ShowPredictionAction { predictionId :: !(Id Prediction) }
+    | CreatePredictionAction
+    | EditPredictionAction { predictionId :: !(Id Prediction) }
+    | UpdatePredictionAction { predictionId :: !(Id Prediction) }
+    | DeletePredictionAction { predictionId :: !(Id Prediction) }
+    deriving (Eq, Show, Data)

@@ -5,6 +5,7 @@ import Web.Controller.Prelude
 import Web.View.Layout (defaultLayout)
 
 -- Controller Imports
+import Web.Controller.Predictions
 import Web.Controller.Votes
 import Web.Controller.Users
 import Web.Controller.Comments
@@ -18,6 +19,7 @@ instance FrontController WebApplication where
         [ startPage PostsAction
         , parseRoute @SessionsController
         -- Generator Marker
+        , parseRoute @PredictionsController
         , parseRoute @VotesController
         , parseRoute @UsersController
         , parseRoute @CommentsController
