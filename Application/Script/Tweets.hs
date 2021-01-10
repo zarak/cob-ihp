@@ -44,6 +44,12 @@ tweetToPost TweetData {..} =
             |> set #body tweet
             |> set #link link
 
+predToPrediction :: Predictions -> Id' "posts" -> Prediction
+predToPrediction pred postId =
+    newRecord @Prediction
+            |> set #postId postId
+            |> set #labels _todo
+
 callApi :: IO (Maybe MAXBatch)
 callApi = do
     tweets <- readTweets "Application/Script/subset_data.csv"
@@ -65,9 +71,9 @@ callApi = do
     let res = responseBody response
     pure (decode res :: Maybe MAXBatch)
 
-tweet2pred :: Map TweetData Predictions
-tweet2pred =
-    undefined
+-- tweet2pred :: Map TweetData Predictions
+-- tweet2pred =
+    -- undefined
 
 extractTweetText :: MAXBatch -> Text -> Maybe Predictions
 extractTweetText batch tweet = do
