@@ -32,6 +32,7 @@ instance Controller PostsController where
             |> limit pageSize
             |> offset ((currentPage - 1) * pageSize)
             |> fetch
+            >>= collectionFetchRelated #predictions
 
         render IndexView { .. }
             

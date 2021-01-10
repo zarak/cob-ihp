@@ -1,7 +1,13 @@
 module Web.View.Posts.Index where
 import Web.View.Prelude
+import Text.Printf
+import qualified Text.Read as TR
+import Data.Text hiding (head)
+import Data.Aeson
+import Application.Script.Inference (Predictions (..))
+import Data.HashMap.Strict (lookup)
 
-data IndexView = IndexView { posts :: [Post], pages :: [Int], currentPage :: Int, totalPages :: Int }
+data IndexView = IndexView { posts :: [Include "predictions" Post], pages :: [Int], currentPage :: Int, totalPages :: Int }
 
 instance View IndexView where
     html IndexView { .. } = [hsx|
@@ -26,12 +32,9 @@ renderPost post = [hsx|
         <div class="flex justify-between items-center"><span
              class="font-light text-gray-600">{get #createdAt post |> timeAgo}</span><a href="#"
                 class="px-2 py-1 bg-gray-600 text-gray-100
-                font-bold rounded hover:bg-gray-500">Score {get #toxicityScore post}</a>
+                font-bold rounded hover:bg-gray-500">toxic {getScore l toxic}</a>
         </div>
         <div class="mt-2">
-            <!--<a href="#" class="text-2xl-->
-                <!--text-gray-700 font-bold hover:underline">Title-->
-            <!--</a>-->
             <p class="mt-2 text-gray-600">{get #body post}</p>
         </div>
         <div class="flex justify-between items-center mt-4"><a href={ShowPostAction (get #id post)}
@@ -46,6 +49,11 @@ renderPost post = [hsx|
     </div>
 </div>
     |]
+        where preds = (get #predictions post) :: [Prediction]
+              (Object l) = case head preds of
+                          Nothing -> "No score available"
+                          Just a -> get #labels a
+              getScore l f = (decode (encode (l)) :: Maybe Predictions) >>= (\x -> pure $ pack (printf "%.3f" (f x) :: String)) >>= \x' -> (TR.readMaybe (unpack x')) :: Maybe Float
 
 renderPagination pages page totalPages =
     let base = "mx-1 px-3 py-2 bg-white rounded-md font-medium"
