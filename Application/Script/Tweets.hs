@@ -32,13 +32,6 @@ readTweets fpath = do
       Right (_, quotes) -> pure (toList quotes)
 
 
-
-
--- getBatchPredictions res = do
-    -- let x = decode res :: Maybe MAXBatch
-    -- putStr x
-
-
 run :: Script
 run = do
     putStrLn "New posts inserted into database"
@@ -50,12 +43,6 @@ tweetToPost TweetData {..} =
             |> set #createdAt date
             |> set #body tweet
             |> set #link link
-
-
--- classifyTweets :: TweetsText -> IO ([ToxicInference])
--- classifyTweets tweets = do
-    -- response <- callApi IBMMax tweets
-    -- pure response
 
 callApi :: IO (Maybe MAXBatch)
 callApi = do
@@ -77,4 +64,3 @@ callApi = do
     -- 1. Classify batch of tweets
     let res = responseBody response
     pure (decode res :: Maybe MAXBatch)
-
