@@ -5,7 +5,7 @@
 module Application.Script.Tweets where
 
 import           Application.Script.Inference
-import           Application.Script.Prelude
+import           Application.Script.Prelude hiding (predictions)
 import qualified Data.ByteString.Char8        as BS
 import qualified Data.ByteString.Lazy         as BL
 import           Data.Csv                     (decodeByName)
@@ -64,3 +64,15 @@ callApi = do
     -- 1. Classify batch of tweets
     let res = responseBody response
     pure (decode res :: Maybe MAXBatch)
+
+tweet2pred :: Map TweetData Predictions
+tweet2pred =
+    undefined
+
+extractTweetText :: MAXBatch -> Text -> Maybe Predictions
+extractTweetText batch tweet = do
+    x <- head $ filter (\result -> (original_text result) == tweet) $ results batch 
+    pure $ predictions x
+
+createMap :: MAXBatch -> [TweetData] -> [(TweetData, Maybe Predictions)]
+createMap batch = map (\tweetData -> (tweetData, extractTweetText batch (tweet tweetData)))
