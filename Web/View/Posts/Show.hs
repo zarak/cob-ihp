@@ -1,18 +1,23 @@
 module Web.View.Posts.Show where
-import Web.View.Prelude
+import Web.View.Prelude hiding (lookup)
 
+import Text.Printf
 import qualified Text.MMark as MMark
 import Text.Countable
+import Data.Aeson
+import Application.Script.Inference (Predictions (..))
+import Data.HashMap.Strict (lookup)
 
 data ShowView = ShowView 
     { post :: Include "comments" Post 
     , upvotes :: Int
     , hasVoted :: Maybe Vote
+    , l :: Object
     }
 
 instance View ShowView where
     html ShowView { .. } = [hsx|
-        {renderPost post upvotes hasVoted}
+        {renderPost post upvotes hasVoted l}
 
         <div>
             <section class="rounded-b-lg  mt-4 ">
@@ -76,13 +81,13 @@ renderComment comment = [hsx|
                                           |] 
                                     else [hsx|<div disabled></div>|]
 
-renderPost post upvotes hasVoted = [hsx|
+renderPost post upvotes hasVoted l = [hsx|
                 <div class="mt-6">
                     <div class="px-10 py-6 bg-white shadow-md">
                         <div class="flex justify-between items-center"><span
                              class="font-light text-gray-600">{get #createdAt post |> timeAgo}</span><a href="#"
                                 class="px-2 py-1 bg-gray-600 text-gray-100
-                                font-bold rounded hover:bg-gray-500">Score {get #toxicityScore post}</a>
+                                font-bold rounded hover:bg-gray-500">Score {getScore l obscene}</a>
                         </div>
                         <div class="mt-2">
                             <!--<a href="#" class="text-2xl-->
@@ -106,4 +111,6 @@ renderPost post upvotes hasVoted = [hsx|
         where renderUpvote post upvotes hasVoted =
                 case currentUserOrNothing of 
                   Nothing -> "Upvoting disabled unless logged in" 
-                  Just _ -> renderUpvoteHtml post upvotes hasVoted
+                  Just _ -> renderUpvoteHtml post upvotes hasVoted 
+              getScore preds f = (decode (encode preds) :: Maybe Predictions) >>= (\x -> pure $ f x)
+

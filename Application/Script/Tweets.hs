@@ -96,6 +96,7 @@ extractTweetText batch tweet = do
 createMap :: MAXBatch -> [TweetData] -> [(TweetData, Predictions)]
 createMap batch = map (\tweetData -> (tweetData, getPred tweetData) )
     where getPred tweetData = case extractTweetText batch (tweet tweetData) of
+                                Just a -> a
                                 Nothing -> Predictions { toxic = 0
                                                        , severe_toxic = 0
                                                        , insult = 0
@@ -103,5 +104,4 @@ createMap batch = map (\tweetData -> (tweetData, getPred tweetData) )
                                                        , threat = 0
                                                        , identity_hate = 0
                                                        }
-                                Just a -> a
 

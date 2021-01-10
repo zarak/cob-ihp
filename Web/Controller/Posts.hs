@@ -1,6 +1,6 @@
 module Web.Controller.Posts where
 
-import Web.Controller.Prelude
+import Web.Controller.Prelude hiding (lookup)
 import Web.View.Posts.Index
 import Web.View.Posts.New
 import Web.View.Posts.Edit
@@ -9,6 +9,8 @@ import IHP.LoginSupport.Helper.Controller
 import Text.Read (read)
 
 import qualified Text.MMark as MMark
+import Application.Script.Inference (Predictions)
+import Data.HashMap.Strict (toList, lookup)
 
 type PaginationResults = (Int, Int, Int, Int, Int, Int, Int, Int, [Int])
 
@@ -55,7 +57,15 @@ instance Controller PostsController where
             |> filterWhere (#userId, currentUserId)
             |> filterWhere (#postId, postId)
             |> fetchOneOrNothing
-        
+
+        preds <- query @Prediction
+            |> filterWhere (#postId, postId)
+            |> fetchOneOrNothing
+
+        let (Object l) = case preds of
+                  Nothing -> "No score available"
+                  Just a -> get #labels a
+
         render ShowView { .. }
 
     action EditPostAction { postId } = do
