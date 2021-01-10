@@ -41,7 +41,7 @@ run = do
       Just b -> do
           let (postsToSave, predsToSave) = unzip $ map (\(tweetData, pred) -> let post = tweetToPost tweetData 
                                                                                   postId = (get #id post)
-                                                                                  val = predToPrediction pred postId 
+                                                                                  val = predToPrediction (pred) postId 
                                                                                 in (tweetToPost tweetData, val)) $ createMap b tweets
           _todo2
 
@@ -53,11 +53,15 @@ tweetToPost TweetData {..} =
             |> set #body tweet
             |> set #link link
 
--- predToPrediction :: Value -> Id' "posts" -> Prediction
+predToPrediction :: Predictions -> Id' "posts" -> Prediction
 predToPrediction pred postId =
-    newRecord @Prediction
-            |> set #postId postId
-            |> set #labels pred
+    let x = (decode (encode pred) :: Maybe Value)
+    in case x of
+         Nothing -> newRecord @Prediction
+         Just a -> 
+            newRecord @Prediction
+                    |> set #postId postId
+                    |> set #labels a
 
 callApi :: [TweetData] -> IO (Maybe MAXBatch)
 callApi tweets = do
