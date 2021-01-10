@@ -57,7 +57,7 @@ tweetToPost TweetData {..} =
     -- response <- callApi IBMMax tweets
     -- pure response
 
-callApi :: IO ()
+callApi :: IO (Maybe MAXBatch)
 callApi = do
     tweets <- readTweets "Application/Script/subset_data.csv"
     --
@@ -76,5 +76,5 @@ callApi = do
 
     -- 1. Classify batch of tweets
     let res = responseBody response
-    putStrLn $ show res
+    pure (decode res :: Maybe MAXBatch)
 
