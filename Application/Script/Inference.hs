@@ -35,6 +35,7 @@ data MAXBatch =
     deriving (Show, Generic)
 
 instance FromJSON Predictions
+instance ToJSON Predictions
 instance FromJSON Results
 instance FromJSON MAXBatch
 

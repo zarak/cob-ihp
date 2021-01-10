@@ -34,7 +34,16 @@ readTweets fpath = do
 
 run :: Script
 run = do
-    putStrLn "New posts inserted into database"
+    tweets <- readTweets "Application/Script/subset_data.csv"
+    batch <- callApi tweets
+    case batch of 
+      Nothing -> putStrLn "Error getting batch of predictions"
+      Just b -> do
+          let (postsToSave, predsToSave) = unzip $ map (\(tweetData, pred) -> let post = tweetToPost tweetData 
+                                                                                  postId = (get #id post)
+                                                                                  val = predToPrediction pred postId 
+                                                                                in (tweetToPost tweetData, val)) $ createMap b tweets
+          _todo2
 
 tweetToPost :: TweetData -> Post
 tweetToPost TweetData {..} =
@@ -44,15 +53,14 @@ tweetToPost TweetData {..} =
             |> set #body tweet
             |> set #link link
 
-predToPrediction :: Predictions -> Id' "posts" -> Prediction
+-- predToPrediction :: Value -> Id' "posts" -> Prediction
 predToPrediction pred postId =
     newRecord @Prediction
             |> set #postId postId
-            |> set #labels _todo
+            |> set #labels pred
 
-callApi :: IO (Maybe MAXBatch)
-callApi = do
-    tweets <- readTweets "Application/Script/subset_data.csv"
+callApi :: [TweetData] -> IO (Maybe MAXBatch)
+callApi tweets = do
     --
     -- 1. Create POST request
     mgr <- newManager tlsManagerSettings
@@ -80,5 +88,15 @@ extractTweetText batch tweet = do
     x <- head $ filter (\result -> (original_text result) == tweet) $ results batch 
     pure $ predictions x
 
-createMap :: MAXBatch -> [TweetData] -> [(TweetData, Maybe Predictions)]
-createMap batch = map (\tweetData -> (tweetData, extractTweetText batch (tweet tweetData)))
+createMap :: MAXBatch -> [TweetData] -> [(TweetData, Predictions)]
+createMap batch = map (\tweetData -> (tweetData, getPred tweetData) )
+    where getPred tweetData = case extractTweetText batch (tweet tweetData) of
+                                Nothing -> Predictions { toxic = 0
+                                                       , severe_toxic = 0
+                                                       , insult = 0
+                                                       , obscene = 0
+                                                       , threat = 0
+                                                       , identity_hate = 0
+                                                       }
+                                Just a -> a
+
