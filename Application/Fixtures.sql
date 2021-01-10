@@ -6218,12 +6218,22 @@ INSERT INTO public.comments (id, post_id, author, body, created_at, user_id) VAL
 ALTER TABLE public.comments ENABLE TRIGGER ALL;
 
 
+ALTER TABLE public.predictions DISABLE TRIGGER ALL;
+
+
+
+ALTER TABLE public.predictions ENABLE TRIGGER ALL;
+
+
 ALTER TABLE public.votes DISABLE TRIGGER ALL;
 
 INSERT INTO public.votes (id, user_id, post_id) VALUES ('35287a36-d78d-4f82-9a1c-fba05a3d8a46', 'f79666c2-59e9-4f08-9f0f-bf6be58d229a', '38db14d3-70a9-4cf7-80a2-87c0c93c07d2');
 INSERT INTO public.votes (id, user_id, post_id) VALUES ('4f4cd88f-5cf4-4eae-b317-a2674be87b45', 'f79666c2-59e9-4f08-9f0f-bf6be58d229a', '886ce00a-a8e1-4017-a8f3-0a5b68a69153');
 INSERT INTO public.votes (id, user_id, post_id) VALUES ('06b8a6a5-3329-4dd4-8c2c-881c0d58337b', 'e113c46d-a5a8-4494-ac35-44f514d7ab64', '38db14d3-70a9-4cf7-80a2-87c0c93c07d2');
 INSERT INTO public.votes (id, user_id, post_id) VALUES ('e899b8bd-51f0-4a28-9075-19d8ede6b429', 'e113c46d-a5a8-4494-ac35-44f514d7ab64', 'ea2d996d-f036-4213-adfc-555a496c1f97');
+INSERT INTO public.votes (id, user_id, post_id) VALUES ('a1343ca1-b03b-474e-81b0-0813ea174c62', 'e113c46d-a5a8-4494-ac35-44f514d7ab64', '2dfb9e9b-816b-4cbd-8875-feef83134f59');
+INSERT INTO public.votes (id, user_id, post_id) VALUES ('cf655a8b-a4e6-4032-a04c-2962c2d2f41c', 'e113c46d-a5a8-4494-ac35-44f514d7ab64', '7c4f1c7d-4017-4afa-a79e-4d0a827326be');
+INSERT INTO public.votes (id, user_id, post_id) VALUES ('7adb1022-d311-4ab7-b494-4857e6469891', 'e113c46d-a5a8-4494-ac35-44f514d7ab64', '5cd7bde1-c0af-47fd-be8e-5b104481de7b');
 
 
 ALTER TABLE public.votes ENABLE TRIGGER ALL;

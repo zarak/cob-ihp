@@ -31,7 +31,6 @@ readTweets fpath = do
       Left err          -> error (T.pack err)
       Right (_, quotes) -> pure (toList quotes)
 
-
 run :: Script
 run = do
     tweets <- readTweets "Application/Script/subset_data.csv"
@@ -39,14 +38,16 @@ run = do
     case batch of 
       Nothing -> putStrLn "Error getting batch of predictions"
       Just b -> do
-          let (postsToSave, predsToSave) = unzip $ map (\(tweetData, pred) -> let post = tweetToPost tweetData 
-                                                                                  postId = (get #id post)
-                                                                                  val = predToPrediction (pred) postId 
-                                                                                in (tweetToPost tweetData, val)) $ createMap b tweets
-          _todo2
+          let (tweetsToInsert, predictionsToInsert) = unzip $ createMap b tweets
+          -- First insert posts into the database
+          posts <- createMany (map tweetToPost tweetsToInsert)
+          -- Then insert predictions using the ids of the posts
+          let x = map (\(pred, post) -> predToPrediction pred (get #id post) ) $ zip predictionsToInsert posts
+          preds <- createMany x
+          putStrLn "Saved to db"
 
 tweetToPost :: TweetData -> Post
-tweetToPost TweetData {..} =
+tweetToPost (TweetData {..}) =
     newRecord @Post
             |> set #author username
             |> set #createdAt date
