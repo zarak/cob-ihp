@@ -2,6 +2,8 @@ module Web.View.Posts.Show where
 import Web.View.Prelude hiding (lookup)
 
 import Text.Printf
+import qualified Text.Read as TR
+import Data.Text
 import qualified Text.MMark as MMark
 import Text.Countable
 import Data.Aeson
@@ -87,7 +89,7 @@ renderPost post upvotes hasVoted l = [hsx|
                         <div class="flex justify-between items-center"><span
                              class="font-light text-gray-600">{get #createdAt post |> timeAgo}</span><a href="#"
                                 class="px-2 py-1 bg-gray-600 text-gray-100
-                                font-bold rounded hover:bg-gray-500">Score {getScore l obscene}</a>
+                                font-bold rounded hover:bg-gray-500">toxic {getScore l obscene}</a>
                         </div>
                         <div class="mt-2">
                             <!--<a href="#" class="text-2xl-->
@@ -112,5 +114,5 @@ renderPost post upvotes hasVoted l = [hsx|
                 case currentUserOrNothing of 
                   Nothing -> "Upvoting disabled unless logged in" 
                   Just _ -> renderUpvoteHtml post upvotes hasVoted 
-              getScore preds f = (decode (encode preds) :: Maybe Predictions) >>= (\x -> pure $ f x)
+              getScore preds f = (decode (encode preds) :: Maybe Predictions) >>= (\x -> pure $ pack (printf "%.2f" (f x) :: String)) >>= \x' -> (TR.readMaybe (unpack x')) :: Maybe Float
 
