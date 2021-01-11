@@ -21,12 +21,9 @@ instance View NewView where
                                 <input id="upload_file_url"
                                        onchange="SaveFile(this)" name="fileUrl"
                                                                  type="file" />
-                                    <!-- class="form-control form-control-file" style="display: none"/> -->
                             </label>
                         </div>
                     </div>
-
-                    {pathTo CreateUploadAction}
                 </div>
 
                 {submitButton { label = "Speichern" }}

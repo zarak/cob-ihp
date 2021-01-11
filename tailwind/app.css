@@ -3,7 +3,7 @@
 @tailwind components;
 
 button {
-    @apply px-4 py-2 bg-red-500 text-red-100 hover:bg-red-400 hover:text-red-50 rounded;
+    @apply px-4 py-2 bg-red-500 text-red-100 hover:bg-red-400 hover:text-red-50 rounded !important;
 }
 
 form > div {
