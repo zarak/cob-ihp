@@ -1,11 +1,11 @@
 module Web.View.Posts.Index where
-import Web.View.Prelude
-import Text.Printf
+import Web.View.Prelude hiding (filter)
 import qualified Text.Read as TR
 import Data.Text hiding (head)
 import Data.Aeson
 import Application.Script.Inference (Predictions (..))
 import Data.HashMap.Strict (lookup)
+import Numeric
 
 data IndexView = IndexView { posts :: [Include "predictions" Post], pages :: [Int], currentPage :: Int, totalPages :: Int }
 
@@ -50,7 +50,10 @@ renderPost post = [hsx|
               (Object l) = case head preds of
                           Nothing -> "No score available"
                           Just a -> get #labels a
-              getScore l f = (decode (encode (l)) :: Maybe Predictions) >>= (\x -> pure $ pack (printf "%.3f" (f x) :: String)) >>= \x' -> (TR.readMaybe (unpack x')) :: Maybe Float
+              getScore l f = (truncateDigits 3) <$> f <$> (decode (encode (l)) :: Maybe Predictions)
+              truncateDigits n f = (fromInteger $ round $ f * (10^n)) / (10.0^^n)
+
+
 
 renderPagination pages page totalPages =
     let base = "mx-1 px-3 py-2 bg-white rounded-md font-medium"
