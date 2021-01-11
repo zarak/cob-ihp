@@ -38,3 +38,13 @@ data UsersController
     | UpdateUserAction { userId :: !(Id User) }
     | DeleteUserAction { userId :: !(Id User) }
     deriving (Eq, Show, Data)
+
+data UploadsController
+    = UploadsAction
+    | NewUploadAction
+    | ShowUploadAction { uploadId :: !(Id Upload) }
+    | CreateUploadAction
+    | EditUploadAction { uploadId :: !(Id Upload) }
+    | UpdateUploadAction { uploadId :: !(Id Upload) }
+    | DeleteUploadAction { uploadId :: !(Id Upload) }
+    deriving (Eq, Show, Data)

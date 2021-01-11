@@ -29,8 +29,7 @@ instance Controller AdminsController where
         admin <- fetch adminId
         admin
             |> buildAdmin
-            |> uploadImageFile "csv" #fileUrl
-            >>= ifValid \case
+            |> ifValid \case
                 Left admin -> render EditView { .. }
                 Right admin -> do
                     admin <- admin |> updateRecord

@@ -47,6 +47,10 @@ CREATE TABLE predictions (
     post_id UUID NOT NULL,
     labels JSONB NOT NULL
 );
+CREATE TABLE uploads (
+    id UUID DEFAULT uuid_generate_v4() PRIMARY KEY NOT NULL,
+    file_url TEXT DEFAULT NULL
+);
 ALTER TABLE comments ADD CONSTRAINT comments_ref_post_id FOREIGN KEY (post_id) REFERENCES posts (id) ON DELETE NO ACTION;
 ALTER TABLE comments ADD CONSTRAINT comments_ref_user_id FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE NO ACTION;
 ALTER TABLE predictions ADD CONSTRAINT predictions_ref_post_id FOREIGN KEY (post_id) REFERENCES posts (id) ON DELETE NO ACTION;

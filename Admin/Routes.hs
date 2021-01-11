@@ -12,3 +12,6 @@ instance AutoRoute AdminsController
 
 instance AutoRoute UsersController
 
+
+instance AutoRoute UploadsController
+
