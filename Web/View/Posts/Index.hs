@@ -1,4 +1,6 @@
 module Web.View.Posts.Index where
+
+import qualified Prelude as P
 import Web.View.Prelude hiding (filter)
 import qualified Text.Read as TR
 import Data.Text hiding (head)
@@ -8,6 +10,10 @@ import Data.HashMap.Strict (lookup)
 import Numeric
 
 data IndexView = IndexView { posts :: [Include "predictions" Post], pages :: [Int], currentPage :: Int, totalPages :: Int }
+
+newtype PlainString = PlainString String
+instance Show PlainString where
+    show (PlainString s) = s
 
 instance View IndexView where
     html IndexView { .. } = [hsx|
@@ -50,9 +56,7 @@ renderPost post = [hsx|
               (Object l) = case head preds of
                           Nothing -> "No score available"
                           Just a -> get #labels a
-              getScore l f = (truncateDigits 3) <$> f <$> (decode (encode (l)) :: Maybe Predictions)
-              truncateDigits n f = (fromInteger $ round $ f * (10^n)) / (10.0^^n)
-
+              getScore l f = f <$> (decode (encode (l)) :: Maybe Predictions) >>= \x -> pure $ PlainString (showFFloat (Just 3) x "")
 
 
 renderPagination pages page totalPages =
