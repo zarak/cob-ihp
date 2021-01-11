@@ -1,22 +1,26 @@
 module Admin.View.Uploads.New where
 import Admin.View.Prelude
+import Data.Text (pack)
 
 data NewView = NewView { upload :: Upload }
 
 instance View NewView where
     html NewView { .. } = [hsx|
-        <nav>
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href={UploadsAction}>Uploads</a></li>
-                <li class="breadcrumb-item active">New Upload</li>
-            </ol>
-        </nav>
-        <h1>New Upload</h1>
         {renderForm upload}
     |]
+        where
+            renderForm :: Upload -> Html
+            renderForm upload = formFor upload [hsx|
+                <div>
+                    <h5>
+                        Upload data
+                    </h5>
 
-renderForm :: Upload -> Html
-renderForm upload = formFor upload [hsx|
-    {(textField #fileUrl)}
-    {submitButton}
-|]
+                    <div style="max-width: 300px">
+                        <form id="jquery-upload-form" enctype="multipart/form-data">
+                            <input id="file" type="file" name="file"/>
+                            <input id="jquery-upload-button" type="button" value="Upload"/>
+                        </form>
+                    </div>
+                </div>
+            |]

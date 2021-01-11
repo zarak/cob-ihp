@@ -38,7 +38,8 @@ instance Controller UploadsController where
         let upload = newRecord @Upload
         upload
             |> buildUpload
-            |> ifValid \case
+            |> uploadImageFile "csv" #fileUrl
+            >>= ifValid \case
                 Left upload -> render NewView { .. } 
                 Right upload -> do
                     upload <- upload |> createRecord
