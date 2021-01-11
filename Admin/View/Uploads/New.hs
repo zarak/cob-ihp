@@ -15,12 +15,32 @@ instance View NewView where
                     <h5>
                         Upload data
                     </h5>
-
                     <div style="max-width: 300px">
-                        <form id="jquery-upload-form" enctype="multipart/form-data">
-                            <input id="file" type="file" name="file"/>
-                            <input id="jquery-upload-button" type="button" value="Upload"/>
-                        </form>
+                        <div class="form-group">
+                            <label for="upload_file_url">
+                                <input id="upload_file_url" type="file" onchange="SaveFile(this)"/>
+                            </label>
+                        </div>
                     </div>
+
+                    {pathTo CreateUploadAction}
                 </div>
+
+
+            <script>
+                async function SaveFile(inp) 
+                {
+                    let formData = new FormData();
+                    let file = inp.files[0];      
+                         
+                    formData.append("file", file);
+                    
+                    try {
+                       let r = await fetch('/admin/CreateUpload', {method: "POST", body: formData}); 
+                       console.log('HTTP response code:',r.status); 
+                    } catch(e) {
+                       console.log('File could not be uploaded...:', e);
+                    }
+                }
+            </script>
             |]

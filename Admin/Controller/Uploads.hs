@@ -5,6 +5,7 @@ import Admin.View.Uploads.Index
 import Admin.View.Uploads.New
 import Admin.View.Uploads.Edit
 import Admin.View.Uploads.Show
+import qualified Data.ByteString.Lazy as LBS
 
 instance Controller UploadsController where
     action UploadsAction = do
@@ -35,16 +36,31 @@ instance Controller UploadsController where
                     redirectTo EditUploadAction { .. }
 
     action CreateUploadAction = do
-        let upload = newRecord @Upload
-        upload
-            |> buildUpload
-            |> uploadImageFile "csv" #fileUrl
-            >>= ifValid \case
-                Left upload -> render NewView { .. } 
-                Right upload -> do
-                    upload <- upload |> createRecord
-                    setSuccessMessage "Upload created"
-                    redirectTo UploadsAction
+        body <- getRequestBody
+        let file = fileOrNothing body
+        putStr "Test"
+        case file of
+          Just a -> liftIO do
+              (fileContent a) |> LBS.writeFile "static/uploads/test.csv"
+              setSuccessMessage "File uploaded"
+              redirectTo NewUploadAction
+          Nothing -> 
+              -- setErrorMessage "Unable to write file"
+              redirectTo NewUploadAction
+
+        -- writeFile "static/uploads/test.csv" 
+
+
+        -- let upload = newRecord @Upload
+        -- upload
+            -- |> buildUpload
+            -- |> uploadImageFile "csv" #fileUrl
+            -- >>= ifValid \case
+                -- Left upload -> render NewView { .. } 
+                -- Right upload -> do
+                    -- upload <- upload |> createRecord
+                    -- setSuccessMessage "Upload created"
+                    -- redirectTo UploadsAction
 
     action DeleteUploadAction { uploadId } = do
         upload <- fetch uploadId
