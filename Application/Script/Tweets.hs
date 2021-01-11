@@ -33,18 +33,25 @@ readTweets fpath = do
 
 run :: Script
 run = do
-    tweets <- readTweets "Application/Script/subset_data.csv"
-    batch <- callApi tweets
-    case batch of 
-      Nothing -> putStrLn "Error getting batch of predictions"
-      Just b -> do
-          let (tweetsToInsert, predictionsToInsert) = unzip $ createMap b tweets
-          -- First insert posts into the database
-          posts <- createMany (map tweetToPost tweetsToInsert)
-          -- Then insert predictions using the ids of the posts
-          let x = map (\(pred, post) -> predToPrediction pred (get #id post) ) $ zip predictionsToInsert posts
-          preds <- createMany x
-          putStrLn "Saved to db"
+    -- tweets <- readTweets "Application/Script/subset_data.csv"
+    -- fp <- query @Upload |> fetchOne
+    upload <- query @Upload |> fetchOne
+    let fp = get #fileUrl upload
+    case fp of
+      Nothing -> putStrLn "No file found"
+      Just f -> do
+        tweets <- readTweets $ "static" <> (T.unpack f)
+        batch <- callApi tweets
+        case batch of 
+          Nothing -> putStrLn "Error getting batch of predictions"
+          Just b -> do
+              let (tweetsToInsert, predictionsToInsert) = unzip $ createMap b tweets
+              -- First insert posts into the database
+              posts <- createMany (map tweetToPost tweetsToInsert)
+              -- Then insert predictions using the ids of the posts
+              let x = map (\(pred, post) -> predToPrediction pred (get #id post) ) $ zip predictionsToInsert posts
+              preds <- createMany x
+              putStrLn "Saved to db"
 
 tweetToPost :: TweetData -> Post
 tweetToPost (TweetData {..}) =

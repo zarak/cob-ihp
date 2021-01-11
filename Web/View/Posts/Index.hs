@@ -64,7 +64,7 @@ renderPagination pages page totalPages =
         cursorNotAllowed = base <> " text-gray-500 cursor-not-allowed":: Text
         cursorAllowed = base <> " text-gray-700 hover:bg-blue-500 hover:text-white rounded-md" :: Text
 
-        prevPageLink = if page == 1 
+        prevPageLink = if page == 1
                           then "" 
                           else pathTo PostsAction <> "?page=" <> show (page - 1)
         prevButtonActive = if page <= 1 

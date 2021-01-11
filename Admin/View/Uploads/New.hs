@@ -18,13 +18,18 @@ instance View NewView where
                     <div style="max-width: 300px">
                         <div class="form-group">
                             <label for="upload_file_url">
-                                <input id="upload_file_url" type="file" onchange="SaveFile(this)"/>
+                                <input id="upload_file_url"
+                                       onchange="SaveFile(this)" name="fileUrl"
+                                                                 type="file" />
+                                    <!-- class="form-control form-control-file" style="display: none"/> -->
                             </label>
                         </div>
                     </div>
 
                     {pathTo CreateUploadAction}
                 </div>
+
+                {submitButton { label = "Speichern" }}
 
 
             <script>

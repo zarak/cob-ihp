@@ -36,31 +36,16 @@ instance Controller UploadsController where
                     redirectTo EditUploadAction { .. }
 
     action CreateUploadAction = do
-        body <- getRequestBody
-        let file = fileOrNothing body
-        putStr "Test"
-        case file of
-          Just a -> liftIO do
-              (fileContent a) |> LBS.writeFile "static/uploads/test.csv"
-              setSuccessMessage "File uploaded"
-              redirectTo NewUploadAction
-          Nothing -> 
-              -- setErrorMessage "Unable to write file"
-              redirectTo NewUploadAction
-
-        -- writeFile "static/uploads/test.csv" 
-
-
-        -- let upload = newRecord @Upload
-        -- upload
-            -- |> buildUpload
-            -- |> uploadImageFile "csv" #fileUrl
-            -- >>= ifValid \case
-                -- Left upload -> render NewView { .. } 
-                -- Right upload -> do
-                    -- upload <- upload |> createRecord
-                    -- setSuccessMessage "Upload created"
-                    -- redirectTo UploadsAction
+        let upload = newRecord @Upload
+        upload
+            |> buildUpload
+            |> uploadImageFile "csv" #fileUrl
+            >>= ifValid \case
+                Left upload -> render NewView { .. } 
+                Right upload -> do
+                    upload <- upload |> createRecord
+                    setSuccessMessage "Upload created"
+                    redirectTo UploadsAction
 
     action DeleteUploadAction { uploadId } = do
         upload <- fetch uploadId

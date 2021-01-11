@@ -24,7 +24,7 @@ instance View ShowView where
         <div>
             <section class="rounded-b-lg  mt-4 ">
                 <a href={NewCommentAction (get #id post)}>
-                    <button class="py-2 px-4 md:w-auto bg-red-400 text-red-50 shadow-md rounded-sm ">Add Comment </button>
+                    <button class="py-2 px-4 md:w-auto bg-blue-400 hover:bg-blue-800 text-red-50 shadow-md rounded-sm">Add Comment </button>
                 </a>
                 <div id="task-comments" class="pt-4 pl-4">
                     <div>{forEach (get #comments post) renderComment}</div>
