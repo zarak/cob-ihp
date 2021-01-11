@@ -1,13 +1,13 @@
 module Web.View.Posts.Index where
 
-import qualified Prelude as P
-import Web.View.Prelude hiding (filter)
-import qualified Text.Read as TR
-import Data.Text hiding (head)
-import Data.Aeson
-import Application.Script.Inference (Predictions (..))
-import Data.HashMap.Strict (lookup)
-import Numeric
+import           Application.Script.Inference (Predictions (..))
+import           Data.Aeson
+import           Data.HashMap.Strict          (lookup)
+import           Data.Text                    hiding (head)
+import           Numeric
+import qualified Prelude                      as P
+import qualified Text.Read                    as TR
+import           Web.View.Prelude             hiding (filter)
 
 data IndexView = IndexView { posts :: [Include "predictions" Post], pages :: [Int], currentPage :: Int, totalPages :: Int }
 
