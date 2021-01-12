@@ -41,6 +41,7 @@ data UsersController
 
 data UploadsController
     = UploadsAction
+    | GetScoresAction
     | NewUploadAction
     | ShowUploadAction { uploadId :: !(Id Upload) }
     | CreateUploadAction

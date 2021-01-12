@@ -6,8 +6,13 @@ import Admin.View.Uploads.New
 import Admin.View.Uploads.Edit
 import Admin.View.Uploads.Show
 import qualified Data.ByteString.Lazy as LBS
+import System.Process
 
 instance Controller UploadsController where
+    action GetScoresAction = do
+        readProcess "Application/Script/Tweets.hs" [""] ""
+        render IndexView { .. }
+
     action UploadsAction = do
         uploads <- query @Upload |> fetch
         render IndexView { .. }
