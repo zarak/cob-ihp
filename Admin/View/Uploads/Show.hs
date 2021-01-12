@@ -1,5 +1,6 @@
 module Admin.View.Uploads.Show where
 import Admin.View.Prelude
+import System.Process
 
 data ShowView = ShowView { upload :: Upload }
 
@@ -13,4 +14,5 @@ instance View ShowView where
         </nav>
         <h1>Show Upload</h1>
         <p>{upload}</p>
+        <a href={GetScoresAction}>Run inference</a>
     |]

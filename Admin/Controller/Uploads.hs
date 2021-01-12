@@ -10,8 +10,10 @@ import System.Process
 
 instance Controller UploadsController where
     action GetScoresAction = do
+        -- TODO: Handle failure (check exit code)
         readProcess "Application/Script/Tweets.hs" [""] ""
-        render IndexView { .. }
+        setSuccessMessage "Inference completed"
+        redirectTo UploadsAction
 
     action UploadsAction = do
         uploads <- query @Upload |> fetch
