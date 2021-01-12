@@ -67,6 +67,7 @@ stylesheets = do
         <link rel="stylesheet" href="/app.css"/>
     |]
     when isProduction [hsx|
+        <link rel="stylesheet" href="/vendor/bootstrap.min.css"/>
         <link rel="stylesheet" href="/prod.css"/>
     |]
 
