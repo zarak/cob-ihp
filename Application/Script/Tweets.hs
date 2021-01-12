@@ -42,6 +42,7 @@ run = do
       Nothing -> putStrLn "No file found"
       Just f -> do
         tweets <- readTweets $ "static" <> (T.unpack f)
+        putStrLn $ show tweets
         batch <- callApi tweets
         case batch of 
           Nothing -> putStrLn "Error getting batch of predictions"
@@ -77,7 +78,8 @@ callApi tweets = do
     --
     -- 1. Create POST request
     mgr <- newManager tlsManagerSettings
-    initialRequest <- parseRequest $ "http://" <> hostName <> modelPath
+    initialRequest <- parseRequest $ "http://ec2-18-197-97-208.eu-central-1.compute.amazonaws.com:8888/model/predict"
+    -- initialRequest <- parseRequest $ "http://localhost:5000/model/predict"
     let request = initialRequest { method = "POST"
         , requestBody = RequestBodyLBS $ encode (TweetsText tweets)
         , requestHeaders =
