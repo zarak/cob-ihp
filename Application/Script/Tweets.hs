@@ -18,11 +18,12 @@ import           GHC.Generics                 (Generic)
 import Network.HTTP.Client
 import Network.HTTP.Client.TLS
 
-host :: BS.ByteString
-host = "localhost"
+hostName :: String
+-- hostName = "localhost"
+hostName = "ec2-18-197-97-208.eu-central-1.compute.amazonaws.com:8888"
 
-path :: BS.ByteString
-path = "/model/predict"
+modelPath :: String 
+modelPath = "/model/predict"
 
 readTweets :: FilePath -> IO [TweetData]
 readTweets fpath = do
@@ -76,7 +77,7 @@ callApi tweets = do
     --
     -- 1. Create POST request
     mgr <- newManager tlsManagerSettings
-    initialRequest <- parseRequest "http://localhost:5000/model/predict"
+    initialRequest <- parseRequest $ "http://" <> hostName <> modelPath
     let request = initialRequest { method = "POST"
         , requestBody = RequestBodyLBS $ encode (TweetsText tweets)
         , requestHeaders =
