@@ -19,8 +19,8 @@ instance View NewView where
                         <div class="form-group">
                             <label for="upload_file_url">
                                 <input id="upload_file_url"
-                                       onchange="SaveFile(this)" name="fileUrl"
-                                                                 type="file" />
+                                       name="fileUrl" 
+                                       type="file" />
                             </label>
                         </div>
                     </div>
@@ -34,6 +34,7 @@ instance View NewView where
                 {
                     let formData = new FormData();
                     let file = inp.files[0];      
+                    console.log(file);
                          
                     formData.append("file", file);
                     
