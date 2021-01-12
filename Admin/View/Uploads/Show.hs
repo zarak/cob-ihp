@@ -14,5 +14,5 @@ instance View ShowView where
         </nav>
         <h1>Show Upload</h1>
         <p>{upload}</p>
-        <a href={GetScoresAction}>Run inference</a>
+        <a class="btn bg-green-800 text-red-50 m-2" href={GetScoresAction}>Run inference</a>
     |]
