@@ -10,4 +10,4 @@ instance Controller SessionsController where
     action DeleteSessionAction = Sessions.deleteSessionAction @Admin
 
 instance Sessions.SessionsControllerConfig Admin where
-    afterLoginRedirectPath = "/admin/"
+    afterLoginRedirectPath = "/admin/Uploads"
