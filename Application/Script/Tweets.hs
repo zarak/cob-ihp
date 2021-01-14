@@ -78,8 +78,8 @@ callApi tweets = do
     --
     -- 1. Create POST request
     mgr <- newManager tlsManagerSettings
-    initialRequest <- parseRequest $ "http://ec2-18-197-97-208.eu-central-1.compute.amazonaws.com:8888/model/predict"
-    -- initialRequest <- parseRequest $ "http://localhost:5000/model/predict"
+    -- initialRequest <- parseRequest $ "http://ec2-18-197-97-208.eu-central-1.compute.amazonaws.com:8888/model/predict"
+    initialRequest <- parseRequest $ "http://localhost:5000/model/predict"
     let request = initialRequest { method = "POST"
         , requestBody = RequestBodyLBS $ encode (TweetsText tweets)
         , requestHeaders =
