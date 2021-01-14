@@ -1,16 +1,11 @@
 module Web.View.Posts.Show where
 import Web.View.Prelude hiding (lookup)
 
-import Text.Printf
 import           Numeric
 import qualified Prelude as P
-import qualified Text.Read as TR
 -- import Data.Text
 import qualified Text.MMark as MMark
 import Text.Countable
-import Data.Aeson
-import Application.Script.Inference (Predictions (..))
-import Data.HashMap.Strict (lookup)
 
 data ShowView = ShowView 
     { post :: Include' ["comments", "predictions"] Post 
