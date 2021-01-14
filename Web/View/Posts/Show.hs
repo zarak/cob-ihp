@@ -2,6 +2,8 @@ module Web.View.Posts.Show where
 import Web.View.Prelude hiding (lookup)
 
 import Text.Printf
+import           Numeric
+import qualified Prelude as P
 import qualified Text.Read as TR
 -- import Data.Text
 import qualified Text.MMark as MMark
@@ -16,6 +18,10 @@ data ShowView = ShowView
     , hasVoted :: Maybe Vote
     -- , preds :: Include "predictions" Post
     }
+
+newtype PlainString = PlainString String
+instance Show PlainString where
+    show (PlainString s) = s
 
 instance View ShowView where
     html ShowView { .. } = [hsx|
@@ -89,7 +95,6 @@ renderPost post upvotes hasVoted = [hsx|
                         <div class="flex justify-between items-center"><span
                              class="font-light text-gray-600">{get #createdAt post |> timeAgo}</span>
 
-                             {renderLabels}
 
                         </div>
                         <div class="mt-2">
@@ -99,7 +104,6 @@ renderPost post upvotes hasVoted = [hsx|
                             <p class="mt-2 text-gray-600 ">{get #body post}</p>
                         </div>
                         <div class="flex justify-between items-center mt-4">
-                            {renderUpvote post upvotes hasVoted}
 
                             <div><a href="#" class="flex items-center"><img
                                         src="https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=731&amp;q=80"
@@ -109,6 +113,7 @@ renderPost post upvotes hasVoted = [hsx|
                                 </a></div>
                         </div>
                     </div>
+                    {renderLabels}
                 </div>
     |]
         where renderUpvote post upvotes hasVoted =
@@ -118,17 +123,26 @@ renderPost post upvotes hasVoted = [hsx|
               -- getScore preds f = (decode (encode preds) :: Maybe Predictions) >>= (\x -> pure $ pack (printf "%.2f" (f x) :: String)) >>= \x' -> (TR.readMaybe (unpack x')) :: Maybe Float
               renderLabels = forEach (get #predictions post) (\pred ->
                   [hsx| 
-                        <a href="#"
-                            class="px-2 py-1 bg-blue-600 text-gray-100
-                            font-bold rounded hover:bg-gray-500">toxic <span>{get #toxic pred}</span> 
-                        </a>
-                        <a href="#"
-                            class="px-2 py-1 bg-green-600 text-gray-100
-                            font-bold rounded hover:bg-gray-500">insult <span>{get #insult pred}</span> 
-                        </a>
-                        <a href="#"
-                            class="px-2 py-1 bg-yellow-600 text-gray-100
-                            font-bold rounded hover:bg-gray-500">identity hate <span>{get #identityHate pred}</span> 
-                        </a>
+                <div class="flex flex-row justify-between items-center mt-4">
+                    <div class="w-1/2 bg-gray shadow-md">
+                        <div class="flex flex-col justify-between items-center mt-4">
+                            <a href="#"
+                                class="w-full px-2 py-1 bg-blue-600 text-gray-100
+                                font-bold hover:bg-blue-500">toxic <span>{showFFloat (Just 3) (get #toxic pred) ""}</span> 
+                            </a>
+                            <a href="#"
+                                class="w-full mt-1 px-2 py-1 bg-green-600 text-gray-100
+                                font-bold hover:bg-gren-500">insult <span>{showFFloat (Just 3) (get #insult pred) ""}</span> 
+                            </a>
+                            <a href="#"
+                                class="w-full mt-1 px-2 py-1 bg-yellow-600 text-gray-100
+                                font-bold hover:bg-yellow-500">identity hate <span>{showFFloat (Just 3) (get #identityHate pred) ""}</span> 
+                            </a>
+                        </div>
+                    </div>
+                    <div class="m-2">
+                        {renderUpvote post upvotes hasVoted}
+                    </div>
+                </div>
                   |])
 
