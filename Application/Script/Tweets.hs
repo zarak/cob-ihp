@@ -5,7 +5,7 @@
 module Application.Script.Tweets where
 
 import           Application.Script.Inference
-import           Application.Script.Prelude hiding (predictions)
+import           Application.Script.Prelude hiding (predictions, toxic, severe_toxic, obscene, insult, identity_hate, threat)
 import qualified Data.ByteString.Char8        as BS
 import qualified Data.ByteString.Lazy         as BL
 import           Data.Csv                     (decodeByName)
@@ -65,13 +65,18 @@ tweetToPost (TweetData {..}) =
 
 predToPrediction :: Predictions -> Id' "posts" -> Prediction
 predToPrediction pred postId =
-    let x = (decode (encode pred) :: Maybe Value)
-    in case x of
-         Nothing -> newRecord @Prediction
-         Just a -> 
-            newRecord @Prediction
-                    |> set #postId postId
-                    |> set #labels a
+    -- let x = (decode (encode pred) :: Maybe Value)
+    -- in case x of
+         -- Nothing -> newRecord @Prediction
+         -- Just a -> 
+    newRecord @Prediction
+            |> set #postId postId
+            |> set #toxic (toxic pred)
+            |> set #obscene (obscene pred)
+            |> set #severeToxic (severe_toxic pred)
+            |> set #threat (threat pred)
+            |> set #insult (insult pred)
+            |> set #identityHate (identity_hate pred)
 
 callApi :: [TweetData] -> IO (Maybe MAXBatch)
 callApi tweets = do

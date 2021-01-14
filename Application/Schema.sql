@@ -45,7 +45,12 @@ CREATE TABLE votes (
 CREATE TABLE predictions (
     id UUID DEFAULT uuid_generate_v4() PRIMARY KEY NOT NULL,
     post_id UUID NOT NULL,
-    labels JSONB NOT NULL
+    toxic DOUBLE PRECISION NOT NULL,
+    severe_toxic DOUBLE PRECISION NOT NULL,
+    obscene DOUBLE PRECISION NOT NULL,
+    threat DOUBLE PRECISION NOT NULL,
+    insult DOUBLE PRECISION NOT NULL,
+    identity_hate DOUBLE PRECISION NOT NULL
 );
 CREATE TABLE uploads (
     id UUID DEFAULT uuid_generate_v4() PRIMARY KEY NOT NULL,
