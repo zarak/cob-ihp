@@ -65,10 +65,6 @@ tweetToPost (TweetData {..}) =
 
 predToPrediction :: Predictions -> Id' "posts" -> Prediction
 predToPrediction pred postId =
-    -- let x = (decode (encode pred) :: Maybe Value)
-    -- in case x of
-         -- Nothing -> newRecord @Prediction
-         -- Just a -> 
     newRecord @Prediction
             |> set #postId postId
             |> set #toxic (toxic pred)
@@ -95,13 +91,9 @@ callApi tweets = do
 
     response <- httpLbs request mgr
 
-    -- 1. Classify batch of tweets
+    -- 2. Classify batch of tweets
     let res = responseBody response
     pure (decode res :: Maybe MAXBatch)
-
--- tweet2pred :: Map TweetData Predictions
--- tweet2pred =
-    -- undefined
 
 extractTweetText :: MAXBatch -> Text -> Maybe Predictions
 extractTweetText batch tweet = do
