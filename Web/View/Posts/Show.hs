@@ -94,14 +94,11 @@ renderPost post upvotes hasVoted = [hsx|
                     <div class="px-10 py-6 bg-white shadow-md">
                         <div class="flex justify-between items-center"><span
                              class="font-light text-gray-600">{get #createdAt post |> timeAgo}</span>
-
-
                         </div>
                         <div class="mt-2">
                             <p class="mt-2 text-gray-600 ">{get #body post}</p>
                         </div>
                         <div class="flex justify-between items-center mt-4">
-
                             <div>
                                 <a href="#" class="flex items-center">
                                     <h1 class="text-gray-700 font-bold hover:underline">
@@ -118,7 +115,6 @@ renderPost post upvotes hasVoted = [hsx|
                 case currentUserOrNothing of 
                   Nothing -> "Upvoting disabled unless logged in" 
                   Just _ -> renderUpvoteHtml post upvotes hasVoted 
-              -- getScore preds f = (decode (encode preds) :: Maybe Predictions) >>= (\x -> pure $ pack (printf "%.2f" (f x) :: String)) >>= \x' -> (TR.readMaybe (unpack x')) :: Maybe Float
               renderLabels = forEach (get #predictions post) (\pred ->
                   [hsx| 
                 <div class="flex flex-row justify-between items-center mt-4">
