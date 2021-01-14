@@ -105,12 +105,13 @@ renderPost post upvotes hasVoted = [hsx|
                         </div>
                         <div class="flex justify-between items-center mt-4">
 
-                            <div><a href="#" class="flex items-center"><img
-                                        src="https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=731&amp;q=80"
-                                        alt="avatar" class="mx-4 w-10 h-10 object-cover rounded-full hidden sm:block">
-                                    <h1 class="text-gray-700 font-bold
-                                        hover:underline">Author</h1>
-                                </a></div>
+                            <div>
+                                <a href="#" class="flex items-center">
+                                    <h1 class="text-gray-700 font-bold hover:underline">
+                                        Author
+                                    </h1>
+                                </a>
+                            </div>
                         </div>
                     </div>
                     {renderLabels}
