@@ -49,6 +49,7 @@ instance Controller PostsController where
         post <- fetch postId
             >>= pure . modify #comments (orderByDesc #createdAt)
             >>= fetchRelated #comments
+            >>= fetchRelated #predictions
 
         upvotes <- query @Vote
             |> filterWhere (#postId, postId)
@@ -58,14 +59,6 @@ instance Controller PostsController where
             |> filterWhere (#userId, currentUserId)
             |> filterWhere (#postId, postId)
             |> fetchOneOrNothing
-
-        preds <- query @Prediction
-            |> filterWhere (#postId, postId)
-            |> fetchOneOrNothing
-
-        let (Object l) = case preds of
-                  Nothing -> "No score available"
-                  Just a -> get #labels a
 
         render ShowView { .. }
 

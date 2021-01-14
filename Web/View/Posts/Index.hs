@@ -1,6 +1,6 @@
 module Web.View.Posts.Index where
 
-import           Application.Script.Inference (Predictions (..))
+-- import           Application.Script.Inference (Predictions (..))
 import           Data.Aeson
 import           Data.HashMap.Strict          (lookup)
 import           Data.Text                    hiding (head)
@@ -37,7 +37,7 @@ renderPost post = [hsx|
         <div class="flex justify-between items-center"><span
              class="font-light text-gray-600">{get #createdAt post |> timeAgo}</span><a href="#"
                 class="px-2 py-1 bg-gray-600 text-gray-100
-                font-bold rounded hover:bg-gray-500">toxic {getScore l toxic}</a>
+                font-bold rounded hover:bg-gray-500">toxic {getScore}</a>
         </div>
         <div class="mt-2">
             <p class="mt-2 text-gray-600">{get #body post}</p>
@@ -53,10 +53,14 @@ renderPost post = [hsx|
 </div>
     |]
         where preds = (get #predictions post) :: [Prediction]
-              (Object l) = case head preds of
-                          Nothing -> "No score available"
-                          Just a -> get #labels a
-              getScore l f = f <$> (decode (encode (l)) :: Maybe Predictions) >>= \x -> pure $ PlainString (showFFloat (Just 2) x "")
+              getScore = case head preds of
+                           Nothing -> 0
+                           Just score -> get #toxic score
+
+              -- (Object l) = case head preds of
+                          -- Nothing -> "No score available"
+                          -- Just a -> get #labels a
+              -- getScore l f = f <$> (decode (encode (l)) :: Maybe Predictions) >>= \x -> pure $ PlainString (showFFloat (Just 2) x "")
 
 
 renderPagination pages page totalPages =
