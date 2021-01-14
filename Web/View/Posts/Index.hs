@@ -57,9 +57,6 @@ renderPost post = [hsx|
                            Nothing -> ""
                            Just score -> showFFloat (Just 3) (get #toxic score) ""
 
-              -- (Object l) = case head preds of
-                          -- Nothing -> "No score available"
-                          -- Just a -> get #labels a
               -- getScore l f = f <$> (decode (encode (l)) :: Maybe Predictions) >>= \x -> pure $ PlainString (showFFloat (Just 2) x "")
 
 
