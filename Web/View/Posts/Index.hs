@@ -54,8 +54,8 @@ renderPost post = [hsx|
     |]
         where preds = (get #predictions post) :: [Prediction]
               getScore = case head preds of
-                           Nothing -> 0
-                           Just score -> get #toxic score
+                           Nothing -> ""
+                           Just score -> showFFloat (Just 3) (get #toxic score) ""
 
               -- (Object l) = case head preds of
                           -- Nothing -> "No score available"
