@@ -87,9 +87,10 @@ renderPost post upvotes hasVoted = [hsx|
                 <div class="mt-6">
                     <div class="px-10 py-6 bg-white shadow-md">
                         <div class="flex justify-between items-center"><span
-                             class="font-light text-gray-600">{get #createdAt post |> timeAgo}</span><a href="#"
-                                class="px-2 py-1 bg-gray-600 text-gray-100
-                                font-bold rounded hover:bg-gray-500">toxic {getScore}</a>
+                             class="font-light text-gray-600">{get #createdAt post |> timeAgo}</span>
+
+                             {renderLabels}
+
                         </div>
                         <div class="mt-2">
                             <!--<a href="#" class="text-2xl-->
@@ -115,5 +116,19 @@ renderPost post upvotes hasVoted = [hsx|
                   Nothing -> "Upvoting disabled unless logged in" 
                   Just _ -> renderUpvoteHtml post upvotes hasVoted 
               -- getScore preds f = (decode (encode preds) :: Maybe Predictions) >>= (\x -> pure $ pack (printf "%.2f" (f x) :: String)) >>= \x' -> (TR.readMaybe (unpack x')) :: Maybe Float
-              getScore = forEach (get #predictions post) (\pred -> [hsx| <span> {get #toxic pred} </span> |])
+              renderLabels = forEach (get #predictions post) (\pred ->
+                  [hsx| 
+                        <a href="#"
+                            class="px-2 py-1 bg-blue-600 text-gray-100
+                            font-bold rounded hover:bg-gray-500">toxic <span>{get #toxic pred}</span> 
+                        </a>
+                        <a href="#"
+                            class="px-2 py-1 bg-green-600 text-gray-100
+                            font-bold rounded hover:bg-gray-500">insult <span>{get #insult pred}</span> 
+                        </a>
+                        <a href="#"
+                            class="px-2 py-1 bg-yellow-600 text-gray-100
+                            font-bold rounded hover:bg-gray-500">identity hate <span>{get #identityHate pred}</span> 
+                        </a>
+                  |])
 
