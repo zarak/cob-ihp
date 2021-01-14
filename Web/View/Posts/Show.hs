@@ -124,7 +124,7 @@ renderPost post upvotes hasVoted = [hsx|
               renderLabels = forEach (get #predictions post) (\pred ->
                   [hsx| 
                 <div class="flex flex-row justify-between items-center mt-4">
-                    <div class="w-1/2 bg-gray shadow-md">
+                    <div class="w-1/2">
                         <div class="flex flex-col justify-between items-center mt-4">
                             <a href="#"
                                 class="w-full px-2 py-1 bg-blue-600 text-gray-100
