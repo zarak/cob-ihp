@@ -25,7 +25,7 @@ instance Controller PostsController where
                           Right p -> p
 
             (_, currentPage, pageSize, totalPages, _, _, _, _, pages) = 
-                paginate (fromIntegral numPosts) validPage 10 5
+                paginate (fromIntegral numPosts) validPage 10 20
 
         posts <- query @Post 
             |> orderByDesc #createdAt

@@ -81,7 +81,7 @@ getMaxScore preds =
 
 
 renderPagination pages page totalPages =
-    let base = "mx-1 px-3 py-2 bg-white rounded-md font-medium"
+    let base = "mx-1 px-3 py-2 bg-white rounded-md font-medium inline-block"
         cursorNotAllowed = base <> " text-gray-500 cursor-not-allowed":: Text
         cursorAllowed = base <> " text-gray-700 hover:bg-blue-500 hover:text-white rounded-md" :: Text
 
@@ -119,7 +119,7 @@ renderPagination pages page totalPages =
     in 
     [hsx|
 <div class="mt-8">
-    <div class="flex">
+    <div class="">
         {prevButton}
     
         {forEach pages (renderPageLink page)}
@@ -130,7 +130,7 @@ renderPagination pages page totalPages =
     |]
 
 renderPageLink page num =
-    let base = "mx-1 px-3 py-2 bg-white font-medium hover:bg-blue-500 hover:text-white rounded-md"
+    let base = "inline-block m-1 px-3 py-2 bg-white font-medium hover:bg-blue-500 hover:text-white rounded-md"
         inactive = base <> " text-gray-700"
         active = base <> " bg-blue-500 text-white"
         buttonStatus :: Int -> Int -> Text
@@ -138,7 +138,9 @@ renderPageLink page num =
                                    then active :: Text
                                    else inactive :: Text
     in [hsx|
-<a href={pathTo PostsAction <> "?page=" <> show num} class={buttonStatus num page}>
-    {show num}
-</a>
+    <div class="inline-block">
+        <a href={pathTo PostsAction <> "?page=" <> show num} class={buttonStatus num page}>
+            {show num}
+        </a>
+    </div>
     |]
