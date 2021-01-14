@@ -95,9 +95,9 @@ renderPost post upvotes hasVoted = [hsx|
                         </div>
                         <div class="flex justify-between items-center mt-4">
                             <div>
-                                <a href="#" class="flex items-center">
+                                <a href={get #link post} class="flex items-center">
                                     <h1 class="text-gray-700 font-bold hover:underline">
-                                        Author
+                                        {get #author post}
                                     </h1>
                                 </a>
                             </div>
