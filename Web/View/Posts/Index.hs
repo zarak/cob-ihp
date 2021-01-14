@@ -2,8 +2,8 @@ module Web.View.Posts.Index where
 
 -- import           Application.Script.Inference (Predictions (..))
 import           Numeric
-import qualified Prelude                      as P
-import           Web.View.Prelude             hiding (filter)
+import qualified Prelude          as P
+import           Web.View.Prelude hiding (filter)
 
 data IndexView = IndexView { posts :: [Include "predictions" Post], pages :: [Int], currentPage :: Int, totalPages :: Int }
 
@@ -17,7 +17,7 @@ instance View IndexView where
 
         <!--for testing only-->
         <div>
-            <a href={NewPostAction}>create new post</a>            
+            <a href={NewPostAction}>create new post (for testing)</a>
         </div>
 
         <div class="w-full">
@@ -42,14 +42,25 @@ renderPost post = [hsx|
             </a>
         </div>
         <div class="mt-2">
-            <p class="mt-2 text-gray-600">{get #body post}</p>
+            <p class="mt-2 text-gray-600">
+                {get #body post}
+            </p>
         </div>
-        <div class="flex justify-between items-center mt-4"><a href={ShowPostAction (get #id post)}
-                class="text-blue-500 hover:underline">Discussion</a>
-            <div><a href={get #link post} class="flex items-center">
-            <h1 class="text-gray-700 font-bold
-                        hover:underline">{get #author post}</h1>
-                </a></div>
+        <div class="flex justify-between items-center mt-4">
+            <a href={ShowPostAction (get #id post)}
+                class="text-blue-500 hover:underline"
+                >
+                Discussion
+            </a>
+            <div>
+                <a href={get #link post} class="flex items-center">
+                    <h1 class="text-gray-700 font-bold
+                        hover:underline"
+                        >
+                        {get #author post}
+                    </h1>
+                </a>
+            </div>
         </div>
     </div>
 </div>
@@ -100,11 +111,11 @@ renderPagination pages page totalPages =
                     </div>
             |]
         prevButton = if page == 1 
-                        then withoutLink prevButtonActive ("previous" :: Text) 
-                        else withLink prevPageLink prevButtonActive ("previous" :: Text)
+                        then withoutLink prevButtonActive ("<" :: Text) 
+                        else withLink prevPageLink prevButtonActive ("<" :: Text)
         nextButton = if page == totalPages 
-                        then withoutLink nextButtonActive ("next" :: Text)
-                        else withLink nextPageLink nextButtonActive ("next" :: Text)
+                        then withoutLink nextButtonActive (">" :: Text)
+                        else withLink nextPageLink nextButtonActive (">" :: Text)
     in 
     [hsx|
 <div class="mt-8">
