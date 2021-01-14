@@ -1,12 +1,8 @@
 module Web.View.Posts.Index where
 
 -- import           Application.Script.Inference (Predictions (..))
-import           Data.Aeson
-import           Data.HashMap.Strict          (lookup)
-import           Data.Text                    hiding (head)
 import           Numeric
 import qualified Prelude                      as P
-import qualified Text.Read                    as TR
 import           Web.View.Prelude             hiding (filter)
 
 data IndexView = IndexView { posts :: [Include "predictions" Post], pages :: [Int], currentPage :: Int, totalPages :: Int }
@@ -37,7 +33,7 @@ renderPost post = [hsx|
         <div class="flex justify-between items-center"><span
              class="font-light text-gray-600">{get #createdAt post |> timeAgo}</span><a href="#"
                 class="px-2 py-1 bg-gray-600 text-gray-100
-                font-bold rounded hover:bg-gray-500">toxic {getScore}</a>
+                font-bold rounded hover:bg-gray-500">{fst getScore <> " "} {(showFFloat (Just 3) (snd getScore) "") }</a>
         </div>
         <div class="mt-2">
             <p class="mt-2 text-gray-600">{get #body post}</p>
@@ -53,11 +49,18 @@ renderPost post = [hsx|
 </div>
     |]
         where preds = (get #predictions post) :: [Prediction]
-              getScore = case head preds of
-                           Nothing -> ""
-                           Just score -> showFFloat (Just 3) (get #toxic score) ""
+              getScore = getMaxScore preds
 
-              -- getScore l f = f <$> (decode (encode (l)) :: Maybe Predictions) >>= \x -> pure $ PlainString (showFFloat (Just 2) x "")
+getMaxScore preds =
+    case head preds of 
+      Nothing -> ("None", 0)
+      Just score -> maximumBy (comparing snd) 
+                              [ ("toxic" :: Text, get #toxic score)
+                              , ("insult", get #insult score)
+                              , ("severe toxic", get #severeToxic score)
+                              , ("obscene", get #obscene score)
+                              , ("identity hate", get #identityHate score)
+                              , ("threat", get #threat score)]
 
 
 renderPagination pages page totalPages =
