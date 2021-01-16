@@ -2,7 +2,7 @@ module Admin.View.Static.Welcome where
 import Admin.View.Prelude
 import Admin.Controller.Uploads
 import Admin.Controller.Users
-import Web.Controller.Posts
+import Admin.Controller.Posts
 
 data WelcomeView = WelcomeView
 
@@ -12,6 +12,7 @@ instance View WelcomeView where
               <div style="max-width: 800px; margin-left: auto; margin-right: auto">
                   <a href={UploadsAction}>Uploads</a>
                   <a href={UsersAction}>Registered Users</a>
+                  <a href={PostsAction}>Review Posts</a>
               </div>
          </div>
 
