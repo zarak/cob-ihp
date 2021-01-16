@@ -16,8 +16,8 @@ instance View IndexView where
                 <thead>
                     <tr>
                         <th>Post</th>
-                        <th>Confirmed for training</th>
-                        <th></th>
+                        <th>Upvotes</th>
+                        <th>Confirmed</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -30,6 +30,7 @@ instance View IndexView where
 renderPost post = [hsx|
     <tr>
         <td>{get #body post}</td>
+        <td>{length (get #votes post)}</td>
         <td>{get #confirmedForTraining post}</td>
         <td><a href={ShowPostAction (get #id post)}>Show</a></td>
         <td><a href={EditPostAction (get #id post)} class="text-muted">Edit</a></td>
