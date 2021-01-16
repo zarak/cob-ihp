@@ -19,8 +19,6 @@ toxicThreshold = 0.3
 
 instance Controller PostsController where
     action PostsAction = do
-        -- numPosts :: Int <- query @Post
-            -- |> fetchCount
         numPosts :: Int <- sqlQueryScalar "select count(posts.*) from posts inner join predictions on posts.id = post_id where toxic > 0.3" ()
 
         let page = paramOrError "page"
@@ -40,7 +38,7 @@ instance Controller PostsController where
 
     action NewPostAction = do
         ensureIsUser
-        when (not (get #isConfirmed currentUser)) do
+        unless (get #isConfirmed currentUser) do
             setErrorMessage "You need to confirm your email before posting"
             redirectTo PostsAction
         let post = newRecord
