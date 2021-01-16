@@ -16,9 +16,9 @@ instance View IndexView where
 <div class="flex-row justify-between container mx-auto">
 
         <!--for testing only-->
-        <div>
-            <a href={NewPostAction}>create new post (for testing)</a>
-        </div>
+        <!-- <div> -->
+            <!-- <a href={NewPostAction}>create new post (for testing)</a> -->
+        <!-- </div> -->
 
         <div class="w-full">
             {forEach posts renderPost}
