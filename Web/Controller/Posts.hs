@@ -37,7 +37,7 @@ instance Controller PostsController where
             |> fetch
             >>= collectionFetchRelated #predictions
 
-        -- toxicPosts :: [Post] <- sqlQuery "select * from posts inner join predictions on posts.id = post_id where toxic > 0.3 order by created_at desc limit ? OFFSET ?" [pageSize, ((currentPage - 1) * pageSize)]
+        -- toxicPosts :: [Post] <- sqlQuery "select (posts.id, posts.title, posts.body, posts.created_at, posts.upvotes, posts.author, posts.link) from posts inner join predictions on posts.id = post_id where toxic > 0.3 order by created_at desc limit ? OFFSET ?" [pageSize, (currentPage - 1) * pageSize]
 
         render IndexView { .. }
             

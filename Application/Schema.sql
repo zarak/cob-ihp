@@ -5,8 +5,6 @@ CREATE TABLE posts (
     body TEXT NOT NULL,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL,
     upvotes INT DEFAULT 0 NOT NULL,
-    downvotes INT DEFAULT 0 NOT NULL,
-    toxicity_score REAL DEFAULT 0 NOT NULL,
     author TEXT DEFAULT '' NOT NULL,
     link TEXT DEFAULT '' NOT NULL
 );
