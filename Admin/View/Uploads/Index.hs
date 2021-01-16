@@ -29,7 +29,7 @@ instance View IndexView where
 
 renderUpload upload = [hsx|
     <tr>
-        <td>{upload}</td>
+        <td>{get #fileUrl upload}</td>
         <td><a href={ShowUploadAction (get #id upload)}>Show</a></td>
         <td><a href={EditUploadAction (get #id upload)} class="text-muted">Edit</a></td>
         <td><a href={DeleteUploadAction (get #id upload)} class="js-delete text-muted">Delete</a></td>

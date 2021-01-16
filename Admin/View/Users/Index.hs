@@ -29,7 +29,9 @@ instance View IndexView where
 
 renderUser user = [hsx|
     <tr>
-        <td>{user}</td>
+        <td>{get #firstName user}</td>
+        <td>{get #lastName user}</td>
+        <td>{get #email user}</td>
         <td><a href={ShowUserAction (get #id user)}>Show</a></td>
         <td><a href={EditUserAction (get #id user)} class="text-muted">Edit</a></td>
         <td><a href={DeleteUserAction (get #id user)} class="js-delete text-muted">Delete</a></td>
