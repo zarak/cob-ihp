@@ -15,7 +15,7 @@ import Admin.Controller.Sessions
 
 instance FrontController AdminApplication where
     controllers = 
-        [ startPage AdminsAction
+        [ startPage UploadsAction
         , parseRoute @SessionsController
         -- Generator Marker
         , parseRoute @UploadsController
