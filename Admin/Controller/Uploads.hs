@@ -9,7 +9,10 @@ import qualified Data.ByteString.Lazy as LBS
 import System.Process
 
 instance Controller UploadsController where
+    beforeAction = ensureIsAdmin @Admin
+
     action GetScoresAction = do
+
         -- TODO: Handle failure (check exit code)
         readProcess "Application/Script/Tweets.hs" [""] ""
         setSuccessMessage "Inference completed"
