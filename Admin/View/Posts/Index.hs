@@ -1,7 +1,7 @@
 module Admin.View.Posts.Index where
 import Admin.View.Prelude
 
-data IndexView = IndexView { posts :: [Post] }
+data IndexView = IndexView { posts :: [Include "votes" Post] }
 
 instance View IndexView where
     html IndexView { .. } = [hsx|

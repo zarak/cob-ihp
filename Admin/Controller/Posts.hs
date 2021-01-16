@@ -8,7 +8,10 @@ import Admin.View.Posts.Show
 
 instance Controller PostsController where
     action PostsAction = do
-        posts <- query @Post |> fetch
+        posts <- query @Post
+            |> fetch
+            >>= collectionFetchRelated #votes
+
         render IndexView { .. }
 
     action NewPostAction = do
