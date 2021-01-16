@@ -34,7 +34,7 @@ defaultLayout inner = H.docTypeHtml ! A.lang "en" $ [hsx|
 navbar :: Html
 navbar = [hsx|
 <nav class="navbar navbar-light bg-light navbar-expand-lg">
-    <a class="navbar-brand" href={UploadsAction}>Uploads</a>
+    <a class="navbar-brand" href={WelcomeAction}>Admin Panel</a>
     <ul class="navbar-nav mr-auto">
     </ul>
     {adminSessionButton}
