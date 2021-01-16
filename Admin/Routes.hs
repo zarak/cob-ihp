@@ -15,3 +15,6 @@ instance AutoRoute UsersController
 
 instance AutoRoute UploadsController
 
+
+instance AutoRoute PostsController
+

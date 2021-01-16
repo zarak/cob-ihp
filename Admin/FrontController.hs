@@ -5,6 +5,7 @@ import Admin.Controller.Prelude
 import Admin.View.Layout (defaultLayout)
 
 -- Controller Imports
+import Admin.Controller.Posts
 import Admin.Controller.Uploads
 import Admin.Controller.Users
 import Admin.Controller.Admins
@@ -18,6 +19,7 @@ instance FrontController AdminApplication where
         [ startPage UploadsAction
         , parseRoute @SessionsController
         -- Generator Marker
+        , parseRoute @PostsController
         , parseRoute @UploadsController
         , parseRoute @UsersController
         , parseRoute @AdminsController

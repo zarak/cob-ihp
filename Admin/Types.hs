@@ -49,3 +49,13 @@ data UploadsController
     | UpdateUploadAction { uploadId :: !(Id Upload) }
     | DeleteUploadAction { uploadId :: !(Id Upload) }
     deriving (Eq, Show, Data)
+
+data PostsController
+    = PostsAction
+    | NewPostAction
+    | ShowPostAction { postId :: !(Id Post) }
+    | CreatePostAction
+    | EditPostAction { postId :: !(Id Post) }
+    | UpdatePostAction { postId :: !(Id Post) }
+    | DeletePostAction { postId :: !(Id Post) }
+    deriving (Eq, Show, Data)
