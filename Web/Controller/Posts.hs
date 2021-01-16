@@ -14,6 +14,9 @@ import Data.HashMap.Strict (toList, lookup)
 
 type PaginationResults = (Int, Int, Int, Int, Int, Int, Int, Int, [Int])
 
+toxicThreshold :: Double
+toxicThreshold = 0.3
+
 instance Controller PostsController where
     action PostsAction = do
         numPosts :: Int <- query @Post
@@ -27,16 +30,14 @@ instance Controller PostsController where
             (_, currentPage, pageSize, totalPages, _, _, _, _, pages) = 
                 paginate (fromIntegral numPosts) validPage 10 20
 
-        -- posts <- query @Post 
-            -- |> orderByDesc #createdAt
-            -- |> limit pageSize
-            -- |> offset ((currentPage - 1) * pageSize)
-            -- |> fetch
-            -- >>= collectionFetchRelated #predictions
+        posts <- query @Post 
+            |> orderByDesc #createdAt
+            |> limit pageSize
+            |> offset ((currentPage - 1) * pageSize)
+            |> fetch
+            >>= collectionFetchRelated #predictions
 
-        toxicPosts :: [Post] <- sqlQuery "select * from posts inner join predictions on posts.id = post_id where toxic > 0.3" ()
-        -- let toxicPosts :: QueryBuilder Post = sqlQuery "select * from posts inner join predictions on posts.id = post_id where toxic > 0.3" ()
-            
+        -- toxicPosts :: [Post] <- sqlQuery "select * from posts inner join predictions on posts.id = post_id where toxic > 0.3 order by created_at desc limit ? OFFSET ?" [pageSize, ((currentPage - 1) * pageSize)]
 
         render IndexView { .. }
             
