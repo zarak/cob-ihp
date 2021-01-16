@@ -114,18 +114,31 @@ renderPost post upvotes hasVoted = [hsx|
                   [hsx| 
                 <div class="flex flex-row justify-between items-center mt-4">
                     <div class="w-1/2">
-                        <div class="flex flex-col md:flex-row mt-4">
+                        <!-- <div class="flex flex-col xl:flex-row mt-4"> -->
+                        <div class="flex flex-col md:flex-wrap md:flex-row mt-4">
                             <a href="#"
-                                class="md:mr-2 w-max mt-1 px-2 py-1 bg-blue-200 text-blue-800 border border-blue-800 rounded
+                                class="md:mr-2 w-max mt-1 px-2 py-1 bg-blue-100 text-blue-800 border border-blue-800 rounded
                                 hover:bg-blue-300">toxic <span>{showFFloat (Just 3) (get #toxic pred) ""}</span> 
                             </a>
                             <a href="#"
-                                class="md:mr-2 w-max mt-1 px-2 py-1 bg-blue-200 text-blue-800 border border-blue-800 rounded
+                                class="md:mr-2 w-max mt-1 px-2 py-1 bg-blue-100 text-blue-800 border border-blue-800 rounded
                                 hover:bg-blue-300">insult <span>{showFFloat (Just 3) (get #insult pred) ""}</span> 
                             </a>
                             <a href="#"
-                                class="w-max mt-1 px-2 py-1 bg-blue-200 text-blue-800 border border-blue-800 rounded
+                                class="md:mr-2 w-max mt-1 px-2 py-1 bg-blue-100 text-blue-800 border border-blue-800 rounded
                                 hover:bg-blue-300">identity hate <span>{showFFloat (Just 3) (get #identityHate pred) ""}</span> 
+                            </a>
+                            <a href="#"
+                                class="md:mr-2 w-max mt-1 px-2 py-1 bg-blue-100 text-blue-800 border border-blue-800 rounded
+                                hover:bg-blue-300">obscene <span>{showFFloat (Just 3) (get #obscene pred) ""}</span> 
+                            </a>
+                            <a href="#"
+                                class="md:mr-2 w-max mt-1 px-2 py-1 bg-blue-100 text-blue-800 border border-blue-800 rounded
+                                hover:bg-blue-300">severe toxic <span>{showFFloat (Just 3) (get #severeToxic pred) ""}</span> 
+                            </a>
+                            <a href="#"
+                                class="md:mr-2 w-max mt-1 px-2 py-1 bg-blue-100 text-blue-800 border border-blue-800 rounded
+                                hover:bg-blue-300">threat <span>{showFFloat (Just 3) (get #threat pred) ""}</span> 
                             </a>
                         </div>
                     </div>
