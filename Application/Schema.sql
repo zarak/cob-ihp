@@ -6,7 +6,8 @@ CREATE TABLE posts (
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL,
     upvotes INT DEFAULT 0 NOT NULL,
     author TEXT DEFAULT '' NOT NULL,
-    link TEXT DEFAULT '' NOT NULL
+    link TEXT DEFAULT '' NOT NULL,
+    confirmed_for_training BOOLEAN DEFAULT false NOT NULL
 );
 CREATE TABLE comments (
     id UUID DEFAULT uuid_generate_v4() PRIMARY KEY NOT NULL,

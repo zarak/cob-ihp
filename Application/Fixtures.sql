@@ -262,7 +262,7 @@ ALTER TABLE public.posts ENABLE TRIGGER ALL;
 
 ALTER TABLE public.users DISABLE TRIGGER ALL;
 
-INSERT INTO public.users (id, first_name, last_name, email, password_hash, locked_at, failed_login_attempts, is_confirmed, token) VALUES ('f9e66f1c-7698-42a6-a560-d32aed48b486', 'Test', 'Other', 'test@test.com', 'sha256|17|lLyTYGcC20St9cQL8hp1iQ==|dbVDtqNaj1rx0Ywbmn4y0XwGL4WALjgHB0M0MREKFDs=', NULL, 0, false, '');
+INSERT INTO public.users (id, first_name, last_name, email, password_hash, locked_at, failed_login_attempts, is_confirmed, token) VALUES ('f9e66f1c-7698-42a6-a560-d32aed48b486', 'Test', 'Other', 'test@test.com', 'sha256|17|lLyTYGcC20St9cQL8hp1iQ==|dbVDtqNaj1rx0Ywbmn4y0XwGL4WALjgHB0M0MREKFDs=', NULL, 0, true, '');
 
 
 ALTER TABLE public.users ENABLE TRIGGER ALL;
@@ -957,6 +957,7 @@ ALTER TABLE public.uploads ENABLE TRIGGER ALL;
 
 ALTER TABLE public.votes DISABLE TRIGGER ALL;
 
+INSERT INTO public.votes (id, user_id, post_id) VALUES ('e8d17d6e-bbd8-4417-b9cf-c6e007f79709', 'f9e66f1c-7698-42a6-a560-d32aed48b486', 'd5d2ef6f-c59d-4513-b184-8596b471d83c');
 
 
 ALTER TABLE public.votes ENABLE TRIGGER ALL;
