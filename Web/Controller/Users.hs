@@ -12,8 +12,9 @@ import Web.Mail.Users.Confirm
 
 instance Controller UsersController where
     action UsersAction = do
-        users <- query @User |> fetch
-        render IndexView { .. }
+        -- users <- query @User |> fetch
+        -- render IndexView { .. }
+        renderNotFound
 
     action NewUserAction = do
         let user = newRecord
