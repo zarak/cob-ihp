@@ -21,6 +21,7 @@ let
             #Chart-diagrams
             cassava
             hspec
+            hedgehog
             #optparse-applicative
             #profunctors
         ];
