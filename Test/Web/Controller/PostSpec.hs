@@ -27,7 +27,12 @@ spec = beforeAll (makeConfig >>= mockContext WebApplication) do
       content <- mockActionResponse NewUserAction
       LBS.isPrefixOf "<!DOCTYPE HTML>" content `shouldBe` True
 
-    it "creates a new user" $ withParams [("firstName", "Test"), ("lastName", "Other"), ("email", "test@test.com"), ("passwordHash", "1234test"), ("password2", "1234test")] do
+    it "creates a new user" $ withParams [ ("firstName", "Test")
+                                         , ("lastName", "Other")
+                                         , ("email", "test@test.com")
+                                         , ("passwordHash", "1234test")
+                                         , ("password2", "1234test")
+                                         ] do
       mockActionStatus CreateUserAction `shouldReturn` status200
 
     -- it "returns a redirect header" $ withContext do
