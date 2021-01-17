@@ -25,10 +25,12 @@ instance Controller UsersController where
         render ShowView { .. }
 
     action EditUserAction { userId } = do
-        user <- fetch userId
-        render EditView { .. }
+        -- user <- fetch userId
+        -- render EditView { .. }
+        renderNotFound
 
     action UpdateUserAction { userId } = do
+        accessDeniedUnless (currentUserId == userId)
         user <- fetch userId
         user
             |> buildUser
@@ -64,6 +66,7 @@ instance Controller UsersController where
                         redirectTo NewSessionAction
 
     action DeleteUserAction { userId } = do
+        accessDeniedUnless (currentUserId == userId)
         user <- fetch userId
         deleteRecord user
         setSuccessMessage "User deleted"
