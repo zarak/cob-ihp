@@ -21,7 +21,7 @@ instance Controller PostsController where
     action PostsAction = do
         numPosts :: Int <- sqlQueryScalar "select count(posts.*) from posts \
                                           \inner join predictions on posts.id = post_id \
-                                          \where toxic > 0.3" ()
+                                          \where toxic > ?" (Only toxicThreshold)
 
         let page = paramOrError "page"
             validPage = case page of

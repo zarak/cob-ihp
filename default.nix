@@ -20,6 +20,7 @@ let
             #Chart
             #Chart-diagrams
             cassava
+            hspec
             #optparse-applicative
             #profunctors
         ];
