@@ -7,6 +7,7 @@ import Admin.View.Posts.Edit
 import Admin.View.Posts.Show
 
 instance Controller PostsController where
+    beforeAction = ensureIsAdmin @Admin
     action PostsAction = do
         posts <- query @Post
             |> fetch
