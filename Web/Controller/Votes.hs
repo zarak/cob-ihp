@@ -12,6 +12,7 @@ instance Controller VotesController where
         render IndexView { .. }
 
     action NewVoteAction { postId, userId } = do
+        accessDeniedUnless (userId == currentUserId)
         existingVote <- query @Vote
             |> filterWhere (#userId, userId)
             |> filterWhere (#postId, postId)
