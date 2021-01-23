@@ -8,8 +8,12 @@ import Admin.View.Posts.Show
 
 instance Controller PostsController where
     beforeAction = ensureIsAdmin @Admin
+
     action PostsAction = do
+        -- let x = get #upvoteThreshold $ currentAdmin @Admin
         posts <- query @Post
+            -- TODO: Rewrite without string interpolation
+            -- |> filterWhereSql (#upvotes, cs $ ">= " <> show x)
             |> fetch
             >>= collectionFetchRelated #votes
 

@@ -28,18 +28,17 @@ instance Controller AdminsController where
     action UpdateAdminAction { adminId } = do
         admin <- fetch adminId
         admin
-            |> buildAdmin
+            |> fill @["email", "upvoteThreshold"]
             |> ifValid \case
                 Left admin -> render EditView { .. }
                 Right admin -> do
                     admin <- admin |> updateRecord
                     setSuccessMessage "Admin updated"
-                    redirectTo EditAdminAction { .. }
+                    redirectTo PostsAction
 
     action CreateAdminAction = do
         let admin = newRecord @Admin
         admin
-            |> buildAdmin
             |> ifValid \case
                 Left admin -> render NewView { .. } 
                 Right admin -> do
@@ -56,13 +55,3 @@ instance Controller AdminsController where
         setSuccessMessage "Admin deleted"
         redirectTo AdminsAction
 
-buildAdmin admin = admin
-    |> fill @["email","passwordHash","failedLoginAttempts"]
-    |> validateField #email isEmail
-    |> validateField #passwordHash nonEmpty
-    |> validateField #passwordHash (hasMinLength 8)
-    |> validateField #passwordHash (passwordMatch (param "password2"))
-
-passwordMatch pw1 pw2 = if (pw1 == pw2)
-                           then Success
-                           else Failure "Password must match"

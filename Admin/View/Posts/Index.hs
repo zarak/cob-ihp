@@ -57,7 +57,7 @@ renderPost (i, post) = [hsx|
                 </div>
               </td>
               <td class="px-6 py-4 whitespace-nowrap">
-                {get #upvotes post}
+                {length votes}
               </td>
               <td class="px-6 py-4 whitespace-nowrap">
                 {if (get #confirmedForTraining post) then confirmed else notConfirmed}
@@ -77,3 +77,4 @@ renderPost (i, post) = [hsx|
                   {get #confirmedForTraining post}
                 </span>
         |]
+          votes = get #votes post
