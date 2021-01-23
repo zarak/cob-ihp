@@ -4,7 +4,7 @@ let
         ref = "refs/tags/v0.8.0";
     };
     haskellEnv = import "${ihp}/NixSupport/default.nix" {
-        ihp = ihp;
+        ihp = ./IHP;
         haskellDeps = p: with p; [
             cabal-install
             base
