@@ -30,7 +30,7 @@ instance View IndexView where
 renderPost post = [hsx|
 <div class="mt-6">
     <div class="px-10 py-6 bg-white rounded-lg shadow-md">
-        <div class="flex flex-col md:justify-between items-center">
+        <div class="flex flex-col md:flex-row md:justify-between items-center">
             <span class="font-light text-gray-600">
                 {get #createdAt post |> timeAgo}
             </span>
