@@ -10,6 +10,7 @@ instance View EditView where
 
 renderForm :: Admin -> Html
 renderForm admin = formFor admin [hsx|
+    {(emailField #email)}
     {(numberField #upvoteThreshold)}
     {submitButton}
 |]

@@ -54,6 +54,8 @@ navbar = [hsx|
         </div>
       </div>
 
+      {profile}
+
       <div class="flex lg:hidden">
         <!-- Mobile menu button -->
         <button x-on:click="mobileMenu = !mobileMenu" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-expanded="false">
@@ -79,7 +81,6 @@ navbar = [hsx|
         </button>
       </div>
 
-      {profileMenu}
 
     </div>
   </div>
@@ -90,21 +91,30 @@ navbar = [hsx|
     Menu open: "block", Menu closed: "hidden"
   -->
   <div x-cloak x-bind:class="{ 'block': mobileMenu, 'hidden': !mobileMenu }" class="hidden lg:hidden">
+    {mobile}
+  </div>
+</nav>
+    |]
+        where mobile = maybe [hsx||] mobileHtml currentAdminOrNothing
+              profile = maybe [hsx|<div class="text-red-50 ">Login</div>|] profileHtml currentAdminOrNothing
+
+mobileHtml user = [hsx|
     <div class="px-2 pt-2 pb-3 space-y-1">
       <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-      <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white block
+      <a href={UploadsAction} class="text-gray-300 hover:bg-gray-700 hover:text-white block
           px-3 py-2 rounded-md text-base font-medium">Uploads</a>
-      <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white block
+      <a href={PostsAction} class="text-gray-300 hover:bg-gray-700 hover:text-white block
           px-3 py-2 rounded-md text-base font-medium">Posts</a>
-      <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white block
+      <a href={UsersAction} class="text-gray-300 hover:bg-gray-700 hover:text-white block
           px-3 py-2 rounded-md text-base font-medium">Users</a>
     </div>
+
     <div class="pt-4 pb-3 border-t border-gray-700">
       <div class="flex items-center px-5">
         <div class="flex-shrink-0">
           <img class="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
         </div>
-        {mobileMenu}
+        {adminMobileLinks user}
         <button class="ml-auto flex-shrink-0 bg-gray-800 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
           <span class="sr-only">View notifications</span>
           <!-- Heroicon name: bell -->
@@ -114,13 +124,9 @@ navbar = [hsx|
         </button>
       </div>
     </div>
-  </div>
-</nav>
-    |]
-        where mobileMenu = maybe [hsx||] adminMobileLinks currentAdminOrNothing
-              profileMenu = maybe [hsx|<div class="text-red-50 ">Login</div>|] profile currentAdminOrNothing
+|]
 
-profile user = [hsx|
+profileHtml user = [hsx|
       <div class="hidden lg:block lg:ml-4">
         <div class="flex items-center">
           <button class="flex-shrink-0 bg-gray-800 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
