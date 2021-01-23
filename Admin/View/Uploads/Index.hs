@@ -12,7 +12,7 @@ instance View IndexView where
         </nav>
         <h1>Index <a href={pathTo NewUploadAction} class="btn btn-primary ml-4">+ New</a></h1>
         <div class="table-responsive">
-            <table class="table">
+            <table class="table mt-3">
                 <thead>
                     <tr>
                         <th>Upload</th>
