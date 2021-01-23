@@ -38,7 +38,7 @@ instance View IndexView where
 
 
           <tbody>
-            {forEach users renderUser}
+            {forEach (zip [1..] users) renderUser}
           </tbody>
         </table>
       </div>
@@ -50,34 +50,13 @@ instance View IndexView where
     |]
 
 
-renderUser user = [hsx|
-    <!-- <tr> -->
-        <!-- <td></td> -->
-        <!-- <td></td> -->
-        <!-- <td><a href={ShowUserAction (get #id user)}>Show</a></td> -->
-        <!-- <td><a href={EditUserAction (get #id user)} class="text-muted">Edit</a></td> -->
-        <!-- <td><a href={DeleteUserAction (get #id user)} class="js-delete text-muted">Delete</a></td> -->
-    <!-- </tr> -->
-            <!-- Even row -->
+renderUser (i, user) = [hsx|
+    {if even i then evenRow else oddRow}
+|]
+    where evenRow = [hsx|
             <tr class="bg-gray-50">
               <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                Cody Fisher
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                cody.fisher@example.com
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                Owner
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                <a href="#" class="text-indigo-600 hover:text-indigo-900">Edit</a>
-              </td>
-            </tr>
-
-            <!-- Odd row -->
-            <tr class="bg-white">
-              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                {get #lastName user}
+                {get #firstName user <> " " <> get #lastName user}
               </td>
               <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                 {get #email user}
@@ -92,4 +71,22 @@ renderUser user = [hsx|
               </td>
             </tr>
 
-|]
+        |]
+          oddRow = [hsx|
+            <tr class="bg-white">
+              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                {get #firstName user <> " " <> get #lastName user}
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                {get #email user}
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                User
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                <a href={ShowUserAction (get #id user)} class="text-indigo-600 hover:text-indigo-900">Show</a>
+                <a href={EditUserAction (get #id user)} class="mx-4 text-indigo-600 hover:text-indigo-900">Edit</a>
+                <a href={DeleteUserAction (get #id user)} class="text-indigo-600 hover:text-indigo-900">Delete</a>
+              </td>
+            </tr>
+         |]
