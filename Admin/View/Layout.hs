@@ -44,7 +44,6 @@ navbar = [hsx|
         <div class="hidden lg:block lg:ml-6">
           <div class="flex space-x-4">
             <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-            <a href="#" class="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium">Settings</a>
             <a href={UploadsAction} class="text-gray-300 hover:bg-gray-700 hover:text-white
                 px-3 py-2 rounded-md text-sm font-medium">Uploads</a>
             <a href={PostsAction} class="text-gray-300 hover:bg-gray-700 hover:text-white
@@ -65,7 +64,7 @@ navbar = [hsx|
 
             Menu open: "hidden", Menu closed: "block"
           -->
-          <svg x-bind:class="{'hidden': mobileMenu, 'block': !mobileMenu}" class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+          <svg x-cloak x-bind:class="{'hidden': mobileMenu, 'block': !mobileMenu}" class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
           </svg>
           <!-- Icon when menu is open. -->
@@ -74,7 +73,7 @@ navbar = [hsx|
 
             Menu open: "block", Menu closed: "hidden"
           -->
-          <svg x-bind:class="{'block': mobileMenu, 'hidden': !mobileMenu}" class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+          <svg x-cloak x-bind:class="{'block': mobileMenu, 'hidden': !mobileMenu}" class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
           </svg>
         </button>
@@ -121,9 +120,7 @@ navbar = [hsx|
                 x-transition:leave-start="transform opacity-100 scale-100"
                 x-transition:leave-end="transform opacity-0 scale-95"
                 class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5" role="menu" aria-orientation="vertical" aria-labelledby="user-menu">
-              <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Your Profile</a>
-              <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Settings</a>
-              <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Sign out</a>
+                  {profileDropdown}
             </div>
           </div>
         </div>
@@ -136,7 +133,7 @@ navbar = [hsx|
 
     Menu open: "block", Menu closed: "hidden"
   -->
-  <div x-bind:class="{ 'block': mobileMenu, 'hidden': !mobileMenu }" class="hidden lg:hidden">
+  <div x-cloak x-bind:class="{ 'block': mobileMenu, 'hidden': !mobileMenu }" class="hidden lg:hidden">
     <div class="px-2 pt-2 pb-3 space-y-1">
       <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
       <a href="#" class="bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium">Settings</a>
@@ -164,34 +161,19 @@ navbar = [hsx|
           </svg>
         </button>
       </div>
-      <div class="mt-3 px-2 space-y-1">
-        <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700">Your Profile</a>
-        <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700">Settings</a>
-        <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700">Sign out</a>
-      </div>
     </div>
   </div>
 </nav>
     |]
+        where profileDropdown = maybe [hsx||] adminLinks currentAdminOrNothing
 
-
--- adminSessionButton = case currentAdminOrNothing of 
-                                -- Just admin -> logoutButtonHtml admin
-                                -- Nothing -> loginButtonHtml
-
-
-logoutButtonHtml :: Admin -> Html
-logoutButtonHtml user = [hsx|
-    <a class="ml-auto mr-3" href={ShowAdminAction (get #id user)}>Welcome</a>
-    <a class="btn btn-outline-primary mr-0 js-delete js-delete-no-confirm"
-       href={DeleteSessionAction}>Logout</a>
+adminLinks :: Admin -> Html
+adminLinks user = [hsx|
+      <a href={ShowAdminAction (get #id user)} class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Your Profile</a>
+      <a href={EditAdminAction (get #id user)} class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Settings</a>
+      <a href={DeleteSessionAction} class="js-delete js-delete-no-confirm block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Sign out</a>
 |]
 
-loginButtonHtml :: Html
-loginButtonHtml = [hsx|
-    <a class="mr-3 ml-auto" href={NewAdminAction}>Sign Up</a>
-    <a class="btn btn-primary mr-0" href={NewSessionAction}>Login</a>
-|]
 
 stylesheets :: Html
 stylesheets = do
@@ -200,7 +182,6 @@ stylesheets = do
         <link rel="stylesheet" href="/app.css"/>
     |]
     when isProduction [hsx|
-        <link rel="stylesheet" href="/vendor/bootstrap.min.css"/>
         <link rel="stylesheet" href="/prod.css"/>
     |]
 
@@ -219,6 +200,7 @@ scripts = do
     |]
     when isProduction [hsx|
         <script src="/prod.js"></script>
+        <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
     |]
 
 
