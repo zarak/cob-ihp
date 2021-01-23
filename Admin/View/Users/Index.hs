@@ -6,7 +6,7 @@ data IndexView = IndexView { users :: [User] }
 instance View IndexView where
     html IndexView { .. } = [hsx|
 <div class="pl-4 mb-4">
-    <a href={pathTo NewUserAction} class="btn btn-primary ml-4">+ Create New User</a>
+    <a href={pathTo NewUserAction} class="btn btn-primary ml-4">Add User</a>
 </div>
 
 <!-- This example requires Tailwind CSS v2.0+ -->
