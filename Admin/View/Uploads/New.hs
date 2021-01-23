@@ -26,7 +26,7 @@ instance View NewView where
                     </div>
                 </div>
 
-                {submitButton { label = "Speichern" }}
+                {submitButton { label = "Submit" }}
 
 
             <script>
