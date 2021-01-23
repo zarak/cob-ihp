@@ -40,7 +40,9 @@ CREATE TABLE admins (
 CREATE TABLE votes (
     id UUID DEFAULT uuid_generate_v4() PRIMARY KEY NOT NULL,
     user_id UUID NOT NULL,
-    post_id UUID NOT NULL
+    post_id UUID NOT NULL,
+    upvote BOOLEAN DEFAULT false NOT NULL,
+    downvote BOOLEAN DEFAULT false NOT NULL
 );
 CREATE TABLE predictions (
     id UUID DEFAULT uuid_generate_v4() PRIMARY KEY NOT NULL,

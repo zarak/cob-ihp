@@ -503,6 +503,7 @@ ALTER TABLE public.users ENABLE TRIGGER ALL;
 ALTER TABLE public.comments DISABLE TRIGGER ALL;
 
 INSERT INTO public.comments (id, post_id, author, body, created_at, user_id) VALUES ('91de5137-6cf8-4ada-962d-ff16db9cdc93', 'cf0dd009-2d90-40ea-8141-05bccb651b36', 'Test', 'LOL THIS ISN''T TOXIC', '2021-01-16 18:19:30.054946+05', 'f9e66f1c-7698-42a6-a560-d32aed48b486');
+INSERT INTO public.comments (id, post_id, author, body, created_at, user_id) VALUES ('e5a96b83-8fd7-4aa4-a881-03b8244a149f', 'd5d2ef6f-c59d-4513-b184-8596b471d83c', 'Test', 'a new comment', '2021-01-23 19:05:09.406396+05', 'f9e66f1c-7698-42a6-a560-d32aed48b486');
 
 
 ALTER TABLE public.comments ENABLE TRIGGER ALL;
@@ -1323,10 +1324,6 @@ ALTER TABLE public.uploads ENABLE TRIGGER ALL;
 
 ALTER TABLE public.votes DISABLE TRIGGER ALL;
 
-INSERT INTO public.votes (id, user_id, post_id) VALUES ('8577bb47-7695-45ce-888f-8a8574f3e521', 'f9e66f1c-7698-42a6-a560-d32aed48b486', '624b506c-57af-4b48-9adc-308e2f08dac5');
-INSERT INTO public.votes (id, user_id, post_id) VALUES ('2ce0d31e-dace-49c6-9d6d-b45b9ac42278', 'f9e66f1c-7698-42a6-a560-d32aed48b486', 'cf0dd009-2d90-40ea-8141-05bccb651b36');
-INSERT INTO public.votes (id, user_id, post_id) VALUES ('8349f567-dcc7-48f2-8b6a-155027b0ab58', 'f9e66f1c-7698-42a6-a560-d32aed48b486', 'd5d2ef6f-c59d-4513-b184-8596b471d83c');
-INSERT INTO public.votes (id, user_id, post_id) VALUES ('92f9eb41-76fe-44c5-b632-fcffe78eae16', 'f9e66f1c-7698-42a6-a560-d32aed48b486', '7fc08464-0e35-4a7a-8135-a5ae5c4a56e1');
 
 
 ALTER TABLE public.votes ENABLE TRIGGER ALL;

@@ -38,9 +38,12 @@ navbar = [hsx|
   <div class="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
     <div class="relative flex items-center justify-between h-16">
       <div class="flex items-center px-2 lg:px-0">
-        <div class="flex-shrink-0 font-bold text-red-50">
-            Callout Bot
-        </div>
+        <a href={WelcomeAction} class="text-gray-300 hover:bg-gray-700 hover:text-white
+                px-3 py-2 rounded-md text-sm font-medium">
+            <div class="flex-shrink-0 font-bold text-red-50">
+                    Callout Bot
+            </div>
+        </a>
         <div class="hidden lg:block lg:ml-6">
           <div class="flex space-x-4">
             <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
