@@ -24,7 +24,8 @@ defaultLayout inner = H.docTypeHtml ! A.lang "en" $ [hsx|
 </head>
 <body>
     {navbar}
-    <div class="container mt-4">
+    <!-- This example requires Tailwind CSS v2.0+ -->
+    <div class="container mt-4 mx-auto px-4 sm:px-6 lg:px-8">
         {renderFlashMessages}
         {inner}
     </div>

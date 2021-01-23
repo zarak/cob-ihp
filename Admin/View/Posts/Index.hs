@@ -5,9 +5,6 @@ data IndexView = IndexView { posts :: [Include "votes" Post] }
 
 instance View IndexView where
     html IndexView { .. } = [hsx|
-
-<div class="container mx-auto px-4 sm:px-6 lg:px-8">
-
     <!-- This example requires Tailwind CSS v2.0+ -->
     <div class="flex flex-col">
       <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -39,8 +36,6 @@ instance View IndexView where
         </div>
       </div>
     </div>
-
-</div>
     |]
 
 
