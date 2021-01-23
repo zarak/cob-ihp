@@ -1,5 +1,9 @@
 @tailwind base;
 
+[x-cloak] {
+    display: none;
+}
+
 @tailwind components;
 
 button {
