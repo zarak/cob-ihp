@@ -16,7 +16,6 @@ SET SESSION AUTHORIZATION DEFAULT;
 
 ALTER TABLE public.admins DISABLE TRIGGER ALL;
 
-INSERT INTO public.admins (id, email, password_hash, locked_at, failed_login_attempts, file_url) VALUES ('376077a2-6063-4f30-aa92-7684561da380', 'admin@test.com', 'sha256|17|IQGQrJmOzKGA1sEm5TQPRg==|+KIJlbxQ9s64HeqS9FmekbguiQ5GcUXipFuj5Hqv0JU=', NULL, 0, NULL);
 
 
 ALTER TABLE public.admins ENABLE TRIGGER ALL;
@@ -91,6 +90,7 @@ INSERT INTO public.posts (id, title, body, created_at, upvotes, author, link, co
 اب اُسے بولیں انا کو چھوڑے اور پاکستان واپس آئے🤷🏻‍♀️', '2020-06-10 05:00:00+05', 0, 'nooreyshah', 'https://twitter.com/NooreyShah/status/1270601044435836928', false);
 INSERT INTO public.posts (id, title, body, created_at, upvotes, author, link, confirmed_for_training) VALUES ('624b506c-57af-4b48-9adc-308e2f08dac5', '', 'these mazduur next to my house make sexual noises every dupehr i can''t even sit with my family anymore', '2020-06-10 05:00:00+05', 0, 'localgirlintown', 'https://twitter.com/localgirlintown/status/1270601026865954816', false);
 INSERT INTO public.posts (id, title, body, created_at, upvotes, author, link, confirmed_for_training) VALUES ('037a0e4f-af36-425c-9283-b0f5e6bf68e9', '', '❣️❣️🔥👍🏻✨', '2020-06-10 05:00:00+05', 0, 'laiba2876', 'https://twitter.com/Laiba2876/status/1270601220789604355', true);
+INSERT INTO public.posts (id, title, body, created_at, upvotes, author, link, confirmed_for_training) VALUES ('61c3dd81-2e47-46e2-b5e0-cb5587c50900', '', 'Aurat ki izat karna aik izatdar mard ki nishani hai❤', '2020-06-10 05:00:00+05', 0, 'aseelmadani_', 'https://twitter.com/aseelmadani_/status/1270600554780246016', false);
 INSERT INTO public.posts (id, title, body, created_at, upvotes, author, link, confirmed_for_training) VALUES ('1654a582-6f75-49d4-8407-b359bbb6add7', '', 'صرف میرے لیے نہیں رہنا
 تم میرے بعد بھی حسیں رہنا
 
@@ -224,7 +224,6 @@ INSERT INTO public.posts (id, title, body, created_at, upvotes, author, link, co
 INSERT INTO public.posts (id, title, body, created_at, upvotes, author, link, confirmed_for_training) VALUES ('e1699e78-dec7-4bb4-ba17-78c6300955aa', '', 'Khty hain k awam pr hukmran un k bech m sy he chuny jaty hain 
 Either you call him corrupt or public is corrupt k un m sy b corrupt e un pr muslt key jaty hain 
 Whosoever is leader , is from nation. Or zalim hukmran qoum k lye saxa hoty hain', '2020-06-10 05:00:00+05', 0, 'nfak_addicted', 'https://twitter.com/NFAK_addicted/status/1270600556864778240', false);
-INSERT INTO public.posts (id, title, body, created_at, upvotes, author, link, confirmed_for_training) VALUES ('61c3dd81-2e47-46e2-b5e0-cb5587c50900', '', 'Aurat ki izat karna aik izatdar mard ki nishani hai❤', '2020-06-10 05:00:00+05', 0, 'aseelmadani_', 'https://twitter.com/aseelmadani_/status/1270600554780246016', false);
 INSERT INTO public.posts (id, title, body, created_at, upvotes, author, link, confirmed_for_training) VALUES ('ce8b78d2-3042-459e-8016-6e1e7beda371', '', 'G Sahi 😁', '2020-06-10 05:00:00+05', 0, 'mashriqi_hussan', 'https://twitter.com/Mashriqi_Hussan/status/1270600554235023361', false);
 INSERT INTO public.posts (id, title, body, created_at, upvotes, author, link, confirmed_for_training) VALUES ('9da85172-f339-45e4-b1ca-876aaea597c5', '', '❤️❤️', '2020-06-10 05:00:00+05', 0, 'laiba2876', 'https://twitter.com/Laiba2876/status/1270600544957222912', false);
 INSERT INTO public.posts (id, title, body, created_at, upvotes, author, link, confirmed_for_training) VALUES ('5ba9ccec-ca0d-42fc-9ee1-b6ab66df9ba1', '', 'Tum pr hi gaya hai na', '2020-06-10 05:00:00+05', 0, 'just_call_usman', 'https://twitter.com/just_call_usman/status/1270600544017625088', false);
@@ -345,6 +344,8 @@ INSERT INTO public.posts (id, title, body, created_at, upvotes, author, link, co
 INSERT INTO public.posts (id, title, body, created_at, upvotes, author, link, confirmed_for_training) VALUES ('4122543a-360b-42ec-b05d-8f0aedfa7b34', '', 'In sha allah janab....ap dua kary bs', '2020-06-10 05:00:00+05', 0, 'bangashwaji', 'https://twitter.com/BangashWaji/status/1270600978572750849', false);
 INSERT INTO public.posts (id, title, body, created_at, upvotes, author, link, confirmed_for_training) VALUES ('6b09952b-9cc2-49e4-a76b-875376ccf17c', '', 'May Allah swt give her complete health..', '2020-06-10 05:00:00+05', 0, 'abbasmalik13', 'https://twitter.com/AbbasMalik13/status/1270600975657709570', false);
 INSERT INTO public.posts (id, title, body, created_at, upvotes, author, link, confirmed_for_training) VALUES ('4a4f8709-a86a-4763-b90a-ee2e44f834d6', '', 'Ok', '2020-06-10 05:00:00+05', 0, 'lacklustersays', 'https://twitter.com/lacklustersays/status/1270600972272877569', false);
+INSERT INTO public.posts (id, title, body, created_at, upvotes, author, link, confirmed_for_training) VALUES ('70526d24-e2ce-45d6-a6cf-cce71e504217', '', '🤓', '2020-06-10 05:00:00+05', 0, 'just_call_usman', 'https://twitter.com/just_call_usman/status/1270600693037096967', false);
+INSERT INTO public.posts (id, title, body, created_at, upvotes, author, link, confirmed_for_training) VALUES ('586e4cdb-909e-434f-b7ae-c4bd0579eb0b', '', 'When your intentions are pure, you don''t lose anyone. People lose you.', '2020-06-10 05:00:00+05', 0, 'aamnah_j', 'https://twitter.com/Aamnah_J/status/1270600424131833856', false);
 INSERT INTO public.posts (id, title, body, created_at, upvotes, author, link, confirmed_for_training) VALUES ('7616198b-593c-43a1-ae7b-4f0933d4b1ce', '', '" جب پوری دنیا آپ کے خلاف کھڑی ہو جائے تو آپ دوسری طرف مُنہ کریں اور سیلفی لے لیں،پھر پوری دنیا آپ کے پیچھے کھڑی ہو گی ۔۔📸
 
 Copy pic.twitter.com/nGkJw2Spjb', '2020-06-10 05:00:00+05', 0, 'islamabad110', 'https://twitter.com/islamabad110/status/1270600941520277505', false);
@@ -418,7 +419,6 @@ Allah pak sb k parents ko khudh and salamt rakhen ameen
 The only pure love 💕', '2020-06-10 05:00:00+05', 0, 'amar61955819', 'https://twitter.com/Amar61955819/status/1270600700771340288', false);
 INSERT INTO public.posts (id, title, body, created_at, upvotes, author, link, confirmed_for_training) VALUES ('897dad79-0dd2-4ee8-9a69-9b65da71c903', '', 'Ohhh acha 😂', '2020-06-10 05:00:00+05', 0, 'shafiqu01907958', 'https://twitter.com/ShafiqU01907958/status/1270600699433361408', false);
 INSERT INTO public.posts (id, title, body, created_at, upvotes, author, link, confirmed_for_training) VALUES ('3e1a4749-2735-4fcb-9c48-0b35be7b34c0', '', 'Good morning arsalan.', '2020-06-10 05:00:00+05', 0, '27thletterrr', 'https://twitter.com/27thLetterrr/status/1270600697000734720', false);
-INSERT INTO public.posts (id, title, body, created_at, upvotes, author, link, confirmed_for_training) VALUES ('70526d24-e2ce-45d6-a6cf-cce71e504217', '', '🤓', '2020-06-10 05:00:00+05', 0, 'just_call_usman', 'https://twitter.com/just_call_usman/status/1270600693037096967', false);
 INSERT INTO public.posts (id, title, body, created_at, upvotes, author, link, confirmed_for_training) VALUES ('c454b408-6dcd-49b9-8c2a-09faa70284cc', '', 'آپ کے پاس کتنے وسائل ہیں؟ 
 
 سو میں سے پانچ کا مطلب ہے پانچ فیصد آبادی! 
@@ -470,7 +470,6 @@ INSERT INTO public.posts (id, title, body, created_at, upvotes, author, link, co
 INSERT INTO public.posts (id, title, body, created_at, upvotes, author, link, confirmed_for_training) VALUES ('a4d1f43e-d048-4ba8-849c-c1d16c94fae6', '', 'Hum sy murad main (only me)
 Ik to ap alfaz daikhti hain 🤭
 Emotions daikhyn ☹️', '2020-06-10 05:00:00+05', 0, 'l0wercase_guy', 'https://twitter.com/l0wercase_guy/status/1270600441840181254', false);
-INSERT INTO public.posts (id, title, body, created_at, upvotes, author, link, confirmed_for_training) VALUES ('586e4cdb-909e-434f-b7ae-c4bd0579eb0b', '', 'When your intentions are pure, you don''t lose anyone. People lose you.', '2020-06-10 05:00:00+05', 0, 'aamnah_j', 'https://twitter.com/Aamnah_J/status/1270600424131833856', false);
 INSERT INTO public.posts (id, title, body, created_at, upvotes, author, link, confirmed_for_training) VALUES ('b4f097f6-b6fa-4b55-99e5-36374e6e480b', '', 'Khair hai new lay laina 😂', '2020-06-10 05:00:00+05', 0, 'just_call_usman', 'https://twitter.com/just_call_usman/status/1270600409598615553', false);
 INSERT INTO public.posts (id, title, body, created_at, upvotes, author, link, confirmed_for_training) VALUES ('55ee9e04-863e-4617-a5c3-d6eea8233702', '', 'i like all of u but :( idk', '2020-06-10 05:00:00+05', 0, 'youneverdid1', 'https://twitter.com/youneverdid1/status/1270600391412064256', false);
 INSERT INTO public.posts (id, title, body, created_at, upvotes, author, link, confirmed_for_training) VALUES ('76875d24-9758-4917-93fd-09a8ff98065e', '', 'Good morning.', '2020-06-10 05:00:00+05', 0, '27thletterrr', 'https://twitter.com/27thLetterrr/status/1270600377554042880', false);

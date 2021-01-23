@@ -79,6 +79,48 @@ navbar = [hsx|
         </button>
       </div>
 
+      {profileMenu}
+
+    </div>
+  </div>
+
+  <!--
+    Mobile menu, toggle classes based on menu state.
+
+    Menu open: "block", Menu closed: "hidden"
+  -->
+  <div x-cloak x-bind:class="{ 'block': mobileMenu, 'hidden': !mobileMenu }" class="hidden lg:hidden">
+    <div class="px-2 pt-2 pb-3 space-y-1">
+      <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
+      <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white block
+          px-3 py-2 rounded-md text-base font-medium">Uploads</a>
+      <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white block
+          px-3 py-2 rounded-md text-base font-medium">Posts</a>
+      <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white block
+          px-3 py-2 rounded-md text-base font-medium">Users</a>
+    </div>
+    <div class="pt-4 pb-3 border-t border-gray-700">
+      <div class="flex items-center px-5">
+        <div class="flex-shrink-0">
+          <img class="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
+        </div>
+        {mobileMenu}
+        <button class="ml-auto flex-shrink-0 bg-gray-800 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
+          <span class="sr-only">View notifications</span>
+          <!-- Heroicon name: bell -->
+          <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+    |]
+        where mobileMenu = maybe [hsx||] adminMobileLinks currentAdminOrNothing
+              profileMenu = maybe [hsx|<div class="text-red-50 ">Login</div>|] profile currentAdminOrNothing
+
+profile user = [hsx|
       <div class="hidden lg:block lg:ml-4">
         <div class="flex items-center">
           <button class="flex-shrink-0 bg-gray-800 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
@@ -120,50 +162,12 @@ navbar = [hsx|
                 x-transition:leave-start="transform opacity-100 scale-100"
                 x-transition:leave-end="transform opacity-0 scale-95"
                 class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5" role="menu" aria-orientation="vertical" aria-labelledby="user-menu">
-                  {profileDropdown}
+                  {adminLinks user}
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </div>
-
-  <!--
-    Mobile menu, toggle classes based on menu state.
-
-    Menu open: "block", Menu closed: "hidden"
-  -->
-  <div x-cloak x-bind:class="{ 'block': mobileMenu, 'hidden': !mobileMenu }" class="hidden lg:hidden">
-    <div class="px-2 pt-2 pb-3 space-y-1">
-      <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-      <a href="#" class="bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium">Settings</a>
-      <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white block
-          px-3 py-2 rounded-md text-base font-medium">Uploads</a>
-      <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white block
-          px-3 py-2 rounded-md text-base font-medium">Posts</a>
-      <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white block
-          px-3 py-2 rounded-md text-base font-medium">Users</a>
-    </div>
-    <div class="pt-4 pb-3 border-t border-gray-700">
-      <div class="flex items-center px-5">
-        <div class="flex-shrink-0">
-          <img class="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
-        </div>
-        {mobileMenu}
-        <button class="ml-auto flex-shrink-0 bg-gray-800 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
-          <span class="sr-only">View notifications</span>
-          <!-- Heroicon name: bell -->
-          <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-          </svg>
-        </button>
-      </div>
-    </div>
-  </div>
-</nav>
     |]
-        where profileDropdown = maybe [hsx||] adminLinks currentAdminOrNothing
-              mobileMenu = maybe [hsx||] adminMobileLinks currentAdminOrNothing
 
 adminLinks :: Admin -> Html
 adminLinks user = [hsx|
@@ -174,9 +178,9 @@ adminLinks user = [hsx|
 
 adminMobileLinks :: Admin -> Html
 adminMobileLinks user = [hsx|
-        <a href={ShowAdminAction (get #id user)}>
+        <a href={DeleteSessionAction}>
         <div class="ml-3">
-          <div class="text-base font-medium text-white">Admin</div>
+          <div class="text-base font-medium text-white">Logout</div>
           <div class="text-sm font-medium text-gray-400">{get #email user}</div>
         </div>
         </a>
