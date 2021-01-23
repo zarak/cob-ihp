@@ -116,30 +116,12 @@ renderPost post upvotes hasVoted = [hsx|
                     <div class="w-1/2">
                         <!-- <div class="flex flex-col xl:flex-row mt-4"> -->
                         <div class="flex flex-col md:flex-wrap md:flex-row mt-4">
-                            <a href="#"
-                                class="md:mr-2 w-max mt-1 px-2 py-1 bg-blue-100 text-blue-800 border border-blue-800 rounded
-                                hover:bg-blue-300">toxic <span>{showFFloat (Just 3) (get #toxic pred) ""}</span> 
-                            </a>
-                            <a href="#"
-                                class="md:mr-2 w-max mt-1 px-2 py-1 bg-blue-100 text-blue-800 border border-blue-800 rounded
-                                hover:bg-blue-300">insult <span>{showFFloat (Just 3) (get #insult pred) ""}</span> 
-                            </a>
-                            <a href="#"
-                                class="md:mr-2 w-max mt-1 px-2 py-1 bg-blue-100 text-blue-800 border border-blue-800 rounded
-                                hover:bg-blue-300">identity hate <span>{showFFloat (Just 3) (get #identityHate pred) ""}</span> 
-                            </a>
-                            <a href="#"
-                                class="md:mr-2 w-max mt-1 px-2 py-1 bg-blue-100 text-blue-800 border border-blue-800 rounded
-                                hover:bg-blue-300">obscene <span>{showFFloat (Just 3) (get #obscene pred) ""}</span> 
-                            </a>
-                            <a href="#"
-                                class="md:mr-2 w-max mt-1 px-2 py-1 bg-blue-100 text-blue-800 border border-blue-800 rounded
-                                hover:bg-blue-300">severe toxic <span>{showFFloat (Just 3) (get #severeToxic pred) ""}</span> 
-                            </a>
-                            <a href="#"
-                                class="md:mr-2 w-max mt-1 px-2 py-1 bg-blue-100 text-blue-800 border border-blue-800 rounded
-                                hover:bg-blue-300">threat <span>{showFFloat (Just 3) (get #threat pred) ""}</span> 
-                            </a>
+                            {showTag (PlainString "toxic ") (get #toxic pred)}
+                            {showTag (PlainString "insult ") (get #insult pred)}
+                            {showTag (PlainString "identityHate ") (get #identityHate pred)}
+                            {showTag (PlainString "obscene ") (get #obscene pred)}
+                            {showTag (PlainString "severeToxic ") (get #severeToxic pred)}
+                            {showTag (PlainString "threat ") (get #threat pred)}
                         </div>
                     </div>
                     <div class="m-2">
@@ -147,4 +129,10 @@ renderPost post upvotes hasVoted = [hsx|
                     </div>
                 </div>
                   |])
+                    where showTag name score = if score > 0.3 then [hsx|
+                                <a href="#"
+                                    class="md:mr-2 w-max mt-1 px-2 py-1 bg-blue-100 text-blue-800 border border-blue-800 rounded-full text-sm
+                                    hover:bg-blue-300">{name} <span>{showFFloat (Just 3) score ""}</span>
+                                </a>|] 
+                                                else [hsx||]
 
