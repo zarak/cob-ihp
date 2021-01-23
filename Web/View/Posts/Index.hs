@@ -30,16 +30,13 @@ instance View IndexView where
 renderPost post = [hsx|
 <div class="mt-6">
     <div class="px-10 py-6 bg-white rounded-lg shadow-md">
-        <div class="flex justify-between items-center">
+        <div class="flex flex-col md:justify-between items-center">
             <span class="font-light text-gray-600">
                 {get #createdAt post |> timeAgo}
             </span>
-            <a href="#" 
-               class="px-2 py-1 bg-gray-600 text-gray-100
-               font-bold rounded hover:bg-gray-500"
-               >
-                {fst getScore <> " "} {(showFFloat (Just 3) (snd getScore) "") }
-            </a>
+            <div class="text-sm my-2 md:my-0 md:flex md:justify-right">
+                {forEach getScore renderTag}
+            </div>
         </div>
         <div class="mt-2">
             <p class="mt-2 text-gray-600">
@@ -65,13 +62,13 @@ renderPost post = [hsx|
     </div>
 </div>
     |]
-        where preds = (get #predictions post) :: [Prediction]
+        where preds = get #predictions post :: [Prediction]
               getScore = getMaxScore preds
 
 getMaxScore preds =
     case head preds of 
-      Nothing -> ("None", 0)
-      Just score -> maximumBy (comparing snd) 
+      Nothing -> [("None", 0)]
+      Just score -> sortBy (comparing snd) 
                               [ ("toxic" :: Text, get #toxic score)
                               , ("insult", get #insult score)
                               , ("severe toxic", get #severeToxic score)
@@ -79,6 +76,16 @@ getMaxScore preds =
                               , ("identity hate", get #identityHate score)
                               , ("threat", get #threat score)]
 
+renderTag (name, score) = if score > 0.30 then
+    [hsx|
+            <a href="#" 
+               class="mx-1 px-2 py-1 bg-gray-600 text-gray-100
+               font-bold rounded hover:bg-gray-500"
+               >
+                {name <> " "} {(showFFloat (Just 3) score "") }
+            </a>
+    |]
+                          else [hsx||]
 
 renderPagination pages page totalPages =
     let base = "mx-1 px-3 py-2 bg-white rounded-md font-medium inline-block"
